@@ -1,5 +1,0 @@
-(library
- (inline_tests)
- (name trek)
- (preprocess
-  (pps ppx_inline_test)))
