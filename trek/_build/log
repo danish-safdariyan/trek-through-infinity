@@ -1,6 +1,0 @@
-# dune init project --inline-tests trek
-# OCAMLPARAM: unset
-# Shared cache: disabled
-# Shared cache location: /home/kktam/.cache/dune/db
-# Workspace root: /home/kktam/3110/trek-through-infinity/trek
-# Auto-detected concurrency: 12
