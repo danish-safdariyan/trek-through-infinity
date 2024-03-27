@@ -5,15 +5,22 @@ module W = Widget
 module L = Layout
 (* module T = Trigger *)
 
-let rec draw_horizontal_lines area y w spacing = 
-  if y >= 0 then 
-    let _ = Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (0, y) (w, y) in
-    draw_horizontal_lines area (y-spacing) w spacing
+let rec draw_horizontal_lines area y w spacing =
+  if y >= 0 then
+    let _ =
+      Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (0, y)
+        (w, y)
+    in
+    draw_horizontal_lines area (y - spacing) w spacing
   else ()
-let rec draw_vertical_lines area x h spacing = 
-  if x >= 0 then 
-    let _ = Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (x, 0) (x, h) in
-    draw_vertical_lines area (x-spacing) h spacing
+
+let rec draw_vertical_lines area x h spacing =
+  if x >= 0 then
+    let _ =
+      Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (x, 0)
+        (x, h)
+    in
+    draw_vertical_lines area (x - spacing) h spacing
   else ()
 
 let test () =
