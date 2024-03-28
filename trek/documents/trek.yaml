@@ -1,0 +1,37 @@
+---
+# Members of your group.
+group:
+  - name: Gabriel Martinez-Amezaga
+    netid: gm546
+  - name: Kaz Tam
+    netid: kt557
+  - name: Gabriella Best
+    netid: gb486
+  - name: Andisha Safdariyan
+    netid: as3254
+  - name: Danish Safdariyan
+    netid: ds968
+# Your PM.
+pm:
+  name: Jason Yuan
+  netid: jy469
+# Set to false if you don't want your gallery entry to be public.
+publish: true
+# Pithy title
+title: "Trek"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/gm546/trek-through-infinity"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  We seek to create a niche calendar program that has various functions and 
+  a consistent, aesthetically pleasing, graphical user interface. A specific 
+  goal we have in mind is to create three main uses: a regular calendar, a 
+  schedule manager, and a task manager. The regular calendar will include normal 
+  functionality such as creating repeating events or notating important dates. 
+  The schedule manager will be integrated with Cornell scheduler (as in, importing 
+  a file exported from scheduler), and be very similar to the implementation of 
+  scheduler. The task manager will be a normal task manager that keeps track of 
+  impending tasks. The purpose of this program is to provide a time management 
+  method that is easy to use and convenient as well.
