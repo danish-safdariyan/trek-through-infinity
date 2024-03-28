@@ -1,2 +1,2 @@
 
-val test : unit -> unit
+val test : string list -> unit
