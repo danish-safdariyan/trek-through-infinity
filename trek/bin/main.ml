@@ -20,7 +20,7 @@ let _ =
   let calendar =
     let rec create_calendar acc day =
       if day <= 35 then
-        let day_str = string_of_int day in
+        let day_str = Printf.sprintf "%02d" day in
         let acc' = CalDict.AssocListMap.insert day_str default_event acc in
         create_calendar acc' (day + 1)
       else acc
