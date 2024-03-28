@@ -18,4 +18,7 @@ module type Map = sig
   val bindings : ('k, 'v) t -> ('k * 'v) list
   (** [bindings m] is an association list containing the same bindings as [m].
       The keys in the list are guaranteed to be unique. *)
+  val to_list : ('k, 'v) t -> ('k * 'v) list
 end
+
+module AssocListMap : Map

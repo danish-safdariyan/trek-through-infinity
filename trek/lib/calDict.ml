@@ -18,7 +18,10 @@ module type Map = sig
   val bindings : ('k, 'v) t -> ('k * 'v) list
   (** [bindings m] is an association list containing the same bindings as [m].
       The keys in the list are guaranteed to be unique. *)
+    val to_list : ('k, 'v) t -> ('k * 'v) list
 end
+
+(* type event = Day of int * int * int *)
 
 module AssocListMap : Map = struct
   type ('k, 'v) t = ('k * 'v) list
@@ -31,4 +34,5 @@ module AssocListMap : Map = struct
   let lookup k m = List.assoc k m
   let keys m = List.(m |> map fst |> sort_uniq Stdlib.compare)
   let bindings m = m |> keys |> List.map (fun k -> (k, lookup k m))
+  let to_list m:(('a * 'b) list) = m
 end
