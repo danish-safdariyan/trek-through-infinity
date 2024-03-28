@@ -1,3 +1,6 @@
+(* @author Gabriel Martinez-Amezaga (gm546), @author Kaz Tam (kt557), @author
+   Danish Safdariyan (ds968), @author Andisha Safdariyan (as3254), @author
+   Gabriella Best (gb486) *)
 open Trek
 
 let () = print_endline "Hi! Please submit a name for your event!"
@@ -10,7 +13,6 @@ let () =
    ^ "\"Day 0X\" for single digit days, and then for double digit, \"Day XX\"")
 
 let user_day = read_line ()
-let () = print_endline (user_event ^ " " ^ user_day)
 
 let _ =
   let default_event = "Nothing" (* Define your default event here *) in
