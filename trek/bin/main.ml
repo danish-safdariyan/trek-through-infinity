@@ -15,9 +15,25 @@ open Trek
 (* let _ = Example.example13 () *)
 
 let _ =
-  let events =
-    [
-      "hello"; "world"; "testing"; "stuff"; "please"; "work"; "please"; "i beg";
-    ]
+  let default_event = "Nothing" (* Define your default event here *) in
+
+  let calendar =
+    let rec create_calendar acc day =
+      if day <= 35 then
+        let day_str = string_of_int day in
+        let acc' = CalDict.AssocListMap.insert day_str default_event acc in
+        create_calendar acc' (day + 1)
+      else acc
+    in
+    create_calendar CalDict.AssocListMap.empty 1
   in
-  Display.test events
+
+  let print_calendar () =
+    List.map
+      (fun (day, event) -> Printf.sprintf "Day %s: %s" day event)
+      (CalDict.AssocListMap.bindings calendar)
+  in
+
+  let calendar = print_calendar () in
+
+  Display.test calendar
