@@ -1,6 +1,6 @@
 (library
  (inline_tests)
  (name trek)
- (libraries graphics batteries)
+ (libraries bogue batteries)
  (preprocess
   (pps ppx_inline_test)))
