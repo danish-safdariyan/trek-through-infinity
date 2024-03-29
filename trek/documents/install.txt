@@ -58,9 +58,10 @@ Once inside simply run:
 
 #Additional Notes
 The zip folder has everything you should need. See the special [documents]
-folder for additional copies of the MS2 report, YAML file, and install file.
+folder for additional copies of the MS2 report, YAML file, install file, 
+and Git log.
 
-Most importantly, the Git commit log is also in this folder.
+Of these, the Git log is the most important as that was not a submitted file.
 Please refer to it for commit history. 
 
 Everyone committed code except for Andisha because things would've become 
