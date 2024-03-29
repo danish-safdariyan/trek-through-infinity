@@ -65,7 +65,7 @@ Of these, the Git log is the most important as that was not a submitted file.
 Please refer to it for commit history. 
 
 Everyone committed code except for Andisha because things would've become 
-unnecessarily messy if all three peopleon the back-end 
+unnecessarily messy if all three people on the back-end 
 (Gabriella, Andisha, & Danish) were committing.
 Andisha was present for the development of MS2. She contributing an equal 
 share of the back-end.
