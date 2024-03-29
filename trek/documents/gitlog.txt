@@ -1,0 +1,328 @@
+commit ba279b0aa3bbd11322597a57fa140cadbe9f7324
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 21:41:49 2024 -0400
+
+    Added [install.txt] to both root and [documents] folder.
+
+commit 54049c30473e8e9f2922acab3c2cea0248e218a6
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 20:48:45 2024 -0400
+
+    Added Demo Video to YAML file.
+
+commit 7fea02550da634b8ef2cd4e70dd4b2516fccd83e
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 20:02:17 2024 -0400
+
+    Pushing Finished Report for Everyone to Access.
+
+commit de6499c42168250646ae5227334ce2cec3945baa
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 17:32:09 2024 -0400
+
+    Polishing
+
+commit 27929fafa7f73b34951253e90dcf6d29c3b4e706
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Thu Mar 28 17:18:23 2024 -0400
+
+    Printing the event from the user input on calendar
+
+commit 876c8250d3826172e7a8da62ab4c4e52cb852a44
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 17:09:46 2024 -0400
+
+    Starting process of taking user input for GUI output in main.
+
+commit c4358ef45d7b4f7192a3b3aee7ed30eddbbced79
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Thu Mar 28 16:56:23 2024 -0400
+
+    Fixed the order of the days for printing calendar
+
+commit bc038c412724b29a652154dcc39f1f6debc03c3a
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Thu Mar 28 16:46:41 2024 -0400
+
+    Printing 35-day long dic to GUI
+
+commit c6ef7303917c5469c6446bd0525dd3d790e1c29a
+Merge: 25aa871 178154f
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 16:04:54 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 25aa87198ffcc2adf4c57f1fb2cd9edf360168ce
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 16:03:32 2024 -0400
+
+    Added YAML file (will update later probably with youtube link)
+
+commit 178154f8613a2d9f760103fb1be82868dce646dc
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Mar 28 16:02:38 2024 -0400
+
+    Display now takes a string list to print out
+    
+    Each element of the list is in a different box in the calender display.
+
+commit 843e53dc95bc2cca85cdbfce80e894174ae50929
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 08:08:57 2024 -0400
+
+    Added documents folder so everybody can have access to things like the YAML file and the MS2 report
+
+commit 8e648982f8f591a47430a543781b346e26e6092d
+Merge: 45b2b9c 532add6
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 22:48:44 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 45b2b9c31fcef8b94aee94a99388bc4faed0b6fc
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 22:44:54 2024 -0400
+
+    Added changes to calDict structure
+
+commit 532add6d9978ee2464a18a7e6fe358c69f8877e3
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed Mar 27 22:00:52 2024 -0400
+
+    Fixing part of main, still needs implementation
+
+commit 0a02d9a2a25774543de73418ccdd7ceae0d255a8
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed Mar 27 21:52:53 2024 -0400
+
+    Renamed calDict with camel case
+
+commit 7ff1e8c9e6d4ea2938f1bc352adfe27e1f57a7b5
+Merge: 612637b 9665c29
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 21:50:18 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 612637bcf4737b530494ddaf97b074959ff578aa
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 21:44:59 2024 -0400
+
+    Implemented user interface (currently faulty)
+
+commit f9e787dbb155b76dc3c4d9b681335c84d6f4d689
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 21:44:38 2024 -0400
+
+    Implemented calendar dictionary map data structure (currently faulty)
+
+commit 54d63a8bab2c52ac3bac165f8cb394fd283b9a70
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 21:42:55 2024 -0400
+
+    Added batteries library
+
+commit 9665c296c33b2c9bbb1f2ca027a9103166ac5ad0
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed Mar 27 19:19:25 2024 -0400
+
+    Autoformatted display.ml
+
+commit 3a8f67c3eed83ea879f8b8fc608dcba05777b297
+Merge: 3ca2915 d65da55
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Mar 27 16:22:08 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 3ca2915fedca603092c60db1403479ac5b0cef0e
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Mar 27 16:17:54 2024 -0400
+
+    Added example.ml and display.ml
+    
+    example.ml has example codes from the Bogue github.
+    display.ml has a test function for displaying a calender in month view.
+    
+    To download Bogue onto your computer, run [opam install bogue] in
+    Ubuntu. If it runs without errors, then the code should work.
+
+commit d65da55b1d5f16f1a8dee5b5f0d3b2b5ee01c701
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed Mar 27 13:08:26 2024 -0400
+
+    Making Calendar Dictionary Compilation Unit Files.
+
+commit c6b21a55763d2827adaee081c737a87cb5cac164
+Merge: 1703808 3767ed0
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 22:04:33 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 1703808624a16f3b496e98dbea52143a217a10bc
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 22:03:25 2024 -0400
+
+    Created display.ml and added Graphics module
+    
+    To install graphics module, run (in terminal):
+        opam update
+        opam upgrade
+        opam install graphics
+
+commit 3767ed0d18bfd719544e31bc534bf8cfeb6687f1
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 22:03:05 2024 -0400
+
+    Added format for .ocamlformat
+
+commit c36ac82a1687029794ef4d10ee66a9267f8a30ca
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 22:01:37 2024 -0400
+
+    Remade dune project
+
+commit f616663d22a7c2a7916c6520772a00d31cea00a4
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 22:00:05 2024 -0400
+
+    Restarting dune project
+
+commit 510bd0be1e5772949abbe3dd5edf4007103747ad
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 21:55:43 2024 -0400
+
+    Fixing ignore opam (.gitignore)
+
+commit 28a45c219653a03f93c4eca539e3842282e74e93
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 21:54:44 2024 -0400
+
+    Ignoring opam didn't work, testing different lines for .gitignore
+
+commit b73f5842d720811f97e500fc60eb454d895bc873
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 21:52:23 2024 -0400
+
+    Added ignoring opam to .gitignore.
+
+commit b41f0c3c5592c369ab499b9332e9fbdeda65ff22
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 21:45:14 2024 -0400
+
+    Added .ocamlformat files
+
+commit bd77857c32af3096b27c3b0d47ce772fae0af90a
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:43:03 2024 -0400
+
+    Remade dune project
+
+commit 19f7cb49dec03023fd68780ff65368ddba9521ad
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:41:38 2024 -0400
+
+    Deleted dune project
+
+commit d6e5fb8cb0af8844c058a8d68edda8b08c8b6455
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun Mar 24 21:36:43 2024 -0400
+
+    Added coverage to .gitignore
+
+commit 576f3134615dfe0ac20a661a0415573024aac865
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:35:04 2024 -0400
+
+    Added a .gitignore
+
+commit e80c86ebe80457a497a84cc49f994b6e4e1e0831
+Merge: c5754c3 eb2ab7f
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:19:14 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit c5754c3cd325405579f3d76e4d9c3f2f46785288
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:15:36 2024 -0400
+
+    Update README to match main branch
+
+commit a4b6b18fda77acb6ef5e132387227901af1e620f
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun Mar 24 21:12:13 2024 -0400
+
+    Initialized dune project
+
+commit eb2ab7f3bd43d94af8b2c3a4e7efed764d9ae894
+Author: Gabriel Martinez-Amezaga <gm546@cornell.edu>
+Date:   Wed Mar 13 23:47:05 2024 -0400
+
+    Fixed Formatting.
+
+commit 210b4ef288f0d63fd7e8cde88fe1b4c943defdaf
+Author: gb486 <14579+gb486@users.noreply.github.coecis.cornell.edu>
+Date:   Wed Mar 13 23:40:47 2024 -0400
+
+    Update README.md
+
+commit 25b431a1806cdfe7eb10d9f029d80bf0157a459c
+Author: Gabriel Martinez-Amezaga <gm546@cornell.edu>
+Date:   Wed Mar 13 23:29:54 2024 -0400
+
+    Fixed Andisha's email
+
+commit ee5c1eae26279eb72b18e3987563ea6bc8d7e72f
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Mar 13 23:13:32 2024 -0400
+
+    Fixed formatting.
+
+commit 673deabca961bcafa0a505e0a75bbe1c7d7a3020
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Mar 13 23:12:19 2024 -0400
+
+    Added name, netID, and email to README file.
+
+commit 87a88289feec191eeed96d597ce3027d2e78ed9a
+Author: as3254 <as3254@cornell.edu>
+Date:   Wed Mar 13 22:59:59 2024 -0400
+
+    Update README.md
+
+commit b7952a6dca106299eade2d8bec916fb294aec590
+Author: Gabriel Martinez-Amezaga <gm546@cornell.edu>
+Date:   Wed Mar 13 22:56:17 2024 -0400
+
+    Fixing repository name
+
+commit 66998c4be2c9a484ecd6b316f786ab197dfb844c
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed Mar 13 22:53:09 2024 -0400
+
+    updated
+    
+    updated
+
+commit abfcf7c508f2e0dee241f6385d29fbdca0cbf0bc
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed Mar 13 22:52:18 2024 -0400
+
+    Update on my name
+    
+    Danish Safdariyan, Adding my name
+
+commit 03119caf67a349f9b2094879bbbf45b61e161cfe
+Author: Gabriel Martinez-Amezaga <gm546@cornell.edu>
+Date:   Wed Mar 13 22:46:05 2024 -0400
+
+    Adding my name, netID, and email to the readme.
+
+commit 1c236645c2be512c3c30091db3c1a01f085db249
+Author: Gabriel Martinez-Amezaga <gm546@cornell.edu>
+Date:   Wed Mar 13 22:44:21 2024 -0400
+
+    Initial commit
