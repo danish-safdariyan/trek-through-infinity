@@ -1,0 +1,70 @@
+#Welcome to the install file! 
+The install process is very simple.
+
+The only libraries you have to install are [Bogue] and [Batteries]. 
+Please also see the additional notes section at the end of the .txt file.
+
+================================================================================
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+================================================================================
+
+#Batteries
+
+First, if you do not have [Batteries] then please run the following:
+[opam install batteries]
+
+
+#Bogue
+
+Please run the following commands from your terminal:
+[opam install bogue]
+[opam pin add https://github.com/sanette/bogue.git]
+
+The second command is to ensure that you will always have the latest version of
+[Bogue].
+
+
+#Possible Errors/Issues for Bogue
+
+The commands above should work, but there is a chance of errors/issues that 
+some users in the group experienced. Please run through these scenarios 
+if the above process did not work:
+
+Scenario #1 (Supporting libraries for [Bogue]):
+[opam install tsdl tsdl-image tsdl-ttf]
+[opam install bogue]
+[opam pin add https://github.com/sanette/bogue.git]
+
+Scenario #2 (Output of 
+[[ERROR] System package install failed with exit code 100 at command]):
+[sudo apt-get update]
+[sudo apt-get install libffi-dev libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev]
+[opam install tsdl tsdl-image tsdl-ttf]
+[opam install bogue]
+[opam pin add https://github.com/sanette/bogue.git]
+
+================================================================================
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+================================================================================
+
+#Building
+Change your directory to the [trek] folder to build the project. 
+Once inside simply run:
+[dune build]
+
+================================================================================
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+================================================================================
+
+#Additional Notes
+The zip folder has everything you should need. See the special [documents]
+folder for additional copies of the MS2 report, YAML file, and install file.
+
+Most importantly, the Git commit log is also in this folder.
+Please refer to it for commit history. 
+
+Everyone committed code except for Andisha because things would've become 
+unnecessarily messy if all three peopleon the back-end 
+(Gabriella, Andisha, & Danish) were committing.
+Andisha was present for the development of MS2. She contributing an equal 
+share of the back-end.
