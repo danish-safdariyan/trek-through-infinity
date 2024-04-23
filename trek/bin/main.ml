@@ -22,7 +22,8 @@ let _ =
       if day <= 35 then
         let day_str = Printf.sprintf "%02d" day in
         let event_day =
-          if user_day = "Day " ^ day_str then user_event else default_event
+          if user_day = "Day " ^ day_str then [ user_event; default_event ]
+          else [ default_event ]
         in
         let acc' = CalDict.AssocListMap.insert day_str event_day acc in
         create_calendar acc' (day + 1)
@@ -31,11 +32,9 @@ let _ =
     create_calendar CalDict.AssocListMap.empty 1
   in
 
-  let print_calendar () =
-    List.map
-      (fun (day, event) -> Printf.sprintf "Day %s: %s" day event)
-      (CalDict.AssocListMap.bindings calendar)
-  in
+  (* let print_calendar () = List.map (fun (day, event) -> Printf.sprintf "Day
+     %s: %s" day event) (CalDict.AssocListMap.bindings calendar) in *)
+  let print_calendar () = CalDict.AssocListMap.bindings calendar in
 
   let calendar = print_calendar () in
 

@@ -1,2 +1,1 @@
-
-val test : string list -> unit
+val test : (string * string list) list -> unit

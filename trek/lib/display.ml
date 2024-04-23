@@ -5,44 +5,52 @@ module W = Widget
 module L = Layout
 (* module T = Trigger *)
 
-let rec draw_horizontal_lines area y w spacing =
-  if y >= 0 then
-    let _ =
-      Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (0, y)
-        (w, y)
+(** Returns layout of task *)
+let layout_of_task w task =
+  let text = W.text_display task |> L.resident ~x:10 ~y:5 ~w ~h:30 in
+  let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
+  let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
+  let border = Style.mk_border ~radius:10 line in
+  let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
+  L.superpose ~w ~h:30 [ L.resident box; text ]
+
+(** Returns layout of a day with the date and tasks specified. Does not include
+    the box. *)
+let layout_of_day w date tasks =
+  let rec helper = function
+    | [] -> []
+    | h :: t -> layout_of_task (w - 10) h :: helper t
+  in
+  let date_marker = W.label date |> L.resident in
+  date_marker :: helper tasks |> L.tower ~hmargin:5 ~vmargin:5
+
+let layout_of_month w days =
+  let week_layout days =
+    let rec helper = function
+      | [] -> []
+      | h :: t -> layout_of_day w (fst h) (snd h) :: helper t
     in
-    draw_horizontal_lines area (y - spacing) w spacing
-  else ()
-
-let rec draw_vertical_lines area x h spacing =
-  if x >= 0 then
-    let _ =
-      Sdl_area.draw_line area ~color:(Draw.transp Draw.black) ~thick:3 (x, 0)
-        (x, h)
+    let day_infos = helper days in
+    let h =
+      List.fold_left (fun cur_h day -> max (L.height day) cur_h) 0 day_infos
     in
-    draw_vertical_lines area (x - spacing) h spacing
-  else ()
+    let border =
+      Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:1 ()
+      |> Style.mk_border
+    in
+    List.map
+      (fun day ->
+        L.superpose
+          [ W.box ~w ~h ~style:(Style.create ~border ()) () |> L.resident; day ])
+      day_infos
+    |> L.flat ~margins:0
+  in
+  let rec helper = function
+    | [] -> []
+    | d1 :: d2 :: d3 :: d4 :: d5 :: d6 :: d7 :: t ->
+        week_layout [ d1; d2; d3; d4; d5; d6; d7 ] :: helper t
+    | lst -> [ week_layout lst ]
+  in
+  helper days |> L.tower ~name:"Calendar" ~margins:0 ~scale_content:false
 
-let rec to_text_display w h = function
-  | [] -> []
-  | e :: t -> W.text_display ~w ~h e :: to_text_display w h t
-
-let row_layout b_w b_h days = L.flat_of_w ~sep:0 (to_text_display b_w b_h days)
-
-let rec get_layouts b_w b_h = function
-  | [] -> []
-  | d1 :: d2 :: d3 :: d4 :: d5 :: d6 :: d7 :: t ->
-      row_layout b_w b_h [ d1; d2; d3; d4; d5; d6; d7 ] :: get_layouts b_w b_h t
-  | lst -> [ row_layout b_w b_h lst ]
-
-let test lst =
-  let w = 150 * 7 in
-  let h = 150 * 5 in
-  let a = W.sdl_area ~w ~h () in
-  let area = W.get_sdl_area a in
-  draw_horizontal_lines area h w 150;
-  draw_vertical_lines area w h 150;
-  let grid = L.resident a in
-  let text_layout = L.tower ~sep:0 (get_layouts 150 150 lst) in
-  let layout = L.superpose [ grid; text_layout ] in
-  run (of_layout layout)
+let test lst = layout_of_month 150 lst |> of_layout |> run
