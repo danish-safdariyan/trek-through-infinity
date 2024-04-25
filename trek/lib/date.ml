@@ -110,3 +110,6 @@ let day_of_week date =
   | 4 -> Thursday
   | 5 -> Friday
   | _ -> Saturday
+
+let next_day _ = failwith "TODO"
+let prev_day _ = failwith "TODO"

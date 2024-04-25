@@ -53,3 +53,9 @@ val days_in_month : int -> month -> int
 
 val day_of_week : t -> day_of_week
 (** [day_of_week date] determines the day of the week for a given [date]. *)
+
+val next_day : t -> t
+(** [next_day date] is the day that comes after [date]. *)
+
+val prev_day : t -> t
+(** [prev_day date] is the day that comes before [date]. *)
