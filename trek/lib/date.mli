@@ -1,57 +1,55 @@
-module Date : sig
-  type month =
-    | January
-    | February
-    | March
-    | April
-    | May
-    | June
-    | July
-    | August
-    | September
-    | October
-    | November
-    | December
+type month =
+  | January
+  | February
+  | March
+  | April
+  | May
+  | June
+  | July
+  | August
+  | September
+  | October
+  | November
+  | December
 
-  type day_of_week =
-    | Sunday
-    | Monday
-    | Tuesday
-    | Wednesday
-    | Thursday
-    | Friday
-    | Saturday
+type day_of_week =
+  | Sunday
+  | Monday
+  | Tuesday
+  | Wednesday
+  | Thursday
+  | Friday
+  | Saturday
 
-  type t = {
-    year : int;
-    month : month;
-    day : int;
-  }
+type t = {
+  year : int;
+  month : month;
+  day : int;
+}
 
-  val create : int -> month -> int -> t
-  (** [create year month day] creates a date with the given [year], [month], and
-      [day]. *)
+val create : int -> month -> int -> t
+(** [create year month day] creates a date with the given [year], [month], and
+    [day]. *)
 
-  val get_year : t -> int
-  (** [get_year date] returns the year of the given [date]. *)
+val get_year : t -> int
+(** [get_year date] returns the year of the given [date]. *)
 
-  val get_month : t -> month
-  (** [get_month date] returns the month of the given [date]. *)
+val get_month : t -> month
+(** [get_month date] returns the month of the given [date]. *)
 
-  val get_day : t -> int
-  (** [get_day date] returns the day of the given [date]. *)
+val get_day : t -> int
+(** [get_day date] returns the day of the given [date]. *)
 
-  val current_date : unit -> t
-  (** [current_date ()] returns the current date. *)
+val current_date : unit -> t
+(** [current_date ()] returns the current date. *)
 
-  val parse_date : string -> t
-  (** [parse_date str] parses a date string in the format "YYYY-MM-DD" into a
-      [t] structure. *)
+val parse_date : string -> t
+(** [parse_date str] parses a date string in the format "YYYY-MM-DD" into a [t]
+    structure. *)
 
-  val days_in_month : int -> month -> int
-  (** [days_in_month year month] calculates the number of days in a given
-      [month] of a given [year]. *)
+val days_in_month : int -> month -> int
+(** [days_in_month year month] calculates the number of days in a given [month]
+    of a given [year]. *)
 
-  val day_of_week : t -> day_of_week
-  (** [day_of_week date] determines the day of the week for a given [date]. *)
-end
+val day_of_week : t -> day_of_week
+(** [day_of_week date] determines the day of the week for a given [date]. *)
