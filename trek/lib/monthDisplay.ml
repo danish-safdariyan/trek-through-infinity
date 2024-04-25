@@ -4,7 +4,10 @@ module W = Widget
 module L = Layout
 (* module T = Trigger *)
 
-(** Returns layout of task *)
+(**[layout_of_task w task] returns a layout of a [task] which is a [string].
+   [task] is supposed to be inputted by the user and [w] is supposed to be
+   passed down and is a ratio of the current window size. Ultimately returns
+   layout of task. *)
 let layout_of_task w task =
   let text = W.text_display task |> L.resident ~x:10 ~y:5 ~w ~h:30 in
   let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
