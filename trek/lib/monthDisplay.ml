@@ -1,8 +1,53 @@
-(* open Tsdl *)
+type t = Date.t list
+
+let get_last_day (m : Date.month) y =
+  let d =
+    match m with
+    | January -> 31
+    | February ->
+        if (y mod 4 = 0 && y mod 100 != 0) || y mod 400 = 0 then 29 else 28
+    | March -> 31
+    | April -> 30
+    | May -> 31
+    | June -> 30
+    | July -> 31
+    | August -> 31
+    | September -> 30
+    | October -> 31
+    | November -> 30
+    | December -> 31
+  in
+  Date.create y m d
+
+let get_month m y =
+  let lst = [ get_last_day m y ] in
+  let rec last_week = function
+    | [] -> failwith "Empty list"
+    | h :: t ->
+        if Date.day_of_week h != Saturday then
+          last_week (Date.next_day h :: h :: t)
+        else h :: t
+  in
+  let rec add_month = function
+    | [] -> failwith "Empty list"
+    | (h : Date.t) :: t ->
+        if h.day != 1 then add_month (Date.prev_day h :: h :: t) else h :: t
+  in
+  let rec fst_week = function
+    | [] -> failwith "Empty list"
+    | h :: t ->
+        if Date.day_of_week h != Sunday then fst_week (Date.prev_day h :: h :: t)
+        else h :: t
+  in
+  last_week lst |> List.rev |> add_month |> fst_week
+
+(* let get_month_tasks cal = List.map (fun (d : Date.t) -> (string_of_int d.day,
+   Calendar.find_events cal d)) *)
+(* let get_month_tasks _ = failwith "TODO" *)
+
 open Bogue
 module W = Widget
 module L = Layout
-(* module T = Trigger *)
 
 (**[layout_of_task w task] returns a layout of a [task] which is a [string].
    [task] is supposed to be inputted by the user and [w] is supposed to be
