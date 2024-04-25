@@ -113,3 +113,5 @@ let day_of_week date =
 
 let next_day _ = failwith "TODO"
 let prev_day _ = failwith "TODO"
+let next_month _ = failwith "TODO"
+let prev_month _ = failwith "TODO"

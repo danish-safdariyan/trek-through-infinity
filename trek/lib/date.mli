@@ -59,3 +59,9 @@ val next_day : t -> t
 
 val prev_day : t -> t
 (** [prev_day date] is the day that comes before [date]. *)
+
+val next_month : month -> month
+(** [next_month m] is the month that comes after [m]. *)
+
+val prev_month : month -> month
+(** [prev_month m] is the month that comes before [m]. *)
