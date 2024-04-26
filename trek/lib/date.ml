@@ -111,7 +111,63 @@ let day_of_week date =
   | 5 -> Friday
   | _ -> Saturday
 
-let next_day _ = failwith "TODO"
-let prev_day _ = failwith "TODO"
-let next_month _ = failwith "TODO"
-let prev_month _ = failwith "TODO"
+let last_day m y =
+  let d =
+    match m with
+    | January -> 31
+    | February ->
+        if (y mod 4 = 0 && y mod 100 != 0) || y mod 400 = 0 then 29 else 28
+    | March -> 31
+    | April -> 30
+    | May -> 31
+    | June -> 30
+    | July -> 31
+    | August -> 31
+    | September -> 30
+    | October -> 31
+    | November -> 30
+    | December -> 31
+  in
+  create y m d
+
+let next_month m y =
+  match m with
+  | January -> (February, y)
+  | February -> (March, y)
+  | March -> (April, y)
+  | April -> (May, y)
+  | May -> (June, y)
+  | June -> (July, y)
+  | July -> (August, y)
+  | August -> (September, y)
+  | September -> (October, y)
+  | October -> (November, y)
+  | November -> (December, y)
+  | December -> (January, y + 1)
+
+let prev_month m y =
+  match m with
+  | January -> (December, y - 1)
+  | February -> (January, y)
+  | March -> (February, y)
+  | April -> (March, y)
+  | May -> (April, y)
+  | June -> (May, y)
+  | July -> (June, y)
+  | August -> (July, y)
+  | September -> (August, y)
+  | October -> (September, y)
+  | November -> (October, y)
+  | December -> (November, y)
+
+let next_day { year; month; day } =
+  if { year; month; day } = last_day month year then
+    let m, y = next_month month year in
+    create y m 1
+  else create year month (day + 1)
+
+let prev_day { year; month; day } =
+  if day = 1 then
+    let m, y = prev_month month year in
+    last_day m y
+  else create year month (day - 1)

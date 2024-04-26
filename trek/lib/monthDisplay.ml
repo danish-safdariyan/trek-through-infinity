@@ -1,26 +1,7 @@
 type t = Date.t list
 
-let get_last_day (m : Date.month) y =
-  let d =
-    match m with
-    | January -> 31
-    | February ->
-        if (y mod 4 = 0 && y mod 100 != 0) || y mod 400 = 0 then 29 else 28
-    | March -> 31
-    | April -> 30
-    | May -> 31
-    | June -> 30
-    | July -> 31
-    | August -> 31
-    | September -> 30
-    | October -> 31
-    | November -> 30
-    | December -> 31
-  in
-  Date.create y m d
-
 let get_month m y =
-  let lst = [ get_last_day m y ] in
+  let lst = [ Date.last_day m y ] in
   let rec last_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
