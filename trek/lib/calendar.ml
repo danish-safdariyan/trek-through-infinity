@@ -3,7 +3,7 @@
 
 module Map = CalDict.AssocListMap
 
-type t = (string, Event.t list) Map.t
+type t = (Date.t, Event.t list) Map.t
 
 let empty = Map.empty
 
