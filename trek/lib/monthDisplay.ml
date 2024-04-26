@@ -22,9 +22,9 @@ let get_month m y =
   in
   last_week lst |> List.rev |> add_month |> fst_week
 
-(* let get_month_tasks cal = List.map (fun (d : Date.t) -> (string_of_int d.day,
-   Calendar.find_events cal d)) *)
-(* let get_month_tasks _ = failwith "TODO" *)
+let get_month_tasks cal =
+  List.map (fun (d : Date.t) ->
+      (string_of_int d.day, Calendar.find_events cal d))
 
 open Bogue
 module W = Widget
@@ -35,7 +35,9 @@ module L = Layout
    passed down and is a ratio of the current window size. Ultimately returns
    layout of task. *)
 let layout_of_task w task =
-  let text = W.text_display task |> L.resident ~x:10 ~y:5 ~w ~h:30 in
+  let text =
+    Event.get_title task |> W.text_display |> L.resident ~x:10 ~y:5 ~w ~h:30
+  in
   let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
   let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
   let border = Style.mk_border ~radius:10 line in
@@ -52,7 +54,10 @@ let layout_of_day w date tasks =
   let date_marker = W.label date |> L.resident in
   date_marker :: helper tasks |> L.tower ~hmargin:5 ~vmargin:5
 
-let layout_of_month w days =
+let min_h = 100
+
+let layout_of_month w cal month =
+  let days = get_month_tasks cal month in
   let week_layout days =
     let rec helper = function
       | [] -> []
@@ -60,7 +65,7 @@ let layout_of_month w days =
     in
     let day_infos = helper days in
     let h =
-      List.fold_left (fun cur_h day -> max (L.height day) cur_h) 0 day_infos
+      List.fold_left (fun cur_h day -> max (L.height day) cur_h) min_h day_infos
     in
     let border =
       Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:1 ()

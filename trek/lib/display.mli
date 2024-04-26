@@ -1,1 +1,1 @@
-val test : (string * string list) list -> unit
+val test : Calendar.t -> unit
