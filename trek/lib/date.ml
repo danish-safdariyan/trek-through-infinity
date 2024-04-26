@@ -94,8 +94,9 @@ let day_of_week date =
     | June -> 16
     | August -> 18
     | September | December -> 19
-    | _ -> failwith "Invalid month value"
+    | November -> 20 (* Added November *)
   in
+
   let d = day in
   let c = y / 100 in
   let y' = y mod 100 in
