@@ -11,6 +11,22 @@ let assert_equal expected actual message =
     failed_tests := message :: !failed_tests
   end
 
+let assert_equal_string expected actual message =
+  if expected = actual then Printf.printf "Test passed: %s\n" message
+  else begin
+    Printf.printf "Test failed: %s\nExpected: %s\nActual: %s\n" message expected
+      actual;
+    failed_tests := message :: !failed_tests
+  end
+
+let assert_equal_bool expected actual message =
+  if expected = actual then Printf.printf "Test passed: %s\n" message
+  else begin
+    Printf.printf "Test failed: %s\nExpected: %b\nActual: %b\n" message expected
+      actual;
+    failed_tests := message :: !failed_tests
+  end
+
 let test_create () =
   let date = create 2024 April 27 in
   assert_equal 2024 (get_year date) "Test create: year";
@@ -170,6 +186,40 @@ let test_prev_day () =
     (get_day prev_day_jan_1_2024)
     "Test prev_day: day (year change)"
 
+let test_format_date () =
+  let date = create 2024 April 27 in
+  assert_equal_string "2024-04-27" (format_date date)
+    "Test format_date: normal date";
+  let date = create 2023 February 28 in
+  assert_equal_string "2023-02-28" (format_date date)
+    "Test format_date: February in non-leap year";
+  let date = create 2024 February 29 in
+  assert_equal_string "2024-02-29" (format_date date)
+    "Test format_date: February in leap year";
+  let date = create 2024 December 1 in
+  assert_equal_string "2024-12-01" (format_date date)
+    "Test format_date: December"
+
+let test_is_weekend () =
+  let date = create 2024 April 27 in
+  assert_equal_bool true (is_weekend date) "Test is_weekend: Saturday";
+  let date = create 2024 April 28 in
+  assert_equal_bool true (is_weekend date) "Test is_weekend: Sunday";
+  let date = create 2024 April 26 in
+  assert_equal_bool false (is_weekend date) "Test is_weekend: Friday";
+  let date = create 2024 April 30 in
+  assert_equal_bool false (is_weekend date) "Test is_weekend: Wednesday"
+
+let test_is_leap_year () =
+  assert_equal_bool true (is_leap_year 2024)
+    "Test is_leap_year: 2024 (leap year)";
+  assert_equal_bool false (is_leap_year 2023)
+    "Test is_leap_year: 2023 (non-leap year)";
+  assert_equal_bool false (is_leap_year 2100)
+    "Test is_leap_year: 2100 (non-leap year)";
+  assert_equal_bool true (is_leap_year 2000)
+    "Test is_leap_year: 2000 (leap year)"
+
 let () =
   test_create ();
   test_current_date ();
@@ -181,10 +231,41 @@ let () =
   test_prev_month ();
   test_next_day ();
   test_prev_day ();
+  test_format_date ();
+  test_is_weekend ();
+  test_is_leap_year ();
 
-  if List.length !failed_tests = 0 then
-    Printf.printf "All tests passed successfully\n"
-  else begin
-    Printf.printf "Some tests failed: \n";
-    List.iter (Printf.printf "%s\n") !failed_tests
+  if List.length !failed_tests > 0 then begin
+    Printf.printf "\n%d tests failed:\n" (List.length !failed_tests);
+    List.iter (fun msg -> Printf.printf " - %s\n" msg) !failed_tests
   end
+  else print_endline "\nAll tests passed!"
+
+(* **************** *)
+(* let test_day_of_year () = let date = create 2024 April 27 in assert_equal 118
+   (day_of_year date) "Test day_of_year: April 27, 2024"; let date = create 2023
+   February 28 in assert_equal 59 (day_of_year date) "Test day_of_year: February
+   28, 2023 (non-leap year)"; let date = create 2024 February 29 in assert_equal
+   60 (day_of_year date) "Test day_of_year: February 29, 2024 (leap year)"; let
+   date = create 2024 December 31 in assert_equal 366 (day_of_year date) "Test
+   day_of_year: December 31, 2024"
+
+   let test_total_days_from_epoch () = let date = create 2024 April 27 in
+   assert_equal 737807 (total_days_from_epoch date) "Test total_days_from_epoch:
+   April 27, 2024"; let date = create 1970 January 1 in assert_equal 719163
+   (total_days_from_epoch date) "Test total_days_from_epoch: January 1, 1970
+   (epoch)"; let date = create 2024 December 31 in assert_equal 738138
+   (total_days_from_epoch date) "Test total_days_from_epoch: December 31, 2024"
+
+   let test_date_difference () = let date1 = create 2024 April 27 in let date2 =
+   create 2024 April 20 in assert_equal 7 (date_difference date1 date2) "Test
+   date_difference: date1 - date2"; let date1 = create 2024 April 27 in let
+   date2 = create 2023 December 31 in assert_equal 117 (date_difference date1
+   date2) "Test date_difference: date1 - date2 (crossing year boundary)"; let
+   date1 = create 2024 April 27 in let date2 = create 2024 December 31 in
+   assert_equal 248 (date_difference date1 date2) "Test date_difference: date1 -
+   date2 (crossing year boundary)"
+
+   test_day_of_year (); test_total_days_from_epoch (); test_date_difference
+   (); *)
+(* ********************************* *)

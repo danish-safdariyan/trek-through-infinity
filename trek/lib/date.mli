@@ -83,26 +83,18 @@ val int_of_month : month -> int
 val format_date : t -> string
 (** [format_date date] Formats a date into a string in "YYYY-MM-DD" format. *)
 
-val day_of_year : t -> int
-(** [day_of_year date] Calculates the day of the year for a given date. *)
-
-val total_days_from_epoch : t -> int
-(** [total_days_from_epoch date] Calculates the total number of days from the
-    Unix epoch to the given date. *)
-
-val date_difference : t -> t -> int
-(** [date_difference date1 date2] Calculates the absolute difference in days
-    between two dates. *)
-
-val int_of_day_of_week : day_of_week -> int
-(** [int_of_day_of_week day] Converts a day of the week to its corresponding
-    integer representation. *)
-
-val week_of_month : t -> int
-(** [week_of_month date] Calculates the week of the month for a given date. *)
-
 val is_weekend : t -> bool
 (** [is_weekend date] Checks if a given date falls on a weekend. *)
 
 val is_leap_year : int -> bool
 (** [is_leap_year year] Determines if a given year is a leap year. *)
+
+(* ****** fix Later ******* *)
+(* val day_of_year : t -> int (** [day_of_year date] Calculates the day of the
+   year for a given date. *)
+
+   val total_days_from_epoch : t -> int (** [total_days_from_epoch date]
+   Calculates the total number of days from the Unix epoch to the given date. *)
+
+   val date_difference : t -> t -> int (** [date_difference date1 date2]
+   Calculates the absolute difference in days between two dates. *) *)
