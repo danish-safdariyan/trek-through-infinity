@@ -5,20 +5,19 @@ let get_month m y =
   let rec last_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h != Saturday then
-          last_week (Date.next_day h :: h :: t)
-        else h :: t
+        if Date.day_of_week h = Saturday then h :: t
+        else last_week (Date.next_day h :: h :: t)
   in
   let rec add_month = function
     | [] -> failwith "Empty list"
     | (h : Date.t) :: t ->
-        if h.day != 1 then add_month (Date.prev_day h :: h :: t) else h :: t
+        if h.day = 1 then h :: t else add_month (Date.prev_day h :: h :: t)
   in
   let rec fst_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h != Sunday then fst_week (Date.prev_day h :: h :: t)
-        else h :: t
+        if Date.day_of_week h = Sunday then h :: t
+        else fst_week (Date.prev_day h :: h :: t)
   in
   last_week lst |> List.rev |> add_month |> fst_week
 
