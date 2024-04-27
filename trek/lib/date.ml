@@ -84,33 +84,38 @@ let days_in_month year month =
 
 let day_of_week date =
   let { year; month; day } = date in
-  let y = if month = January || month = February then year - 1 else year in
   let m =
     match month with
-    | January | October -> 10
-    | February | March -> 11
-    | April | July -> 14
-    | May -> 15
-    | June -> 16
-    | August -> 18
-    | September | December -> 19
-    | November -> 20 (* Added November *)
+    | January -> 13
+    | February -> 14
+    | March -> 3
+    | April -> 4
+    | May -> 5
+    | June -> 6
+    | July -> 7
+    | August -> 8
+    | September -> 9
+    | October -> 10
+    | November -> 11
+    | December -> 12
   in
+  let y = if m > 12 then year - 1 else year in
+  (* Adjust year for January and February *)
+  let k = y mod 100 in
+  let j = y / 100 in
+  (* Century component of the year *)
+  let h = (day + ((m + 1) * 26 / 10) + k + (k / 4) + (j / 4) + (5 * j)) mod 7 in
 
-  let d = day in
-  let c = y / 100 in
-  let y' = y mod 100 in
-  let w =
-    (y' + (y' / 4) + (c / 4) - (2 * c) + (26 * (m + 1) / 10) + d - 1) mod 7
-  in
-  match w with
-  | 0 -> Sunday
-  | 1 -> Monday
-  | 2 -> Tuesday
-  | 3 -> Wednesday
-  | 4 -> Thursday
-  | 5 -> Friday
-  | _ -> Saturday
+  (* Correcting formula to match your day_of_week type with 0 as Sunday *)
+  match h with
+  | 0 -> Saturday (* Zeller's output for Saturday *)
+  | 1 -> Sunday (* Zeller's output for Sunday *)
+  | 2 -> Monday (* Zeller's output for Monday *)
+  | 3 -> Tuesday (* Zeller's output for Tuesday *)
+  | 4 -> Wednesday (* Zeller's output for Wednesday *)
+  | 5 -> Thursday (* Zeller's output for Thursday *)
+  | 6 -> Friday (* Zeller's output for Friday *)
+  | _ -> failwith "Invalid day of week computation" (* Should never occur *)
 
 let last_day m y =
   let d =
