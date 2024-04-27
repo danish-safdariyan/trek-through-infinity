@@ -9,3 +9,6 @@ val layout_of_month : int -> Calendar.t -> t -> Bogue.Layout.t
     their tasks. [w] is the width of each day (may remove later), [lst] is a
     [(a * b) list] where [a] is the date and [b] is a list of all tasks for that
     day. *)
+
+val get_month_info : t -> Date.month * int
+(** Gives the month and year the input corresponds to. *)

@@ -1,4 +1,8 @@
-type t = Date.t list
+type t = {
+  days : Date.t list;
+  m : Date.month;
+  y : int;
+}
 
 let get_month m y =
   let lst = [ Date.last_day m y ] in
@@ -19,11 +23,10 @@ let get_month m y =
         if Date.day_of_week h = Sunday then h :: t
         else fst_week (Date.prev_day h :: h :: t)
   in
-  last_week lst |> List.rev |> add_month |> fst_week
+  { days = last_week lst |> List.rev |> add_month |> fst_week; m; y }
 
 let get_month_tasks cal =
-  List.map (fun (d : Date.t) ->
-      (string_of_int d.day, Calendar.find_events cal d))
+  List.map (fun (d : Date.t) -> (d, Calendar.find_events cal d))
 
 open Bogue
 module W = Widget
@@ -45,22 +48,26 @@ let layout_of_task w task =
 
 (** Returns layout of a day with the date and tasks specified. Does not include
     the box. *)
-let layout_of_day w date tasks =
+let layout_of_day w m (date : Date.t) tasks =
   let rec helper = function
     | [] -> []
     | h :: t -> layout_of_task (w - 10) h :: helper t
   in
-  let date_marker = W.label date |> L.resident in
-  date_marker :: helper tasks |> L.tower ~hmargin:5 ~vmargin:5
+  let date_marker =
+    W.label
+      ~fg:(Draw.opaque (if date.month = m then Draw.black else Draw.pale_grey))
+      (string_of_int date.day)
+  in
+  L.resident date_marker :: helper tasks |> L.tower ~hmargin:5 ~vmargin:5
 
 let min_h = 100
 
 let layout_of_month w cal month =
-  let days = get_month_tasks cal month in
+  let days = get_month_tasks cal month.days in
   let week_layout days =
     let rec helper = function
       | [] -> []
-      | h :: t -> layout_of_day w (fst h) (snd h) :: helper t
+      | h :: t -> layout_of_day w month.m (fst h) (snd h) :: helper t
     in
     let day_infos = helper days in
     let h =
@@ -84,3 +91,5 @@ let layout_of_month w cal month =
     | lst -> [ week_layout lst ]
   in
   helper days |> L.tower ~name:"Calendar" ~margins:0 ~scale_content:false
+
+let get_month_info month = (month.m, month.y)
