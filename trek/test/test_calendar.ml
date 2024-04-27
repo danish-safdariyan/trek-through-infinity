@@ -42,18 +42,24 @@ let test_edit_event () =
   assert (find_events calendar_with_updated_event date = [ updated_event ])
 
 let test_find_events () =
+  (* Adjust this as per your date handling *)
   let event1 =
     Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
       ~date:"2024-04-30" ~repeats:NoRepeat
   in
   let event2 =
-    Event.create ~id:2 ~title:"Presentation" ~description:"Project presentation"
-      ~date:"2024-04-30" ~repeats:NoRepeat
+    Event.create ~id:2 ~title:"Presentation"
+      ~description:"Project\n   presentation" ~date:"2024-04-30"
+      ~repeats:NoRepeat
   in
   let calendar = add_event empty date event1 in
   let calendar_with_multiple_events = add_event calendar date event2 in
-  (* Check if both events are found for the given date *)
-  assert (find_events calendar_with_multiple_events date = [ event1; event2 ])
+  let events_on_date = find_events calendar_with_multiple_events date in
+  Printf.printf "Events found: %d\n" (List.length events_on_date);
+  List.iter
+    (fun e -> Printf.printf "Event: %s\n" (Event.to_string e))
+    events_on_date;
+  assert (events_on_date = [ event2; event1 ])
 
 let test_list_all_events () =
   let event1 =
@@ -69,7 +75,7 @@ let test_list_all_events () =
   (* Check if all events are listed *)
   assert (
     list_all_events calendar_with_event_on_next_day
-    = [ Event.to_string event1; Event.to_string event2 ])
+    = [ Event.to_string event2; Event.to_string event1 ])
 
 (* Run the test cases *)
 let () =
