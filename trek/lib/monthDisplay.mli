@@ -12,3 +12,6 @@ val layout_of_month : int -> Calendar.t -> t -> Bogue.Layout.t
 
 val get_month_info : t -> Date.month * int
 (** Gives the month and year the input corresponds to. *)
+
+val string_of_month : t -> string
+(** The month in string format. *)

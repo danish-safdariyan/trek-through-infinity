@@ -1,1 +1,1 @@
-val test : Calendar.t -> unit
+val test : unit -> unit

@@ -32,4 +32,4 @@ let _ =
   (* let print_calendar () = CalDict.AssocListMap.bindings calendar in
 
      let calendar = print_calendar () in *)
-  Display.test Calendar.empty
+  Display.test ()
