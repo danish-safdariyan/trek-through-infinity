@@ -15,3 +15,19 @@ let button w =
     ~state:false
     ~action:(fun _ -> print_endline "Mike Wazowski")
     "Hello"
+
+let prev_btn get_month update_month =
+  W.button ~kind:Button.Trigger
+    ~label:(Label.create ~align:Draw.Center "<")
+    ~action:(fun _ ->
+      let m, y = get_month () in
+      update_month (Date.prev_month m y))
+    "Prev month"
+
+let next_btn get_month update_month =
+  W.button ~kind:Button.Trigger
+    ~label:(Label.create ~align:Draw.Center ">")
+    ~action:(fun _ ->
+      let m, y = get_month () in
+      update_month (Date.next_month m y))
+    "Next month"
