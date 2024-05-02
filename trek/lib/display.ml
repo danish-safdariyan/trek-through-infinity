@@ -2,6 +2,7 @@ open Bogue
 open Main
 module L = Layout
 module W = Widget
+module P = Popups
 
 (** The calendar we are displaying. *)
 let cal = ref Calendar.empty
@@ -33,18 +34,6 @@ let update_month (m, y) =
   update_display ()
 
 let get_month () = MonthDisplay.get_month_info !cur_month
-let close_event_popup_btn = W.button "OK"
-
-(** Popup that appears when you want to add an event *)
-let add_event_popup =
-  let label = W.label "This is a popup" in
-  L.tower_of_w [ label; close_event_popup_btn ]
-
-(** Sets the [popup] to [state] (whether it is shown or not). [layout] should be
-    the the layout returned from attaching [popup] to some layout. *)
-let set_popup layout popup state _ =
-  L.set_show layout state;
-  L.set_show popup state
 
 let test () =
   let width = 1000 in
@@ -59,10 +48,15 @@ let test () =
       ]
   in
   let layout = L.tower [ menu; month_layout ] in
-  let screen = Popup.attach layout add_event_popup in
+  let close_event_popup_btn = W.button "OK" in
+  let add_event_popup =
+    P.attach_popup layout
+      (let label = W.label "This is a popup" in
+       L.tower_of_w [ label; close_event_popup_btn ])
+  in
   W.on_button_release
-    ~release:(set_popup screen add_event_popup false)
+    ~release:(fun _ -> P.hide_popup add_event_popup)
     close_event_popup_btn;
-  W.on_button_release ~release:(set_popup screen add_event_popup true) btn;
+  W.on_button_release ~release:(fun _ -> P.toggle_popup add_event_popup) btn;
   layout |> of_layout |> run;
   quit ()
