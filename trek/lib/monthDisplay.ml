@@ -109,6 +109,9 @@ let layout_of_month w cal month =
         week_layout [ d1; d2; d3; d4; d5; d6; d7 ] :: helper t
     | lst -> [ week_layout lst ]
   in
-  let label = W.label ~align:Draw.Center (string_of_month month) in
-  L.resident ~name:"Month Label" label :: helper days
-  |> L.tower ~name:"Calendar" ~margins:0
+  let label =
+    W.label ~size:20 ~align:Draw.Center (string_of_month month)
+    |> L.resident ~name:"Month Label"
+  in
+  let _ = Space.full_width label in
+  label :: helper days |> L.tower ~name:"Calendar" ~margins:0
