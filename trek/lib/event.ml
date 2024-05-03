@@ -18,7 +18,6 @@ let create ~id ~title ~description ~date ~repeats =
 
 let get_id event = event.id
 let get_title event = event.title
-(* Add getters for other fields if necessary *)
 
 let edit event ~title ~description ~date ~repeats =
   { event with title; description; date; repeats }

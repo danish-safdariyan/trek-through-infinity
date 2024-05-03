@@ -201,20 +201,6 @@ let format_date date =
 (* ******************************************************************* *)
 (* useful for scheduling and event reminders. if implemented those
    functionalites *)
-let int_of_month month =
-  match month with
-  | January -> 1
-  | February -> 2
-  | March -> 3
-  | April -> 4
-  | May -> 5
-  | June -> 6
-  | July -> 7
-  | August -> 8
-  | September -> 9
-  | October -> 10
-  | November -> 11
-  | December -> 12
 
 (* Correctly computes the number of days from an epoch assuming the epoch starts
    at 1 Jan 0001 *)
@@ -244,3 +230,57 @@ let is_weekend date =
 
 (* leap year *)
 let is_leap_year year = year mod 4 = 0 && (year mod 100 <> 0 || year mod 400 = 0)
+
+let int_of_day_of_week = function
+  | Sunday -> 0
+  | Monday -> 1
+  | Tuesday -> 2
+  | Wednesday -> 3
+  | Thursday -> 4
+  | Friday -> 5
+  | Saturday -> 6
+
+(* Returns the date of the nth occurrence of a given weekday in a specific month
+   and year *)
+let nth_weekday_of_month month weekday n year =
+  let first_of_month = create year month 1 in
+  let first_weekday_of_month = day_of_week first_of_month in
+  (* Calculate the offset to the first occurrence of the target weekday *)
+  let offset =
+    (int_of_day_of_week weekday - int_of_day_of_week first_weekday_of_month + 7)
+    mod 7
+  in
+  let day = 1 + offset + ((n - 1) * 7) in
+  if day > days_in_month year month then
+    failwith "Requested nth weekday exceeds month length"
+  else create year month day
+
+let int_to_month = function
+  | 1 -> January
+  | 2 -> February
+  | 3 -> March
+  | 4 -> April
+  | 5 -> May
+  | 6 -> June
+  | 7 -> July
+  | 8 -> August
+  | 9 -> September
+  | 10 -> October
+  | 11 -> November
+  | 12 -> December
+  | _ -> failwith "Invalid month value"
+
+let last_weekday_of_month month weekday year =
+  let rec find_last_weekday current_day =
+    if day_of_week { year; month; day = current_day } = weekday then
+      create year month current_day
+    else find_last_weekday (current_day - 1)
+  in
+  let last_day = days_in_month year month in
+  find_last_weekday last_day
+
+let to_string_iso8601 date =
+  Printf.sprintf "%04d-%02d-%02d" date.year (int_of_month date.month) date.day
+
+let to_string date =
+  Printf.sprintf "%04d-%02d-%02d" date.year (int_of_month date.month) date.day
