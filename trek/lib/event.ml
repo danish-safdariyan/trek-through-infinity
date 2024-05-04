@@ -42,8 +42,7 @@ let edit event ~title ~description ~date ~repeats =
   { event with title; description; date; repeats }
 
 let to_string event =
-  Printf.sprintf
-    "ID: %d, Title: %s, Description: %s, Date: %s, Repeats: %s, Time: %s"
+  Printf.sprintf "ID: %d, Title: %s, Description: %s, Date: %s, Repeats: %s"
     event.id event.title event.description event.date
     (match event.repeats with
     | NoRepeat -> "No Repeat"
