@@ -1,4 +1,4 @@
 (executable
  (public_name trek)
  (name main)
- (libraries trek))
+ (libraries frontend backend))

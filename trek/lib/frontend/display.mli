@@ -1,6 +1,6 @@
 val test : unit -> unit
 
-val update_calendar : Calendar.t -> unit
+val update_calendar : Backend.Calendar.t -> unit
 (** Updates the calendar shown in display; also updates the display. *)
 
 val update_display : unit -> unit

@@ -1,4 +1,4 @@
-open Trek
+open Frontend
 
 let _ = Display.test ()
 

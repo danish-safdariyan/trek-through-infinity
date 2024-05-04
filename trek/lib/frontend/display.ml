@@ -5,12 +5,12 @@ module W = Widget
 module P = Popups
 
 (** The calendar we are displaying. *)
-let cal = ref Calendar.empty
+let cal = ref Backend.Calendar.empty
 
 (** The current month. *)
 let cur_month =
   ref
-    (let today = Date.current_date () in
+    (let today = Backend.Date.current_date () in
      MonthDisplay.get_month today.month today.year)
 
 (** The current month layout. *)
@@ -41,7 +41,9 @@ let attach_new_event_popup layout =
   let title_input = W.text_input ~prompt:"Title                 " () in
   let desc_input = W.text_input ~prompt:"Description           " () in
   let rep_input = Select.create [| "Once"; "Weekly"; "Monthly"; "Yearly" |] 0 in
-  let date_input = W.button (Date.current_date () |> Date.format_date) in
+  let date_input =
+    W.button (Backend.Date.current_date () |> Backend.Date.format_date)
+  in
   let create_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
   let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
@@ -83,7 +85,7 @@ let attach_new_event_popup layout =
     P.hide date_selector_popup;
     W.set_text title_input "";
     W.set_text desc_input "";
-    DateSelector.set_date selector (Date.current_date ())
+    DateSelector.set_date selector (Backend.Date.current_date ())
   in
   let _ =
     P.should_exit_on_press date_selector_popup true;
@@ -91,18 +93,20 @@ let attach_new_event_popup layout =
     W.on_button_release
       ~release:(fun _ ->
         let event =
-          Event.create ~id:1
+          Backend.Event.create ~id:1
             ~title:(W.get_text_input title_input |> Text_input.text)
             ~description:(W.get_text_input desc_input |> Text_input.text)
-            ~date:"???" ~repeats:Event.Daily
+            ~date:"???" ~repeats:Backend.Event.Daily
         in
         update_calendar
-          (Calendar.add_event !cal (DateSelector.get_date selector) event);
+          (Backend.Calendar.add_event !cal
+             (DateSelector.get_date selector)
+             event);
         on_close ())
       create_btn;
     DateSelector.on_update selector (fun _ ->
         W.set_text date_input
-          (DateSelector.get_date selector |> Date.format_date);
+          (DateSelector.get_date selector |> Backend.Date.format_date);
         P.hide date_selector_popup);
     W.on_button_release
       ~release:(fun _ ->

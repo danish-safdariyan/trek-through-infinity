@@ -4,9 +4,9 @@ module W = Widget
 module P = Popups
 
 type sel_info = {
-  mutable date : Date.t;
+  mutable date : Backend.Date.t;
   mutable cur_btn : Button.t;
-  mutable on_update : Date.t -> unit;
+  mutable on_update : Backend.Date.t -> unit;
 }
 
 type t = {
@@ -14,7 +14,7 @@ type t = {
   m_layout : L.t;
   m_label : W.t;
   info : sel_info;
-  mutable cur_m : Date.month;
+  mutable cur_m : Backend.Date.month;
   mutable cur_y : int;
 }
 
@@ -24,28 +24,30 @@ let get_y sel = sel.cur_y
 
 (** Gets a 6-week month. *)
 let get_month m y =
-  let last = Date.last_day m y in
+  let last = Backend.Date.last_day m y in
   let rec last_week len = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h = Saturday && len + last.day > 35 then h :: t
-        else last_week (len + 1) (Date.next_day h :: h :: t)
+        if Backend.Date.day_of_week h = Saturday && len + last.day > 35 then
+          h :: t
+        else last_week (len + 1) (Backend.Date.next_day h :: h :: t)
   in
   let rec add_month = function
     | [] -> failwith "Empty list"
-    | (h : Date.t) :: t ->
-        if h.day = 1 then h :: t else add_month (Date.prev_day h :: h :: t)
+    | (h : Backend.Date.t) :: t ->
+        if h.day = 1 then h :: t
+        else add_month (Backend.Date.prev_day h :: h :: t)
   in
   let rec fst_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h = Sunday then h :: t
-        else fst_week (Date.prev_day h :: h :: t)
+        if Backend.Date.day_of_week h = Sunday then h :: t
+        else fst_week (Backend.Date.prev_day h :: h :: t)
   in
   last_week 0 [ last ] |> List.rev |> add_month |> fst_week
 
 (** Returns a button layout that represents a day. *)
-let layout_of_day (d : Date.t) m info =
+let layout_of_day (d : Backend.Date.t) m info =
   let s = string_of_int d.day in
   let s = if String.length s < 2 then s ^ " " else s in
   let num = W.label ~align:Draw.Center s in
@@ -99,12 +101,12 @@ let update_display sel =
   Sync.push (fun () ->
       L.set_rooms sel.m_layout [ layout_of_month sel.info sel.cur_m sel.cur_y ];
       W.set_text sel.m_label
-        (Date.string_of_month sel.cur_m ^ " " ^ string_of_int sel.cur_y))
+        (Backend.Date.string_of_month sel.cur_m ^ " " ^ string_of_int sel.cur_y))
 
 let make_selector () =
   let info =
     {
-      date = Date.current_date ();
+      date = Backend.Date.current_date ();
       cur_btn = Button.create Button.Switch "";
       on_update = (fun _ -> ());
     }
@@ -112,7 +114,9 @@ let make_selector () =
   let m_layout = layout_of_month info info.date.month info.date.year in
   let m_label =
     W.label ~align:Draw.Center
-      (Date.string_of_month info.date.month ^ " " ^ string_of_int info.date.year)
+      (Backend.Date.string_of_month info.date.month
+      ^ " "
+      ^ string_of_int info.date.year)
   in
   let prev_btn =
     W.button ~kind:Button.Trigger
@@ -152,14 +156,14 @@ let make_selector () =
     Space.full_width top;
     W.on_button_release
       ~release:(fun _ ->
-        let m, y = Date.prev_month (get_m sel) (get_y sel) in
+        let m, y = Backend.Date.prev_month (get_m sel) (get_y sel) in
         sel.cur_m <- m;
         sel.cur_y <- y;
         update_display sel)
       prev_btn;
     W.on_button_release
       ~release:(fun _ ->
-        let m, y = Date.next_month (get_m sel) (get_y sel) in
+        let m, y = Backend.Date.next_month (get_m sel) (get_y sel) in
         sel.cur_m <- m;
         sel.cur_y <- y;
         update_display sel)

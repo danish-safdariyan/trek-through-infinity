@@ -1,35 +1,36 @@
 type t = {
-  days : Date.t list;
-  m : Date.month;
+  days : Backend.Date.t list;
+  m : Backend.Date.month;
   y : int;
 }
 
 let get_month m y =
-  let lst = [ Date.last_day m y ] in
+  let lst = [ Backend.Date.last_day m y ] in
   let rec last_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h = Saturday then h :: t
-        else last_week (Date.next_day h :: h :: t)
+        if Backend.Date.day_of_week h = Saturday then h :: t
+        else last_week (Backend.Date.next_day h :: h :: t)
   in
   let rec add_month = function
     | [] -> failwith "Empty list"
-    | (h : Date.t) :: t ->
-        if h.day = 1 then h :: t else add_month (Date.prev_day h :: h :: t)
+    | (h : Backend.Date.t) :: t ->
+        if h.day = 1 then h :: t
+        else add_month (Backend.Date.prev_day h :: h :: t)
   in
   let rec fst_week = function
     | [] -> failwith "Empty list"
     | h :: t ->
-        if Date.day_of_week h = Sunday then h :: t
-        else fst_week (Date.prev_day h :: h :: t)
+        if Backend.Date.day_of_week h = Sunday then h :: t
+        else fst_week (Backend.Date.prev_day h :: h :: t)
   in
   { days = last_week lst |> List.rev |> add_month |> fst_week; m; y }
 
 let get_month_tasks cal =
-  List.map (fun (d : Date.t) -> (d, Calendar.find_events cal d))
+  List.map (fun (d : Backend.Date.t) -> (d, Backend.Calendar.find_events cal d))
 
 let get_month_info month = (month.m, month.y)
-let string_of_month m = Date.string_of_month m.m ^ string_of_int m.y
+let string_of_month m = Backend.Date.string_of_month m.m ^ string_of_int m.y
 
 open Bogue
 module W = Widget
@@ -41,7 +42,9 @@ module L = Layout
    layout of task. *)
 let layout_of_task w task =
   let text =
-    Event.get_title task |> W.text_display |> L.resident ~x:10 ~y:5 ~w ~h:30
+    Backend.Event.get_title task
+    |> W.text_display
+    |> L.resident ~x:10 ~y:5 ~w ~h:30
   in
   let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
   let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
@@ -51,7 +54,7 @@ let layout_of_task w task =
 
 (** Returns layout of a day with the date and tasks specified. Does not include
     the box. *)
-let layout_of_day w m (date : Date.t) tasks =
+let layout_of_day w m (date : Backend.Date.t) tasks =
   let rec helper = function
     | [] -> []
     | h :: t -> layout_of_task (w - 10) h :: helper t
@@ -62,7 +65,7 @@ let layout_of_day w m (date : Date.t) tasks =
       (string_of_int date.day)
   in
   L.resident date_marker :: helper tasks
-  |> L.tower ~name:(Date.format_date date) ~hmargin:5 ~vmargin:5
+  |> L.tower ~name:(Backend.Date.format_date date) ~hmargin:5 ~vmargin:5
 
 let min_h = 100
 
