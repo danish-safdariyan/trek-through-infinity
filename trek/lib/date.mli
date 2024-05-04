@@ -80,6 +80,9 @@ val int_of_month : month -> int
 (** [int_of_month month] Converts a month type to its corresponding integer
     representation. *)
 
+val string_of_month : month -> string
+(** [string_of_month month] converts a month type to the corresponding string. *)
+
 val format_date : t -> string
 (** [format_date date] Formats a date into a string in "YYYY-MM-DD" format. *)
 

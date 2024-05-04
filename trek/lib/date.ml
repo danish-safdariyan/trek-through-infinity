@@ -216,6 +216,20 @@ let int_of_month month =
   | November -> 11
   | December -> 12
 
+let string_of_month = function
+  | January -> "January "
+  | February -> "February "
+  | March -> "March "
+  | April -> "April "
+  | May -> "May "
+  | June -> "June "
+  | July -> "July "
+  | August -> "August "
+  | September -> "September "
+  | October -> "October "
+  | November -> "November "
+  | December -> "December "
+
 (* Correctly computes the number of days from an epoch assuming the epoch starts
    at 1 Jan 0001 *)
 

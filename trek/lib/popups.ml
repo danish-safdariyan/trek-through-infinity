@@ -1,4 +1,5 @@
 open Bogue
+module W = Widget
 module L = Layout
 
 type t = {
@@ -9,23 +10,47 @@ type t = {
 
 let get_layout p = p.popup
 
-let update_popup p =
+(** Updates the show state of [p] to match [p.state]. *)
+let update p =
   L.set_show p.screen p.state;
   L.set_show p.popup p.state
 
-let toggle_popup p =
+let toggle p =
   p.state <- not p.state;
-  update_popup p
+  update p
 
-let show_popup p =
+let show p =
   p.state <- true;
-  update_popup p
+  update p
 
-let hide_popup p =
+let hide p =
   p.state <- false;
-  update_popup p
+  update p
 
-let attach_popup layout popup =
-  let out = { screen = Popup.attach layout popup; popup; state = false } in
-  let _ = hide_popup out in
+let get_state p = p.state
+
+let attach_popup ?bg layout popup =
+  let out =
+    {
+      screen =
+        Popup.attach
+          ~bg:
+            (match bg with
+            | None -> Draw.none
+            | Some bg -> bg)
+          layout popup;
+      popup;
+      state = false;
+    }
+  in
+  let _ = hide out in
   out
+
+let rec apply f = function
+  | L.Rooms lst -> List.iter (fun c -> L.get_content c |> apply f) lst
+  | Resident w -> f w
+
+let should_exit_on_press popup b =
+  if b then
+    apply (W.on_click ~click:(fun _ -> hide popup)) (L.get_content popup.screen)
+  else apply (W.on_click ~click:(fun _ -> ())) (L.get_content popup.screen)

@@ -29,22 +29,7 @@ let get_month_tasks cal =
   List.map (fun (d : Date.t) -> (d, Calendar.find_events cal d))
 
 let get_month_info month = (month.m, month.y)
-
-let string_of_month m =
-  (match m.m with
-  | January -> "January "
-  | February -> "February "
-  | March -> "March "
-  | April -> "April "
-  | May -> "May "
-  | June -> "June "
-  | July -> "July "
-  | August -> "August "
-  | September -> "September "
-  | October -> "October "
-  | November -> "November "
-  | December -> "December ")
-  ^ string_of_int m.y
+let string_of_month m = Date.string_of_month m.m ^ string_of_int m.y
 
 open Bogue
 module W = Widget
