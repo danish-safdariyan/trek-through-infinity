@@ -229,24 +229,6 @@ let string_of_month = function
   | November -> "November "
   | December -> "December "
 
-(* Correctly computes the number of days from an epoch assuming the epoch starts
-   at 1 Jan 0001 *)
-
-(* let day_of_year date = let days_in_months = [| 0; 31; 28; 31; 30; 31; 30; 31;
-   31; 30; 31; 30; 31 |] in let is_leap year = (year mod 4 = 0 && year mod 100
-   <> 0) || year mod 400 = 0 in let result = ref 0 in for i = 1 to int_of_month
-   date.month - 1 do result := !result + days_in_months.(i); if i = 2 && is_leap
-   date.year then result := !result + 1 done; !result + date.day
-
-   let total_days_from_epoch date = let days_in_past_years = ((date.year - 1) *
-   365) + ((date.year - 1) / 4) - ((date.year - 1) / 100) + ((date.year - 1) /
-   400) in days_in_past_years + day_of_year date
-
-   let date_difference date1 date2 = let days1 = total_days_from_epoch date1 in
-   let days2 = total_days_from_epoch date2 in abs (days2 - days1) *)
-
-(* ******************************************************************* *)
-
 (* ******************************************************************* *)
 
 (* Checks if a given date falls on a weekend. *)
