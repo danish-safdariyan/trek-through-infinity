@@ -1,4 +1,4 @@
-(* taskList.mli *)
+taskList.mli *)
 (** Interface for the taskList module, managing a collection of tasks *)
 
 type t
@@ -21,4 +21,4 @@ val get_task : t -> int -> Task.t
 (** [get_task] gets a task based on an ID and returns the task *)
 
 val list_tasks : t -> string list
-(** [list_tasks] lists all tasks in the calendar in string format *)
+(** [list_tasks] lists all tasks in the calendar in string format

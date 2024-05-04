@@ -1,4 +1,4 @@
-
+(* 
 (*type representing the task*)
 type t
 
@@ -43,4 +43,4 @@ val edit_task :
 val to_string: t -> string
 
 
-
+ *)
