@@ -91,17 +91,6 @@ val is_leap_year : int -> bool
 
 val int_of_day_of_week : day_of_week -> int
 val nth_weekday_of_month : month -> day_of_week -> int -> int -> t
-
-(* ****** fix Later ******* *)
-(* val day_of_year : t -> int (** [day_of_year date] Calculates the day of the
-   year for a given date. *)
-
-   val total_days_from_epoch : t -> int (** [total_days_from_epoch date]
-   Calculates the total number of days from the Unix epoch to the given date. *)
-
-   val date_difference : t -> t -> int (** [date_difference date1 date2]
-   Calculates the absolute difference in days between two dates. *) *)
-
 val int_to_month : int -> month
 val last_weekday_of_month : month -> day_of_week -> int -> t
 val to_string_iso8601 : t -> string

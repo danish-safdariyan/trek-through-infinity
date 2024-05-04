@@ -8,9 +8,7 @@ type t = (Date.t, Event.t list) Map.t
 let empty = Map.empty
 
 let add_event calendar date event =
-  (*returns empty list if date is not found*)
   let events = try Map.lookup date calendar with Not_found -> [] in
-  (*if date is found, add event to the list of events for that day*)
   Map.insert date (event :: events) calendar
 
 let add_events calendar events =
@@ -37,7 +35,6 @@ let easter year =
   Date.create year (Date.int_to_month month) day
 
 (* Initialize calendar with annual events *)
-
 let initialize_calendar year =
   let fixed_dates =
     [
@@ -156,11 +153,8 @@ let initialize_calendar year =
   add_events empty fixed_dates
 
 let remove_event calendar date event_id =
-  (* if day is not in calendar, return empty list *)
   let events = try Map.lookup date calendar with Not_found -> [] in
   let filtered_events =
-    (* if the day is in the calendar, filter through the events and return the
-       new list without the event id given *)
     List.filter (fun e -> Event.get_id e <> event_id) events
   in
   Map.insert date filtered_events calendar
