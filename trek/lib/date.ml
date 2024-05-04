@@ -108,12 +108,13 @@ let day_of_week date =
 
   (* Correcting formula to match your day_of_week type with 0 as Sunday *)
   match h with
-  | 0 -> Saturday
-  | 1 -> Sunday
-  | 2 -> Monday
-  | 3 -> Tuesday
-  | 4 -> Wednesday
-  | 6 -> Friday
+  | 0 -> Saturday (* Zeller's output for Saturday *)
+  | 1 -> Sunday (* Zeller's output for Sunday *)
+  | 2 -> Monday (* Zeller's output for Monday *)
+  | 3 -> Tuesday (* Zeller's output for Tuesday *)
+  | 4 -> Wednesday (* Zeller's output for Wednesday *)
+  | 5 -> Thursday (* Zeller's output for Thursday *)
+  | 6 -> Friday (* Zeller's output for Friday *)
   | _ -> failwith "Invalid day of week computation" (* Should never occur *)
 
 let last_day m y =
