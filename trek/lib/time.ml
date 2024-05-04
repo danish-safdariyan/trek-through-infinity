@@ -42,4 +42,4 @@ let validate_time_range start_time end_time =
    start1.hour > start2.hour && end1.am_pm = start2.am_pm && end1.hour =
    start2.hour && end1.minute < start2.minute | _ -> false *)
 let get_start_time event_time = event_time.start_time
-let end_start_time event_time = event_time.end_time
+let get_end_time event_time = event_time.end_time
