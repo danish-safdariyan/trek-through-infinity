@@ -240,32 +240,3 @@ let () =
     List.iter (fun msg -> Printf.printf " - %s\n" msg) !failed_tests
   end
   else print_endline "\nAll tests passed!"
-
-(* **************** *)
-(* let test_day_of_year () = let date = create 2024 April 27 in assert_equal 118
-   (day_of_year date) "Test day_of_year: April 27, 2024"; let date = create 2023
-   February 28 in assert_equal 59 (day_of_year date) "Test day_of_year: February
-   28, 2023 (non-leap year)"; let date = create 2024 February 29 in assert_equal
-   60 (day_of_year date) "Test day_of_year: February 29, 2024 (leap year)"; let
-   date = create 2024 December 31 in assert_equal 366 (day_of_year date) "Test
-   day_of_year: December 31, 2024"
-
-   let test_total_days_from_epoch () = let date = create 2024 April 27 in
-   assert_equal 737807 (total_days_from_epoch date) "Test total_days_from_epoch:
-   April 27, 2024"; let date = create 1970 January 1 in assert_equal 719163
-   (total_days_from_epoch date) "Test total_days_from_epoch: January 1, 1970
-   (epoch)"; let date = create 2024 December 31 in assert_equal 738138
-   (total_days_from_epoch date) "Test total_days_from_epoch: December 31, 2024"
-
-   let test_date_difference () = let date1 = create 2024 April 27 in let date2 =
-   create 2024 April 20 in assert_equal 7 (date_difference date1 date2) "Test
-   date_difference: date1 - date2"; let date1 = create 2024 April 27 in let
-   date2 = create 2023 December 31 in assert_equal 117 (date_difference date1
-   date2) "Test date_difference: date1 - date2 (crossing year boundary)"; let
-   date1 = create 2024 April 27 in let date2 = create 2024 December 31 in
-   assert_equal 248 (date_difference date1 date2) "Test date_difference: date1 -
-   date2 (crossing year boundary)"
-
-   test_day_of_year (); test_total_days_from_epoch (); test_date_difference
-   (); *)
-(* ********************************* *)

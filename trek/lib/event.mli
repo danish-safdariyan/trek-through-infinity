@@ -40,8 +40,8 @@ val edit :
   repeats:repeat_option ->
   t
 
-(** [edit event ~title ~description ~date ~repeats] returns a new event with the
-    specified attributes updated.
+(** [edit event ~title ~description ~date ~repeats ~time] returns a new event
+    with the specified attributes updated.
     - [event] : the event to be edited.
     - [title] : the new title for the event.
     - [description] : the new description for the event.

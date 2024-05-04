@@ -4,6 +4,14 @@ open Calendar
 open Event
 
 (* Import the Calendar module *)
+let contains_substring str substring =
+  try
+    let len = String.length substring in
+    for i = 0 to String.length str - len do
+      if String.sub str i len = substring then raise Exit
+    done;
+    false
+  with Exit -> true
 
 let date = Date.create 2024 April 30
 
@@ -77,6 +85,64 @@ let test_list_all_events () =
     list_all_events calendar_with_event_on_next_day
     = [ Event.to_string event2; Event.to_string event1 ])
 
+let test_add_spe_events () =
+  let events =
+    [
+      ( Date.create 2024 January 1,
+        Event.create ~id:1 ~title:"New Year's Day" ~description:"Celebration"
+          ~date:"2024-01-01" ~repeats:Yearly );
+      ( Date.create 2024 February 14,
+        Event.create ~id:2 ~title:"Valentine's Day"
+          ~description:"Valentine's celebration" ~date:"2024-02-14"
+          ~repeats:Yearly );
+    ]
+  in
+  let calendar = add_events empty events in
+  assert (
+    find_events calendar (Date.create 2024 January 1)
+    = [ List.assoc (Date.create 2024 January 1) events ]);
+  assert (
+    find_events calendar (Date.create 2024 February 14)
+    = [ List.assoc (Date.create 2024 February 14) events ])
+
+let test_easter () =
+  let known_easter_dates =
+    [
+      (2024, Date.create 2024 March 31);
+      (2025, Date.create 2025 April 20);
+      (2026, Date.create 2026 April 5);
+    ]
+  in
+  List.iter
+    (fun (year, expected_date) ->
+      let calculated_date = easter year in
+      Printf.printf "Testing year %d: Expected %s, got %s\n" year
+        (Date.to_string expected_date)
+        (Date.to_string calculated_date);
+      assert (calculated_date = expected_date))
+    known_easter_dates
+
+let test_initialize_calendar () =
+  let year = 2024 in
+  let calendar = initialize_calendar year in
+  let event_descriptions = list_all_events calendar in
+
+  (* Debugging output to inspect what's being tested *)
+  List.iter
+    (fun desc -> Printf.printf "Event Description: %s\n" desc)
+    event_descriptions;
+
+  (* Adjusted assertions to check for substring presence within the full event
+     description *)
+  assert (
+    List.exists
+      (fun desc -> contains_substring desc "Title: New Year's Day")
+      event_descriptions);
+  assert (
+    List.exists
+      (fun desc -> contains_substring desc "Title: Easter Sunday")
+      event_descriptions)
+
 (* Run the test cases *)
 let () =
   test_add_event ();
@@ -84,4 +150,7 @@ let () =
   test_edit_event ();
   test_find_events ();
   test_list_all_events ();
+  test_add_spe_events ();
+  test_easter ();
+  test_initialize_calendar ();
   print_endline "All test cases passed!"
