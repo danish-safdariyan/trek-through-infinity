@@ -128,10 +128,13 @@ let test () =
         L.resident (ButtonDisplay.prev_btn get_month update_month);
         L.resident (ButtonDisplay.next_btn get_month update_month);
         L.resident add_event_btn;
+        Space.vfill ();
+        Space.hfill ();
       ]
   in
   let layout = L.tower [ menu; month_layout ] in
   let new_event_popup = attach_new_event_popup layout in
   W.on_button_release ~release:(fun _ -> P.toggle new_event_popup) add_event_btn;
+  L.on_resize (L.top_house layout) (fun () -> update_display ());
   layout |> of_layout |> run;
   quit ()
