@@ -1,5 +1,6 @@
 open Bogue
 open Backend
+open GenDisplay
 module L = Layout
 module W = Widget
 module P = Popups
@@ -97,8 +98,8 @@ let layout_of_month info m y =
 
 (** Sets the display of [sel] to the month and year specified. *)
 let update_display sel =
+  L.set_rooms sel.m_layout [ layout_of_month sel.info sel.cur_m sel.cur_y ];
   Sync.push (fun () ->
-      L.set_rooms sel.m_layout [ layout_of_month sel.info sel.cur_m sel.cur_y ];
       W.set_text sel.m_label
         (Date.string_of_month sel.cur_m ^ " " ^ string_of_int sel.cur_y))
 
@@ -127,18 +128,7 @@ let make_selector () =
   in
   let top = L.flat_of_w [ prev_btn; m_label; next_btn ] in
   let stuff = L.tower [ top; m_layout ] in
-  let box =
-    W.box ~w:(L.width stuff) ~h:(L.height stuff)
-      ~style:
-        (Style.create
-           ~background:(Style.color_bg (Draw.opaque Draw.white))
-           ~border:
-             (Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 ()
-             |> Style.mk_border)
-           ())
-      ()
-    |> L.resident
-  in
+  let box = surrounding_box stuff in
   let sel =
     {
       layout = L.superpose [ box; stuff ];
