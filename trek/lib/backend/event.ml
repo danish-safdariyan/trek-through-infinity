@@ -37,6 +37,7 @@ let create ~id ~title ~description ~date ~repeats =
 
 let get_id event = event.id
 let get_title event = event.title
+let get_repeats event = event.repeats
 
 let edit event ~title ~description ~date ~repeats =
   { event with title; description; date; repeats }

@@ -3,28 +3,25 @@
 
 module Map = CalDict.AssocListMap
 
+let current_id = ref 20
+
 type t = (Date.t, Event.t list) Map.t
 
 let empty = Map.empty
 
+(* Increment and get the next unique ID *)
+let next_id () =
+  incr current_id;
+  !current_id
+
+(* Create an event *)
+let make_event ~title ~description ~date ~repeats =
+  let id = next_id () in
+  Event.create ~id ~title ~description ~date ~repeats
+
 let add_event calendar date event =
   let events = try Map.lookup date calendar with Not_found -> [] in
   Map.insert date (event :: events) calendar
-
-(* let add_event calendar date event = let events = try Map.lookup date calendar
-   with Not_found -> [] in let conflicting_events = List.filter (fun e -> match
-   (e.time_range, event.time_range) with | Some tr1, Some tr2 -> tr1.start_time
-   < tr2.end_time && tr1.end_time > tr2.start_time | _ -> false) events in if
-   List.length conflicting_events > 0 then ( print_endline "There is a conflict
-   with existing events:"; List.iter (fun e -> print_endline (Event.to_string
-   e)) conflicting_events; print_endline "Choose an option:"; print_endline "1.
-   Reschedule the new event"; print_endline "2. Allow overlap"; let choice =
-   read_int () in match choice with | 1 -> (* Reschedule the new event *) let
-   new_event = reschedule_event event in Map.insert date (new_event :: events)
-   calendar | 2 -> (* Allow overlap *) Map.insert date (event :: events)
-   calendar | _ -> (* Invalid choice, do nothing *) Map.insert date events
-   calendar) else (* No conflicts, add the event *) Map.insert date (event ::
-   events) calendar *)
 
 let add_events calendar events =
   List.fold_left
