@@ -57,8 +57,7 @@ let test_find_events () =
   in
   let event2 =
     Event.create ~id:2 ~title:"Presentation"
-      ~description:"Project\n   presentation" ~date:"2024-04-30"
-      ~repeats:NoRepeat
+      ~description:"Project\n presentation" ~date:"2024-04-30" ~repeats:NoRepeat
   in
   let calendar = add_event empty date event1 in
   let calendar_with_multiple_events = add_event calendar date event2 in
@@ -93,7 +92,7 @@ let test_add_spe_events () =
           ~date:"2024-01-01" ~repeats:Yearly );
       ( Date.create 2024 February 14,
         Event.create ~id:2 ~title:"Valentine's Day"
-          ~description:"Valentine's celebration" ~date:"2024-02-14"
+          ~description:"Valentine's\n   celebration" ~date:"2024-02-14"
           ~repeats:Yearly );
     ]
   in
