@@ -1,5 +1,4 @@
 open Backend
-open Date
 open Calendar
 
 (* Import the Calendar module *)
@@ -72,8 +71,8 @@ let test_add_yearly_events () =
   let event1 = make_event "New Year's Day" "Celebration" in
   let event2 = make_event "Valentine's Day" "Valentine's\n   celebration" in
   let calendar =
-    add_existing_event (Date.create 1 January 2024) event1 Yearly empty
-    |> add_existing_event (Date.create 14 February 2024) event2 Yearly
+    add_existing_event (Date.create 2024 January 1) event1 Yearly empty
+    |> add_existing_event (Date.create 2024 February 14) event2 Yearly
   in
   assert (find_events calendar (Date.create 2024 January 1) = [ event1 ]);
   assert (find_events calendar (Date.create 2024 February 14) = [ event2 ])
@@ -116,15 +115,13 @@ let test_initialize_calendar () =
       (fun desc -> contains_substring desc "Title: Easter Sunday")
       event_descriptions)
 
-(* Helper function to convert a string to a date using the Date module's
-   parse_date function *)
-let string_to_date str = Date.parse_date str
-
 (* Helper function to add days to a date, since the original add_days function
    is not directly available *)
 let add_days date days =
   let rec add d count =
-    if count = 0 then d else add (Date.next_day d) (count - 1)
+    if count = 0 then d
+    else if count > 0 then add (Date.next_day d) (count - 1)
+    else add (Date.prev_day d) (count + 1)
   in
   add date days
 
@@ -135,89 +132,80 @@ let add_weeks date weeks = add_days date (weeks * 7)
 let add_months date months =
   let rec add d count =
     if count = 0 then d
-    else
+    else if count > 0 then
       let month, year = Date.next_month (Date.get_month d) (Date.get_year d) in
-      add { year; month; day = Date.get_day d } (count - 1)
+      add (Date.create year month d.day) (count - 1)
+    else
+      let month, year = Date.prev_month (Date.get_month d) (Date.get_year d) in
+      add (Date.create year month d.day) (count + 1)
   in
   add date months
 
 (* Helper function to add years *)
-let add_years date years = { date with year = date.year + years }
+let add_years (date : Date.t) years =
+  Date.create (date.year + years) date.month date.day
 
 (* Test cases for make_event *)
 let test_make_event_no_repeat () =
-  let calendar = Calendar.empty in
-  let date = string_to_date "2024-04-30" in
-  let updated_calendar =
-    Calendar.make_event ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:Event.NoRepeat ~times:1 ~calendar
-  in
-  let events = Calendar.find_events updated_calendar date in
+  let calendar = add_event date "Meeting" "Team meeting" NoRepeat empty in
+  let events = Calendar.find_events calendar date in
   assert (List.length events = 1);
   Printf.printf "Test make_event_no_repeat passed!\n"
 
 let test_make_event_daily_repeat () =
-  let calendar = Calendar.empty in
-  let date = string_to_date "2024-04-30" in
-  let repeats = 5 in
-  let updated_calendar =
-    Calendar.make_event ~title:"Daily Standup" ~description:"Daily team sync"
-      ~date:"2024-04-30" ~repeats:Event.Daily ~times:repeats ~calendar
-  in
-  for i = 0 to repeats - 1 do
-    let event_date = add_days date i in
-    let events = Calendar.find_events updated_calendar event_date in
+  let calendar = add_event date "Daily Standup" "Daily team sync" Daily empty in
+  for i = 0 to 5 do
+    let test_forward = add_days date i in
+    let test_backward = add_days date (-i) in
+    let events = Calendar.find_events calendar test_forward in
+    assert (List.length events = 1);
+    let events = Calendar.find_events calendar test_backward in
     assert (List.length events = 1)
   done;
   Printf.printf "Test make_event_daily_repeat passed!\n"
 
 (* Test case for weekly event repeats *)
 let test_make_event_weekly_repeat () =
-  let calendar = Calendar.empty in
-  let date = string_to_date "2024-04-30" in
-  let repeats = 4 in
   let updated_calendar =
-    Calendar.make_event ~title:"Weekly Meeting"
-      ~description:"Weekly team meeting" ~date:"2024-04-30"
-      ~repeats:Event.Weekly ~times:repeats ~calendar
+    Calendar.add_event date "Weekly Meeting" "Weekly team meeting" Weekly empty
   in
-  for i = 0 to repeats - 1 do
-    let event_date = add_weeks date i in
-    let events = Calendar.find_events updated_calendar event_date in
+  for i = 0 to 5 do
+    let test_forward = add_weeks date i in
+    let test_backward = add_weeks date (-i) in
+    let events = Calendar.find_events updated_calendar test_forward in
+    assert (List.length events = 1);
+    let events = Calendar.find_events updated_calendar test_backward in
     assert (List.length events = 1)
   done;
   Printf.printf "Test make_event_weekly_repeat passed!\n"
 
 (* Test case for monthly event repeats *)
 let test_make_event_monthly_repeat () =
-  let calendar = Calendar.empty in
-  let date = string_to_date "2024-01-01" in
-  let repeats = 3 in
   let updated_calendar =
-    Calendar.make_event ~title:"Monthly Review"
-      ~description:"Monthly performance review" ~date:"2024-01-01"
-      ~repeats:Event.Monthly ~times:repeats ~calendar
+    add_event date "Monthly Review" "Monthly performance review" Monthly empty
   in
-  for i = 0 to repeats - 1 do
-    let event_date = add_months date i in
-    let events = Calendar.find_events updated_calendar event_date in
+  for i = 0 to 5 do
+    let test_forward = add_months date i in
+    let test_backward = add_months date (-i) in
+    let events = Calendar.find_events updated_calendar test_forward in
+    assert (List.length events = 1);
+    let events = Calendar.find_events updated_calendar test_backward in
     assert (List.length events = 1)
   done;
   Printf.printf "Test make_event_monthly_repeat passed!\n"
 
 (* Test case for yearly event repeats *)
 let test_make_event_yearly_repeat () =
-  let calendar = Calendar.empty in
-  let date = string_to_date "2024-01-01" in
-  let repeats = 2 in
-  let updated_calendar =
-    Calendar.make_event ~title:"Annual Conference"
-      ~description:"Yearly strategy conference" ~date:"2024-01-01"
-      ~repeats:Event.Yearly ~times:repeats ~calendar
+  let calendar =
+    Calendar.add_event date "Annual Conference" "Yearly strategy conference"
+      Yearly empty
   in
-  for i = 0 to repeats - 1 do
-    let event_date = add_years date i in
-    let events = Calendar.find_events updated_calendar event_date in
+  for i = 0 to 5 do
+    let test_forward = add_years date i in
+    let test_backward = add_years date (-i) in
+    let events = Calendar.find_events calendar test_forward in
+    assert (List.length events = 1);
+    let events = Calendar.find_events calendar test_backward in
     assert (List.length events = 1)
   done;
   Printf.printf "Test make_event_yearly_repeat passed!\n"
