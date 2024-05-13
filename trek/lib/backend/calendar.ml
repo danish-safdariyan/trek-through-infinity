@@ -14,14 +14,92 @@ let next_id () =
   incr current_id;
   !current_id
 
-(* Create an event *)
-let make_event ~title ~description ~date ~repeats =
-  let id = next_id () in
-  Event.create ~id ~title ~description ~date ~repeats
+let add_days_to_date date_str days =
+  let year, month, day =
+    Scanf.sscanf date_str "%04d-%02d-%02d" (fun y m d -> (y, m, d))
+  in
+  let days_in_month = function
+    | 1 | 3 | 5 | 7 | 8 | 10 | 12 -> 31
+    | 4 | 6 | 9 | 11 -> 30
+    | 2 ->
+        if year mod 4 = 0 && (year mod 100 <> 0 || year mod 400 = 0) then 29
+        else 28
+    | _ -> failwith "Invalid month"
+  in
+  let rec add d m y days =
+    let dim = days_in_month m in
+    if d + days <= dim then (y, m, d + days)
+    else if m = 12 then add 1 1 (y + 1) (days - (dim - d + 1))
+    else add 1 (m + 1) y (days - (dim - d + 1))
+  in
+  let new_year, new_month, new_day = add day month year days in
+  Printf.sprintf "%04d-%02d-%02d" new_year new_month new_day
+
+let calculate_next_date current_date repeat =
+  match repeat with
+  | Event.NoRepeat ->
+      current_date
+      (* Simply return the current date as there is no repetition. *)
+  | Event.Daily -> add_days_to_date current_date 1
+  | Event.Weekly -> add_days_to_date current_date 7
+  | Event.Monthly ->
+      let year, month, day =
+        Scanf.sscanf current_date "%04d-%02d-%02d" (fun y m d -> (y, m, d))
+      in
+      let new_month = if month = 12 then 1 else month + 1 in
+      let new_year = if new_month = 1 then year + 1 else year in
+      let adjusted_day =
+        let days_in_new_month =
+          match new_month with
+          | 1 | 3 | 5 | 7 | 8 | 10 | 12 -> 31
+          | 4 | 6 | 9 | 11 -> 30
+          | 2 ->
+              if
+                new_year mod 4 = 0
+                && (new_year mod 100 <> 0 || new_year mod 400 = 0)
+              then 29
+              else 28
+          | _ -> failwith "Invalid month"
+        in
+        min day days_in_new_month
+      in
+      Printf.sprintf "%04d-%02d-%02d" new_year new_month adjusted_day
+  | Event.Yearly ->
+      let year, month, day =
+        Scanf.sscanf current_date "%04d-%02d-%02d" (fun y m d -> (y, m, d))
+      in
+      Printf.sprintf "%04d-%02d-%02d" (year + 1) month day
 
 let add_event calendar date event =
   let events = try Map.lookup date calendar with Not_found -> [] in
   Map.insert date (event :: events) calendar
+
+(* Definition of the make_event function matching the specified type signature
+   in calendar.mli *)
+
+let make_event ~title ~description ~date ~repeats ~times ~calendar : t =
+  let rec create_and_add_events current_date repeats count calendar =
+    if count = 0 then calendar
+    else
+      let next_date = calculate_next_date current_date repeats in
+      let id = next_id () in
+      let new_event =
+        Event.create ~id ~title ~description ~date:current_date ~repeats
+      in
+      let updated_calendar =
+        add_event calendar (Date.parse_date current_date) new_event
+      in
+      create_and_add_events next_date repeats (count - 1) updated_calendar
+  in
+  match repeats with
+  | Event.NoRepeat ->
+      let id = next_id () in
+      let single_event = Event.create ~id ~title ~description ~date ~repeats in
+      add_event calendar (Date.parse_date date) single_event
+  | Event.Daily -> create_and_add_events date Event.Daily times calendar
+  | Event.Weekly -> create_and_add_events date Event.Weekly times calendar
+  | Event.Monthly -> create_and_add_events date Event.Monthly times calendar
+  | Event.Yearly -> create_and_add_events date Event.Yearly times calendar
 
 let add_events calendar events =
   List.fold_left

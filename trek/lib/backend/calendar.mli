@@ -6,18 +6,32 @@ type t
 val empty : t
 (** [empty] is an empty calendar *)
 
+val add_event : t -> Date.t -> Event.t -> t
+(** [add_event calendar date event] adds the given event to the calendar on the
+    specified date *)
+
 val make_event :
   title:string ->
   description:string ->
   date:string ->
   repeats:Event.repeat_option ->
-  Event.t
-(** [make_event ~title ~description ~date ~repeats] creates a new event with the
-    given parameters *)
+  times:int ->
+  calendar:t ->
+  t
 
-val add_event : t -> Date.t -> Event.t -> t
-(** [add_event calendar date event] adds the given event to the calendar on the
-    specified date *)
+(** [make_event ~title ~description ~date ~repeats ~times calendar] creates and
+    adds an event, or multiple events if repeating, directly to the given
+    calendar.
+    - [title] is the title of the event.
+    - [description] is the description of the event.
+    - [date] is the starting date of the event.
+    - [repeats] indicates the repeat pattern of the event (NoRepeat, Daily,
+      Weekly, Monthly, or Yearly).
+    - [times] indicates how many times the event should occur based on the
+      repeat pattern.
+    - [calendar] is the calendar to which the events will be added.
+
+    @return Returns the updated calendar with the new events added. *)
 
 val add_events : t -> (Date.t * Event.t) list -> t
 (** [add_events calendar events] adds multiple events to the calendar *)
