@@ -10,7 +10,7 @@ module P = Popups
 let add_event_layout add_event =
   let title_input = W.text_input ~prompt:"Title                 " () in
   let desc_input = W.text_input ~prompt:"Description           " () in
-  let repeats = ref Calendar.NoRepeat in
+  let repeats = ref Event.NoRepeat in
   let rep_input =
     Select.create
       ~action:(fun input ->

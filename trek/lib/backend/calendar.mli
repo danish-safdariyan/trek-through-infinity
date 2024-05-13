@@ -3,35 +3,26 @@
 type t
 (** Type representing a calendar *)
 
-type repeat_option =
-  | NoRepeat
-  | Daily
-  | Weekly
-  | Monthly
-  | Yearly
-
-(** Represents whether an event repeats and how. *)
-
 val empty : t
 (** [empty] is an empty calendar *)
 
-val make_event : string -> string -> Event.t
+val make_event : string -> string -> Event.repeat_option -> Event.t
 (** [make_event title description] creates an event with the provided
     information. Should use this function over [Event.create]. *)
 
-val add_event : Date.t -> string -> string -> repeat_option -> t -> t
+val add_event : Date.t -> string -> string -> Event.repeat_option -> t -> t
 (** [add_event date title description repeats calendar] makes a new event with
     the given information and adds it to the calendar on the specified date. *)
 
-val add_existing_event : Date.t -> Event.t -> repeat_option -> t -> t
+val add_existing_event : Date.t -> Event.t -> t -> t
 (** [add_event date event calendar] adds the pre-existing event to the calendar
     on the specified date *)
 
 val easter : int -> Date.t
 
-val initialize_calendar : int -> t
-(** [initialize_calendar year] initializes the calendar with annual events for
-    the given year *)
+val initialize_calendar : t -> t
+(** [initialize_calendar calendar] initializes the calendar with annual events
+    for the given year *)
 
 val remove_event : Date.t -> Event.t -> t -> t
 (** [remove_event date event calendar] removes [event] which is on [date]. If it

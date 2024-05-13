@@ -8,7 +8,7 @@ module W = Widget
 module P = Popups
 
 (** The calendar we are displaying. *)
-let cal = ref Calendar.empty
+let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
 (** The current month. *)
 let cur_month =

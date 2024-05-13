@@ -14,39 +14,37 @@ let contains_substring str substring =
 let date = Date.create 2024 April 30
 
 let test_add_event () =
-  let event = make_event "Meeting" "Team meeting" in
-  let calendar = add_existing_event date event NoRepeat empty in
+  let event = make_event "Meeting" "Team meeting" NoRepeat in
+  let calendar = add_existing_event date event empty in
   (* Check if the event is added to the calendar *)
   assert (find_events calendar date = [ event ])
 
 let test_remove_event () =
-  let event = make_event "Meeting" "Team meeting" in
+  let event = make_event "Meeting" "Team meeting" NoRepeat in
   let calendar =
-    add_existing_event date event NoRepeat empty |> remove_event date event
+    add_existing_event date event empty |> remove_event date event
   in
   (* Check if the event is removed from the calendar *)
   assert (find_events calendar date = [])
 
 let test_edit_event () =
-  let event = make_event "Meeting" "Team meeting" in
+  let event = make_event "Meeting" "Team meeting" NoRepeat in
   let updated_event =
     Event.edit event ~title:"Updated Meeting"
       ~description:"Updated Team meeting"
   in
   let calendar =
-    add_existing_event date event NoRepeat empty
-    |> edit_event date event updated_event
+    add_existing_event date event empty |> edit_event date event updated_event
   in
   (* Check if the event is updated in the calendar *)
   assert (find_events calendar date = [ updated_event ])
 
 let test_find_events () =
   (* Adjust this as per your date handling *)
-  let event1 = make_event "Meeting" "Team meeting" in
-  let event2 = make_event "Presentation" "Project\n presentation" in
+  let event1 = make_event "Meeting" "Team meeting" NoRepeat in
+  let event2 = make_event "Presentation" "Project\n presentation" NoRepeat in
   let calendar =
-    add_existing_event date event1 NoRepeat empty
-    |> add_existing_event date event2 NoRepeat
+    add_existing_event date event1 empty |> add_existing_event date event2
   in
   let events_on_date = find_events calendar date in
   Printf.printf "Events found: %d\n" (List.length events_on_date);
@@ -56,11 +54,10 @@ let test_find_events () =
   assert (events_on_date = [ event2; event1 ])
 
 let test_list_all_events () =
-  let event1 = make_event "Meeting" "Team meeting" in
-  let event2 = make_event "Presentation" "Project presentation" in
+  let event1 = make_event "Meeting" "Team meeting" NoRepeat in
+  let event2 = make_event "Presentation" "Project presentation" NoRepeat in
   let calendar =
-    add_existing_event date event1 NoRepeat empty
-    |> add_existing_event date event2 NoRepeat
+    add_existing_event date event1 empty |> add_existing_event date event2
   in
   (* Check if all events are listed *)
   assert (
@@ -68,11 +65,13 @@ let test_list_all_events () =
     = [ Event.to_string event2; Event.to_string event1 ])
 
 let test_add_yearly_events () =
-  let event1 = make_event "New Year's Day" "Celebration" in
-  let event2 = make_event "Valentine's Day" "Valentine's\n   celebration" in
+  let event1 = make_event "New Year's Day" "Celebration" Yearly in
+  let event2 =
+    make_event "Valentine's Day" "Valentine's\n   celebration" Yearly
+  in
   let calendar =
-    add_existing_event (Date.create 2024 January 1) event1 Yearly empty
-    |> add_existing_event (Date.create 2024 February 14) event2 Yearly
+    add_existing_event (Date.create 2024 January 1) event1 empty
+    |> add_existing_event (Date.create 2024 February 14) event2
   in
   assert (find_events calendar (Date.create 2024 January 1) = [ event1 ]);
   assert (find_events calendar (Date.create 2024 February 14) = [ event2 ])
@@ -95,8 +94,7 @@ let test_easter () =
     known_easter_dates
 
 let test_initialize_calendar () =
-  let year = 2024 in
-  let calendar = initialize_calendar year in
+  let calendar = initialize_calendar empty in
   let event_descriptions = list_all_events calendar in
 
   (* Debugging output to inspect what's being tested *)

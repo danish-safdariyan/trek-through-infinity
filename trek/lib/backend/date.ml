@@ -294,3 +294,10 @@ let to_string_iso8601 date =
 
 let to_string date =
   Printf.sprintf "%04d-%02d-%02d" date.year (int_of_month date.month) date.day
+
+(** Returns number > 0 if d1 comes after d2. *)
+let compare d1 d2 =
+  if d1.year - d2.year <> 0 then d1.year - d2.year
+  else
+    let temp = int_of_month d1.month - int_of_month d2.month in
+    if temp <> 0 then temp else d1.day - d2.day
