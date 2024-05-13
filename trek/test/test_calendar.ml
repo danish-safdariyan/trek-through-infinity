@@ -1,7 +1,6 @@
 open Backend
 open Date
 open Calendar
-open Event
 
 (* Import the Calendar module *)
 let contains_substring str substring =
@@ -16,52 +15,41 @@ let contains_substring str substring =
 let date = Date.create 2024 April 30
 
 let test_add_event () =
-  let calendar = empty in
-  let event =
-    Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:NoRepeat
-  in
-  let calendar_with_event = add_event calendar date event in
+  let event = make_event "Meeting" "Team meeting" in
+  let calendar = add_existing_event date event NoRepeat empty in
   (* Check if the event is added to the calendar *)
-  assert (find_events calendar_with_event date = [ event ])
+  assert (find_events calendar date = [ event ])
 
 let test_remove_event () =
-  let event =
-    Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:NoRepeat
+  let event = make_event "Meeting" "Team meeting" in
+  let calendar =
+    add_existing_event date event NoRepeat empty |> remove_event date event
   in
-  let calendar = add_event empty date event in
-  let calendar_without_event = remove_event calendar date 1 in
   (* Check if the event is removed from the calendar *)
-  assert (find_events calendar_without_event date = [])
+  assert (find_events calendar date = [])
 
 let test_edit_event () =
-  let event =
-    Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:NoRepeat
-  in
+  let event = make_event "Meeting" "Team meeting" in
   let updated_event =
     Event.edit event ~title:"Updated Meeting"
-      ~description:"Updated Team meeting" ~date:"2024-05-01" ~repeats:Weekly
+      ~description:"Updated Team meeting"
   in
-  let calendar = add_event empty date event in
-  let calendar_with_updated_event = edit_event calendar date 1 updated_event in
+  let calendar =
+    add_existing_event date event NoRepeat empty
+    |> edit_event date event updated_event
+  in
   (* Check if the event is updated in the calendar *)
-  assert (find_events calendar_with_updated_event date = [ updated_event ])
+  assert (find_events calendar date = [ updated_event ])
 
 let test_find_events () =
   (* Adjust this as per your date handling *)
-  let event1 =
-    Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:NoRepeat
+  let event1 = make_event "Meeting" "Team meeting" in
+  let event2 = make_event "Presentation" "Project\n presentation" in
+  let calendar =
+    add_existing_event date event1 NoRepeat empty
+    |> add_existing_event date event2 NoRepeat
   in
-  let event2 =
-    Event.create ~id:2 ~title:"Presentation"
-      ~description:"Project\n presentation" ~date:"2024-04-30" ~repeats:NoRepeat
-  in
-  let calendar = add_event empty date event1 in
-  let calendar_with_multiple_events = add_event calendar date event2 in
-  let events_on_date = find_events calendar_with_multiple_events date in
+  let events_on_date = find_events calendar date in
   Printf.printf "Events found: %d\n" (List.length events_on_date);
   List.iter
     (fun e -> Printf.printf "Event: %s\n" (Event.to_string e))
@@ -69,40 +57,26 @@ let test_find_events () =
   assert (events_on_date = [ event2; event1 ])
 
 let test_list_all_events () =
-  let event1 =
-    Event.create ~id:1 ~title:"Meeting" ~description:"Team meeting"
-      ~date:"2024-04-30" ~repeats:NoRepeat
+  let event1 = make_event "Meeting" "Team meeting" in
+  let event2 = make_event "Presentation" "Project presentation" in
+  let calendar =
+    add_existing_event date event1 NoRepeat empty
+    |> add_existing_event date event2 NoRepeat
   in
-  let event2 =
-    Event.create ~id:2 ~title:"Presentation" ~description:"Project presentation"
-      ~date:"2024-05-01" ~repeats:NoRepeat
-  in
-  let calendar = add_event empty date event1 in
-  let calendar_with_event_on_next_day = add_event calendar date event2 in
   (* Check if all events are listed *)
   assert (
-    list_all_events calendar_with_event_on_next_day
+    list_all_events calendar
     = [ Event.to_string event2; Event.to_string event1 ])
 
-let test_add_spe_events () =
-  let events =
-    [
-      ( Date.create 2024 January 1,
-        Event.create ~id:1 ~title:"New Year's Day" ~description:"Celebration"
-          ~date:"2024-01-01" ~repeats:Yearly );
-      ( Date.create 2024 February 14,
-        Event.create ~id:2 ~title:"Valentine's Day"
-          ~description:"Valentine's\n   celebration" ~date:"2024-02-14"
-          ~repeats:Yearly );
-    ]
+let test_add_yearly_events () =
+  let event1 = make_event "New Year's Day" "Celebration" in
+  let event2 = make_event "Valentine's Day" "Valentine's\n   celebration" in
+  let calendar =
+    add_existing_event (Date.create 1 January 2024) event1 Yearly empty
+    |> add_existing_event (Date.create 14 February 2024) event2 Yearly
   in
-  let calendar = add_events empty events in
-  assert (
-    find_events calendar (Date.create 2024 January 1)
-    = [ List.assoc (Date.create 2024 January 1) events ]);
-  assert (
-    find_events calendar (Date.create 2024 February 14)
-    = [ List.assoc (Date.create 2024 February 14) events ])
+  assert (find_events calendar (Date.create 2024 January 1) = [ event1 ]);
+  assert (find_events calendar (Date.create 2024 February 14) = [ event2 ])
 
 let test_easter () =
   let known_easter_dates =
@@ -149,7 +123,7 @@ let () =
   test_edit_event ();
   test_find_events ();
   test_list_all_events ();
-  test_add_spe_events ();
+  test_add_yearly_events ();
   test_easter ();
   test_initialize_calendar ();
   print_endline "All test cases passed!"

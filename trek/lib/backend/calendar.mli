@@ -3,24 +3,29 @@
 type t
 (** Type representing a calendar *)
 
+type repeat_option =
+  | NoRepeat
+  | Daily
+  | Weekly
+  | Monthly
+  | Yearly
+
+(** Represents whether an event repeats and how. *)
+
 val empty : t
 (** [empty] is an empty calendar *)
 
-val make_event :
-  title:string ->
-  description:string ->
-  date:string ->
-  repeats:Event.repeat_option ->
-  Event.t
-(** [make_event ~title ~description ~date ~repeats] creates a new event with the
-    given parameters *)
+val make_event : string -> string -> Event.t
+(** [make_event title description] creates an event with the provided
+    information. Should use this function over [Event.create]. *)
 
-val add_event : t -> Date.t -> Event.t -> t
-(** [add_event calendar date event] adds the given event to the calendar on the
-    specified date *)
+val add_event : Date.t -> string -> string -> repeat_option -> t -> t
+(** [add_event date title description repeats calendar] makes a new event with
+    the given information and adds it to the calendar on the specified date. *)
 
-val add_events : t -> (Date.t * Event.t) list -> t
-(** [add_events calendar events] adds multiple events to the calendar *)
+val add_existing_event : Date.t -> Event.t -> repeat_option -> t -> t
+(** [add_event date event calendar] adds the pre-existing event to the calendar
+    on the specified date *)
 
 val easter : int -> Date.t
 
@@ -28,13 +33,14 @@ val initialize_calendar : int -> t
 (** [initialize_calendar year] initializes the calendar with annual events for
     the given year *)
 
-val remove_event : t -> Date.t -> int -> t
-(** [remove_event calendar date event_id] removes the event with the given ID
-    from the calendar on the specified date *)
+val remove_event : Date.t -> Event.t -> t -> t
+(** [remove_event date event calendar] removes [event] which is on [date]. If it
+    is a repeating event, removes all events. *)
 
-val edit_event : t -> Date.t -> int -> Event.t -> t
-(** [edit_event calendar date event_id updated_event] updates the event with the
-    given ID on the specified date with the updated event *)
+val edit_event : Date.t -> Event.t -> Event.t -> t -> t
+(** [edit_event date event updated_event calendar] replaces [event] on [date]
+    with [updated_event]. If it is a repeating event, all events will be
+    updated. *)
 
 val find_events : t -> Date.t -> Event.t list
 (** [find_events calendar date] finds events on the specified date *)

@@ -6,24 +6,14 @@ module W = Widget
 
 (** Creates a box that surounds the layout; Default background is white, default
     border is dark_grey. *)
-let surrounding_box ?background ?border_color layout =
+let surrounding_box ?(background = Draw.white) ?(border_color = Draw.dark_grey)
+    layout =
   W.box ~w:(L.width layout) ~h:(L.height layout)
     ~style:
       (Style.create
-         ~background:
-           (Draw.opaque
-              (match background with
-              | None -> Draw.white
-              | Some b -> b)
-           |> Style.color_bg)
+         ~background:(Draw.opaque background |> Style.color_bg)
          ~border:
-           (Style.mk_line
-              ~color:
-                (Draw.opaque
-                   (match border_color with
-                   | None -> Draw.dark_grey
-                   | Some c -> c))
-              ~width:2 ()
+           (Style.mk_line ~color:(Draw.opaque border_color) ~width:2 ()
            |> Style.mk_border)
          ())
     ()
