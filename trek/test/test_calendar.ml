@@ -154,11 +154,11 @@ let test_make_event_daily_repeat () =
   let calendar = add_event date "Daily Standup" "Daily team sync" Daily empty in
   for i = 0 to 5 do
     let test_forward = add_days date i in
-    let test_backward = add_days date (-i) in
+    let test_backward = add_days date (-i - 1) in
     let events = Calendar.find_events calendar test_forward in
     assert (List.length events = 1);
     let events = Calendar.find_events calendar test_backward in
-    assert (List.length events = 1)
+    assert (List.length events = 0)
   done;
   Printf.printf "Test make_event_daily_repeat passed!\n"
 
@@ -169,11 +169,11 @@ let test_make_event_weekly_repeat () =
   in
   for i = 0 to 5 do
     let test_forward = add_weeks date i in
-    let test_backward = add_weeks date (-i) in
+    let test_backward = add_weeks date (-i - 1) in
     let events = Calendar.find_events updated_calendar test_forward in
     assert (List.length events = 1);
     let events = Calendar.find_events updated_calendar test_backward in
-    assert (List.length events = 1)
+    assert (List.length events = 0)
   done;
   Printf.printf "Test make_event_weekly_repeat passed!\n"
 
@@ -184,11 +184,11 @@ let test_make_event_monthly_repeat () =
   in
   for i = 0 to 5 do
     let test_forward = add_months date i in
-    let test_backward = add_months date (-i) in
+    let test_backward = add_months date (-i - 1) in
     let events = Calendar.find_events updated_calendar test_forward in
     assert (List.length events = 1);
     let events = Calendar.find_events updated_calendar test_backward in
-    assert (List.length events = 1)
+    assert (List.length events = 0)
   done;
   Printf.printf "Test make_event_monthly_repeat passed!\n"
 
@@ -200,11 +200,11 @@ let test_make_event_yearly_repeat () =
   in
   for i = 0 to 5 do
     let test_forward = add_years date i in
-    let test_backward = add_years date (-i) in
+    let test_backward = add_years date (-i - 1) in
     let events = Calendar.find_events calendar test_forward in
     assert (List.length events = 1);
     let events = Calendar.find_events calendar test_backward in
-    assert (List.length events = 1)
+    assert (List.length events = 0)
   done;
   Printf.printf "Test make_event_yearly_repeat passed!\n"
 
