@@ -33,3 +33,7 @@ val edit_task : t -> title:string -> date:string -> display:display_option -> t
 
 val to_string : t -> string
 (** [to_string] converst a task into a string representation of that task*)
+
+val compare_tasks : t -> t -> int
+(** [compare_tasks] compares two tasks [task1] and [task2]. For testing. Returns
+    0 if they are the same. Returns 1 if they are different*)

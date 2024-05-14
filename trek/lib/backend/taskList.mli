@@ -20,3 +20,8 @@ val edit_task : t -> string -> Task.t -> t
 
 val list_tasks : t -> string list
 (** [list_tasks] lists all tasks in the calendar in string format*)
+
+(* val compare_t_lists : t -> t -> (Task.t -> Task.t -> int) -> int (**
+   [compare_lists] takes in two task lists [list1] and [list2]. For testing.
+   Returns 1 if the tasklists aren't equal. Returns 0 if the tasklists are
+   equal.*) *)

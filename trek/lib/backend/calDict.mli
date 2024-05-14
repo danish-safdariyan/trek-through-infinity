@@ -24,6 +24,10 @@ module type Map = sig
   val to_list : ('k, 'v) t -> ('k * 'v) list
   (**[to_list] takes in a map and returns a k v list*)
 
+  (* val compare_lists : ('k, 'v) t -> ('k, 'v) t -> ('v -> 'v -> int) -> int
+  (**[compare_lists] compares two lists [list1] and [list2] and applies the 
+      function [compare_ele] in order to provide comparisons for different types*) *)
+
   val remove : 'k -> ('k, 'v) t -> ('k, 'v) t
   (**[remove] takes in a k and k v map. It searches for k removes the k v pair if found *)
 end

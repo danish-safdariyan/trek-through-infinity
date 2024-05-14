@@ -26,3 +26,6 @@ let rec list_helper bindings string_list =
   | (k, v) :: t -> list_helper t (string_list @ [ to_string v ])
 
 let list_tasks t_list = list_helper (Map.bindings t_list) []
+
+(* let compare_t_lists t_list1 t_list2 compare_tasks = Map.compare_lists t_list1
+   t_list2 compare_tasks *)
