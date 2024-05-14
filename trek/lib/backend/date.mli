@@ -92,6 +92,11 @@ val is_weekend : t -> bool
 val is_leap_year : int -> bool
 (** [is_leap_year year] Determines if a given year is a leap year. *)
 
+val compare : t -> t -> int
+(** [compare d1 d2] returns a value greater than 0 if [d1] comes after [d2]. It
+    returns a value less than 0 if [d1] comes before [d2], and return 0 if [d1]
+    and [d2] are the same. *)
+
 val int_of_day_of_week : day_of_week -> int
 val nth_weekday_of_month : month -> day_of_week -> int -> int -> t
 val int_to_month : int -> month

@@ -8,7 +8,7 @@ module W = Widget
 module P = Popups
 
 (** The calendar we are displaying. *)
-let cal = ref Calendar.empty
+let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
 (** The current month. *)
 let cur_month =
@@ -36,7 +36,9 @@ let update_month (m, y) =
   cur_month := MonthDisplay.get_month m y;
   update_display ()
 
-let add_event date event = update_calendar (Calendar.add_event !cal date event)
+let add_event date title description repeats =
+  update_calendar (Calendar.add_event date title description repeats !cal)
+
 let get_month () = MonthDisplay.get_month_info !cur_month
 
 let test () =

@@ -1,53 +1,36 @@
-(* type t = { id : int; title : string; description : string; date : string; (*
-   Format: "YYYY-MM-DD" *) repeats : repeat_option; time : string; }
-
-   and repeat_option = | NoRepeat | Daily | Weekly | Monthly | Yearly
-
-   let create ~id ~title ~description ~date ~repeats ~time = { id; title;
-   description; date; repeats; time }
-
-   let get_id event = event.id let get_title event = event.title
-
-   let edit event ~title ~description ~date ~repeats ~time = { event with title;
-   description; date; repeats; time }
-
-   let to_string event = Printf.sprintf "ID: %d, Title: %s, Description: %s,
-   Date: %s, Repeats: %s, Time: %s" event.id event.title event.description
-   event.date (match event.repeats with | NoRepeat -> "No Repeat" | Daily ->
-   "Daily" | Weekly -> "Weekly" | Monthly -> "Monthly" | Yearly -> "Yearly")
-   event.time *)
-
-type t = {
-  id : int;
-  title : string;
-  description : string;
-  date : string; (* Format: "YYYY-MM-DD" *)
-  repeats : repeat_option;
-}
-
-and repeat_option =
+type repeat_option =
   | NoRepeat
   | Daily
   | Weekly
   | Monthly
   | Yearly
 
-let create ~id ~title ~description ~date ~repeats =
-  { id; title; description; date; repeats }
+type t = {
+  id : int;
+  title : string;
+  description : string;
+  repeats : repeat_option;
+  special_condition : Date.t -> bool;
+}
 
-let get_id event = event.id
+let create ~id ~title ~description ~repeats =
+  { id; title; description; repeats; special_condition = (fun _ -> true) }
+
 let get_title event = event.title
+let get_description event = event.description
 let get_repeats event = event.repeats
-
-let edit event ~title ~description ~date ~repeats =
-  { event with title; description; date; repeats }
+let edit event ~title ~description = { event with title; description }
 
 let to_string event =
-  Printf.sprintf "ID: %d, Title: %s, Description: %s, Date: %s, Repeats: %s"
-    event.id event.title event.description event.date
-    (match event.repeats with
-    | NoRepeat -> "No Repeat"
-    | Daily -> "Daily"
-    | Weekly -> "Weekly"
-    | Monthly -> "Monthly"
-    | Yearly -> "Yearly")
+  Printf.sprintf "ID: %d, Title: %s, Description: %s" event.id event.title
+    event.description
+
+let equals e1 e2 = e1.id = e2.id
+
+let add_condition condition event =
+  {
+    event with
+    special_condition = (fun d -> event.special_condition d && condition d);
+  }
+
+let event_on_day date event = event.special_condition date

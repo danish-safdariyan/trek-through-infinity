@@ -8,38 +8,43 @@ module P = Popups
 (** Attaches the popup for adding new events to [layout]; all code for the popup
     of making new events should be put here. *)
 let add_event_layout add_event =
-  let title_input = W.text_input ~prompt:"Title                 " () in
-  let desc_input = W.text_input ~prompt:"Description           " () in
-  let repeats = ref Event.Daily in
+  let title_input = W.text_input ~prompt:"Title" () in
+  let desc_input = W.text_input ~prompt:"Description" () in
+  let repeats = ref Event.NoRepeat in
   let rep_input =
     Select.create
       ~action:(fun input ->
-        (repeats :=
-           match input with
-           | 0 -> Daily
-           | 1 -> Weekly
-           | 2 -> Monthly
-           | 3 -> Yearly
-           | _ -> failwith ("Should not reach " ^ string_of_int input));
-        print_endline (string_of_int input))
-      [| "Once"; "Weekly"; "Monthly"; "Yearly" |]
+        repeats :=
+          match input with
+          | 0 -> NoRepeat
+          | 1 -> Daily
+          | 2 -> Weekly
+          | 3 -> Monthly
+          | 4 -> Yearly
+          | _ -> failwith ("Should not reach " ^ string_of_int input))
+      [| "Once"; "Daily"; "Weekly"; "Monthly"; "Yearly" |]
       0
   in
   let date_input = W.button (Date.current_date () |> Date.format_date) in
   let create_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
   let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
-  let stuff =
-    L.tower
-      [
-        W.label ~size:15 "New Event:" |> L.resident;
-        title_input |> L.resident;
-        date_input |> L.resident;
-        desc_input |> L.resident;
-        rep_input;
-        buttons;
-      ]
+  let room_list =
+    [
+      W.label ~size:18 "New Event:" |> L.resident;
+      title_input |> L.resident;
+      date_input |> L.resident;
+      desc_input |> L.resident;
+      rep_input;
+      buttons;
+    ]
   in
+  let () =
+    List.iter
+      (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
+      room_list
+  in
+  let stuff = L.tower room_list in
   let out = L.superpose [ surrounding_box stuff; stuff ] in
   let selector = DateSelector.make_selector () in
   let date_selector_popup =
@@ -56,13 +61,11 @@ let add_event_layout add_event =
     W.on_button_release ~release:(fun _ -> on_close ()) cancel_btn;
     W.on_button_release
       ~release:(fun _ ->
-        let event =
-          Event.create ~id:1
-            ~title:(W.get_text_input title_input |> Text_input.text)
-            ~description:(W.get_text_input desc_input |> Text_input.text)
-            ~date:"???" ~repeats:!repeats
-        in
-        add_event (DateSelector.get_date selector) event;
+        add_event
+          (DateSelector.get_date selector)
+          (W.get_text_input title_input |> Text_input.text)
+          (W.get_text_input desc_input |> Text_input.text)
+          !repeats;
         on_close ())
       create_btn;
     DateSelector.on_update selector (fun _ ->
