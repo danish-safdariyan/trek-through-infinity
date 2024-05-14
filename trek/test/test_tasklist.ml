@@ -40,15 +40,6 @@ let test_edit_task _ =
   let updated_list = TaskList.edit_task list_with_task1 "Task 1" edited_task in
   assert_equal updated_list (TaskList.add_task TaskList.empty edited_task)
 
-(* let test_list_tasks _ = let task1 = Task.create ~title:"Task 1"
-   ~date:"2024-05-13" ~display:CalDisplay in let task2 = Task.create
-   ~title:"Task 2" ~date:"2024-05-14" ~display:ListDisplay in let
-   list_with_tasks = TaskList.add_task TaskList.empty task1 in let
-   list_with_all_tasks = TaskList.add_task list_with_tasks task2 in assert_equal
-   [ "Title: Task 1, Date: 2024-05-13, Display:\n Display on Calendar Only";
-   "Title: Task 2, Date: 2024-05-14, Display:\n Display on List Only"; ]
-   (TaskList.list_tasks list_with_all_tasks) *)
-
 let test_list_tasks _ =
   let task1 =
     Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
@@ -58,17 +49,23 @@ let test_list_tasks _ =
   in
   let list_with_tasks = TaskList.add_task TaskList.empty task1 in
   let list_with_all_tasks = TaskList.add_task list_with_tasks task2 in
-  let actual = TaskList.list_tasks list_with_all_tasks in
-  let expected =
+  assert_equal
     [
-      "Title: Task 1, Date: 2024-05-13, Display:\n Display on Calendar Only";
-      "Title: Task 2, Date: 2024-05-14, Display:\n Display on List Only";
+      "Title: Task 1, Date: 2024-05-13, Display: Display on Calendar Only";
+      "Title: Task 2, Date: 2024-05-14, Display: Display on List Only";
     ]
-  in
-  List.iter2
-    (fun a e -> Printf.printf "Expected: %s\nActual: %s\n" e a)
-    actual expected;
-  assert_equal expected actual
+    (TaskList.list_tasks list_with_all_tasks)
+
+(* let test_list_tasks _ = let task1 = Task.create ~title:"Task 1"
+   ~date:"2024-05-13" ~display:CalDisplay in let task2 = Task.create
+   ~title:"Task 2" ~date:"2024-05-14" ~display:ListDisplay in let
+   list_with_tasks = TaskList.add_task TaskList.empty task1 in let
+   list_with_all_tasks = TaskList.add_task list_with_tasks task2 in let actual =
+   TaskList.list_tasks list_with_all_tasks in let expected = [ "Title: Task 1,
+   Date: 2024-05-13, Display:\n Display on Calendar Only"; "Title: Task 2, Date:
+   2024-05-14, Display:\n Display on List Only"; ] in List.iter2 (fun a e ->
+   Printf.printf "Expected: %s\nActual: %s\n" e a) actual expected; assert_equal
+   expected actual *)
 
 let suite =
   "TaskList Tests"

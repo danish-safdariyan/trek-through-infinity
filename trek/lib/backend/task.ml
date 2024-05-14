@@ -16,7 +16,7 @@ let get_display task = task.display
 let edit_task task ~title ~date ~display = { title; date; display }
 
 let to_string task =
-  Printf.sprintf "Title: %s, Date: %s, Display:\n   %s" task.title task.date
+  Printf.sprintf "Title: %s, Date: %s, Display: %s" task.title task.date
     (match task.display with
     | CalDisplay -> "Display on Calendar Only"
     | ListDisplay -> "Display on List Only"
