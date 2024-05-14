@@ -2,7 +2,6 @@ open Backend
 open Calendar
 open OUnit2
 
-(* Import the Calendar module *)
 let contains_substring str substring =
   try
     let len = String.length substring in
@@ -42,7 +41,7 @@ let test_edit_event _ =
 
 let test_find_events _ =
   let event1 = make_event "Meeting" "Team meeting" NoRepeat in
-  let event2 = make_event "Presentation" "Project\n presentation" NoRepeat in
+  let event2 = make_event "Presentation" "Project presentation" NoRepeat in
   let calendar =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
@@ -62,9 +61,7 @@ let test_list_all_events _ =
 
 let test_add_yearly_events _ =
   let event1 = make_event "New Year's Day" "Celebration" Yearly in
-  let event2 =
-    make_event "Valentine's Day" "Valentine's\n   celebration" Yearly
-  in
+  let event2 = make_event "Valentine's Day" "Valentine's celebration" Yearly in
   let calendar =
     add_existing_event (Date.create 2024 January 1) event1 empty
     |> add_existing_event (Date.create 2024 February 14) event2
@@ -183,19 +180,22 @@ let test_make_event_yearly_repeat _ =
   done;
   Printf.printf "Test make_event_yearly_repeat passed!\n"
 
-(* Run the test cases *)
-let () =
-  test_add_event ();
-  test_remove_event ();
-  test_edit_event ();
-  test_find_events ();
-  test_list_all_events ();
-  test_add_yearly_events ();
-  test_easter ();
-  test_initialize_calendar ();
-  test_make_event_no_repeat ();
-  test_make_event_daily_repeat ();
-  test_make_event_weekly_repeat ();
-  test_make_event_monthly_repeat ();
-  test_make_event_yearly_repeat ();
-  print_endline "All test cases passed!"
+let suite =
+  "Calendar Tests"
+  >::: [
+         "test_add_event" >:: test_add_event;
+         "test_remove_event" >:: test_remove_event;
+         "test_edit_event" >:: test_edit_event;
+         "test_find_events" >:: test_find_events;
+         "test_list_all_events" >:: test_list_all_events;
+         "test_add_yearly_events" >:: test_add_yearly_events;
+         "test_easter" >:: test_easter;
+         "test_initialize_calendar" >:: test_initialize_calendar;
+         "test_make_event_no_repeat" >:: test_make_event_no_repeat;
+         "test_make_event_daily_repeat" >:: test_make_event_daily_repeat;
+         "test_make_event_weekly_repeat" >:: test_make_event_weekly_repeat;
+         "test_make_event_monthly_repeat" >:: test_make_event_monthly_repeat;
+         "test_make_event_yearly_repeat" >:: test_make_event_yearly_repeat;
+       ]
+
+let () = run_test_tt_main suite
