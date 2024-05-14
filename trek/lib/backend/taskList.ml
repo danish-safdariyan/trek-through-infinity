@@ -3,32 +3,26 @@
 open Task
 module Map = CalDict.AssocListMap
 
-type t = (string, Task.t) Map.t (*need to fix*)
+type t = (string, Task.t) Map.t
 
 let empty = Map.empty
 
 let add_task t_list task =
-  let tasks = try Map.lookup (get_title task) t_list with Not_found -> [] in
-  Map.insert (get_title task) (task :: tasks) t_list
+  let title = Task.get_title task in
+  if Map.lookup title t_list <> task then Map.insert title task t_list
+  else t_list
 
-let remove_task t_list task =
-  let tasks = try Map.lookup (get_title task) t_list with Not_found -> [] in
-  let filtered_tasks =
-    List.filter (fun e -> get_title e <> get_title task) tasks
-  in
-  Map.insert (get_title task) filtered_tasks t_list
+let remove_task t_list title = Map.remove title t_list
 
 let edit_task t_list title updated_task =
-  let tasks = try Map.lookup title t_list with Not_found -> [] in
-  let updated_tasks =
-    List.map (fun e -> if get_title e = title then updated_task else e) tasks
-  in
-  Map.insert title updated_tasks t_list
+  add_task (remove_task t_list title) updated_task
+(*removes task with that title form the list and then adds the updated task*)
 
-let get_task t_list title = try Map.lookup title t_list with Not_found -> []
+(* let get_task t_list title = Map.lookup title t_list *)
 
-let list_tasks t_list =
-  Map.bindings t_list
-  |> List.map (fun (_, tasks) -> List.map Event.to_string tasks)
-  |> List.flatten
-(* Flatten the list of lists of strings into a list of strings *)
+let rec list_helper bindings string_list =
+  match bindings with
+  | [] -> string_list
+  | (k, v) :: t -> list_helper t (string_list @ [ to_string v ])
+
+let list_tasks t_list = list_helper (Map.bindings t_list) []

@@ -5,20 +5,25 @@ module type Map = sig
 
   val empty : ('k, 'v) t
   (** [empty] does not bind any keys. *)
-
   val insert : 'k -> 'v -> ('k, 'v) t -> ('k, 'v) t
   (** [insert k v m] is the map that binds [k] to [v], and also contains all the
       bindings of [m]. If [k] was already bound in [m], that old binding is
       superseded by the binding to [v] in the returned map. *)
-
   val lookup : 'k -> ('k, 'v) t -> 'v
   (** [lookup k m] is the value bound to [k] in [m]. Raises: [Not_found] if [k]
       is not bound in [m]. *)
-
-  val bindings : ('k, 'v) t -> ('k * 'v) list
-  (** [bindings m] is an association list containing the same bindings as [m].
+  val keys : ('k, 'v) t -> 'k list
+  (** [keys m] is an association list containing the same keys as [m].
       The keys in the list are guaranteed to be unique. *)
-    val to_list : ('k, 'v) t -> ('k * 'v) list
+  val bindings : ('k, 'v) t -> ('k * 'v) list
+    (** [bindings m] is an association list containing the same bindings as [m].
+        The keys in the list are guaranteed to be unique. *)
+  val to_list : ('k, 'v) t -> ('k * 'v) list
+  (**[to_list] takes in a map and returns a k v list*)
+  val remove : 'k -> ('k, 'v) t -> ('k, 'v) t
+  (**[remove] takes in a k and k v map. It searches for k removes the k v pair if found *)
+  
+
 end
 
 (* type event = Day of int * int * int *)
@@ -35,4 +40,8 @@ module AssocListMap : Map = struct
   let keys m = List.(m |> map fst |> sort_uniq Stdlib.compare)
   let bindings m = m |> keys |> List.map (fun k -> (k, lookup k m))
   let to_list m:(('a * 'b) list) = m
+  let rec remove k m=
+    match m with
+    |[] -> m
+    |(k1,v1)::t -> if k1 = k then t else (k1,v1)::(remove k t)
 end
