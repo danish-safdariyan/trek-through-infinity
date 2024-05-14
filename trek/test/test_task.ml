@@ -27,7 +27,7 @@ let test_to_string _ =
     Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:BothDisplay
   in
   let expected_string =
-    "Title: Task 1, Date: 2024-05-13, Display: Display on Calendar and List"
+    "Title: Task 1, Date: 2024-05-13, Display:\n   Display on Calendar and List"
   in
   assert_equal expected_string (Task.to_string task)
 
