@@ -80,7 +80,7 @@ let layout_of_month w cal month =
       List.fold_left (fun cur_h day -> max (L.height day) cur_h) min_h day_infos
     in
     let border =
-      Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:1 ()
+      Style.mk_line ~color:(Draw.opaque (Draw.find_color "#00B9BC")) ~width:1 ()
       |> Style.mk_border
     in
     List.map

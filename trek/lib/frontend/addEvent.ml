@@ -8,8 +8,8 @@ module P = Popups
 (** Attaches the popup for adding new events to [layout]; all code for the popup
     of making new events should be put here. *)
 let add_event_layout add_event =
-  let title_input = W.text_input ~prompt:"Title                 " () in
-  let desc_input = W.text_input ~prompt:"Description           " () in
+  let title_input = W.text_input ~prompt:"Title" () in
+  let desc_input = W.text_input ~prompt:"Description" () in
   let repeats = ref Event.NoRepeat in
   let rep_input =
     Select.create
@@ -29,17 +29,22 @@ let add_event_layout add_event =
   let create_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
   let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
-  let stuff =
-    L.tower
-      [
-        W.label ~size:15 "New Event:" |> L.resident;
-        title_input |> L.resident;
-        date_input |> L.resident;
-        desc_input |> L.resident;
-        rep_input;
-        buttons;
-      ]
+  let room_list =
+    [
+      W.label ~size:18 "New Event:" |> L.resident;
+      title_input |> L.resident;
+      date_input |> L.resident;
+      desc_input |> L.resident;
+      rep_input;
+      buttons;
+    ]
   in
+  let () =
+    List.iter
+      (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
+      room_list
+  in
+  let stuff = L.tower room_list in
   let out = L.superpose [ surrounding_box stuff; stuff ] in
   let selector = DateSelector.make_selector () in
   let date_selector_popup =
