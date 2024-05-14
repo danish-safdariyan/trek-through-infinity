@@ -59,6 +59,14 @@ let test_list_all_events _ =
     [ Event.to_string event2; Event.to_string event1 ]
     (list_all_events calendar)
 
+(* let test_add_yearly_events _ = let event1 = make_event "New Year's Day"
+   "Celebration" Yearly in let event2 = make_event "Valentine's Day"
+   "Valentine's celebration" Yearly in let calendar = add_existing_event
+   (Date.create 2024 January 1) event1 empty |> add_existing_event (Date.create
+   2024 February 14) event2 in assert_equal [ event1 ] (find_events calendar
+   (Date.create 2024 January 1)); assert_equal [ event2 ] (find_events calendar
+   (Date.create 2024 February 14)) *)
+
 let test_add_yearly_events _ =
   let event1 = make_event "New Year's Day" "Celebration" Yearly in
   let event2 = make_event "Valentine's Day" "Valentine's celebration" Yearly in
@@ -66,8 +74,19 @@ let test_add_yearly_events _ =
     add_existing_event (Date.create 2024 January 1) event1 empty
     |> add_existing_event (Date.create 2024 February 14) event2
   in
-  assert_equal [ event1 ] (find_events calendar (Date.create 2024 January 1));
-  assert_equal [ event2 ] (find_events calendar (Date.create 2024 February 14))
+  let events_jan_1 = find_events calendar (Date.create 2024 January 1) in
+  let events_feb_14 = find_events calendar (Date.create 2024 February 14) in
+
+  (* Assert the number of events and their properties *)
+  assert_equal 1 (List.length events_jan_1);
+  assert_equal 1 (List.length events_feb_14);
+
+  assert_equal "New Year's Day" (Event.get_title (List.hd events_jan_1));
+  assert_equal "Celebration" (Event.get_description (List.hd events_jan_1));
+
+  assert_equal "Valentine's Day" (Event.get_title (List.hd events_feb_14));
+  assert_equal "Valentine's celebration"
+    (Event.get_description (List.hd events_feb_14))
 
 let test_easter _ =
   let known_easter_dates =
