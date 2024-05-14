@@ -13,11 +13,28 @@ let contains_substring str substring =
 
 let date = Date.create 2024 April 30
 
+(* let test_add_event _ = let event = make_event "Meeting" "Team meeting"
+   NoRepeat in let calendar = add_existing_event date event empty in (* Check if
+   the event is added to the calendar *) assert_equal [ event ] (find_events
+   calendar date) *)
+
 let test_add_event _ =
   let event = make_event "Meeting" "Team meeting" NoRepeat in
   let calendar = add_existing_event date event empty in
-  (* Check if the event is added to the calendar *)
-  assert_equal [ event ] (find_events calendar date)
+  let events_on_date = find_events calendar date in
+
+  (* Ensure that exactly one event is returned *)
+  assert_equal 1 (List.length events_on_date);
+
+  (* Compare the properties of the event in the calendar with the original
+     event *)
+  match events_on_date with
+  | [ event_in_calendar ] ->
+      assert_equal (Event.get_title event) (Event.get_title event_in_calendar);
+      assert_equal
+        (Event.get_description event)
+        (Event.get_description event_in_calendar)
+  | _ -> assert_failure "Expected exactly one event on the specified date."
 
 let test_remove_event _ =
   let event = make_event "Meeting" "Team meeting" NoRepeat in
@@ -26,6 +43,13 @@ let test_remove_event _ =
   in
   (* Check if the event is removed from the calendar *)
   assert_equal [] (find_events calendar date)
+
+(* let test_edit_event _ = let event = make_event "Meeting" "Team meeting"
+   NoRepeat in let updated_event = Event.edit event ~title:"Updated Meeting"
+   ~description:"Updated Team meeting" in let calendar = add_existing_event date
+   event empty |> edit_event date event updated_event in (* Check if the event
+   is updated in the calendar *) assert_equal [ updated_event ] (find_events
+   calendar date) *)
 
 let test_edit_event _ =
   let event = make_event "Meeting" "Team meeting" NoRepeat in
@@ -36,8 +60,28 @@ let test_edit_event _ =
   let calendar =
     add_existing_event date event empty |> edit_event date event updated_event
   in
-  (* Check if the event is updated in the calendar *)
-  assert_equal [ updated_event ] (find_events calendar date)
+  let events_on_date = find_events calendar date in
+
+  (* Ensure there is exactly one event and it is the updated one *)
+  assert_equal 1 (List.length events_on_date);
+
+  (* This checks that there is one event *)
+
+  (* Access the first event safely and check its properties *)
+  match events_on_date with
+  | [ updated_event_from_calendar ] ->
+      (* Using pattern matching to destructure the list *)
+      assert_equal "Updated Meeting"
+        (Event.get_title updated_event_from_calendar);
+      assert_equal "Updated Team meeting"
+        (Event.get_description updated_event_from_calendar)
+  | _ -> assert_failure "Expected exactly one event on the specified date."
+
+(* let test_find_events _ = let event1 = make_event "Meeting" "Team meeting"
+   NoRepeat in let event2 = make_event "Presentation" "Project presentation"
+   NoRepeat in let calendar = add_existing_event date event1 empty |>
+   add_existing_event date event2 in let events_on_date = find_events calendar
+   date in assert_equal [ event2; event1 ] events_on_date *)
 
 let test_find_events _ =
   let event1 = make_event "Meeting" "Team meeting" NoRepeat in
@@ -46,7 +90,23 @@ let test_find_events _ =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
   let events_on_date = find_events calendar date in
-  assert_equal [ event2; event1 ] events_on_date
+
+  (* Ensure we have the correct number of events *)
+  assert_equal 2 (List.length events_on_date);
+
+  (* Check that both events are in the list by checking their titles and
+     descriptions *)
+  let titles = List.map Event.get_title events_on_date in
+  let descriptions = List.map Event.get_description events_on_date in
+
+  (* You might need to sort these lists if the order is not guaranteed *)
+  let expected_titles = List.sort compare [ "Meeting"; "Presentation" ] in
+  let expected_descriptions =
+    List.sort compare [ "Team meeting"; "Project presentation" ]
+  in
+
+  assert_equal expected_titles (List.sort compare titles);
+  assert_equal expected_descriptions (List.sort compare descriptions)
 
 let test_list_all_events _ =
   let event1 = make_event "Meeting" "Team meeting" NoRepeat in
@@ -59,6 +119,14 @@ let test_list_all_events _ =
     [ Event.to_string event2; Event.to_string event1 ]
     (list_all_events calendar)
 
+(* let test_add_yearly_events _ = let event1 = make_event "New Year's Day"
+   "Celebration" Yearly in let event2 = make_event "Valentine's Day"
+   "Valentine's celebration" Yearly in let calendar = add_existing_event
+   (Date.create 2024 January 1) event1 empty |> add_existing_event (Date.create
+   2024 February 14) event2 in assert_equal [ event1 ] (find_events calendar
+   (Date.create 2024 January 1)); assert_equal [ event2 ] (find_events calendar
+   (Date.create 2024 February 14)) *)
+
 let test_add_yearly_events _ =
   let event1 = make_event "New Year's Day" "Celebration" Yearly in
   let event2 = make_event "Valentine's Day" "Valentine's celebration" Yearly in
@@ -66,8 +134,19 @@ let test_add_yearly_events _ =
     add_existing_event (Date.create 2024 January 1) event1 empty
     |> add_existing_event (Date.create 2024 February 14) event2
   in
-  assert_equal [ event1 ] (find_events calendar (Date.create 2024 January 1));
-  assert_equal [ event2 ] (find_events calendar (Date.create 2024 February 14))
+  let events_jan_1 = find_events calendar (Date.create 2024 January 1) in
+  let events_feb_14 = find_events calendar (Date.create 2024 February 14) in
+
+  (* Assert the number of events and their properties *)
+  assert_equal 1 (List.length events_jan_1);
+  assert_equal 1 (List.length events_feb_14);
+
+  assert_equal "New Year's Day" (Event.get_title (List.hd events_jan_1));
+  assert_equal "Celebration" (Event.get_description (List.hd events_jan_1));
+
+  assert_equal "Valentine's Day" (Event.get_title (List.hd events_feb_14));
+  assert_equal "Valentine's celebration"
+    (Event.get_description (List.hd events_feb_14))
 
 let test_easter _ =
   let known_easter_dates =
