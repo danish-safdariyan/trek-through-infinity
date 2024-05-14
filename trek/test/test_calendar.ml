@@ -133,7 +133,7 @@ let test_make_event_daily_repeat _ =
     let events = Calendar.find_events calendar test_forward in
     assert_equal 1 (List.length events);
     let events = Calendar.find_events calendar test_backward in
-    assert (List.length events = 1)
+    assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_daily_repeat passed!\n"
 
@@ -147,7 +147,7 @@ let test_make_event_weekly_repeat _ =
     let events = Calendar.find_events updated_calendar test_forward in
     assert_equal 1 (List.length events);
     let events = Calendar.find_events updated_calendar test_backward in
-    assert (List.length events = 1)
+    assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_weekly_repeat passed!\n"
 
@@ -161,7 +161,7 @@ let test_make_event_monthly_repeat _ =
     let events = Calendar.find_events updated_calendar test_forward in
     assert_equal 1 (List.length events);
     let events = Calendar.find_events updated_calendar test_backward in
-    assert (List.length events = 1)
+    assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_monthly_repeat passed!\n"
 
@@ -176,7 +176,7 @@ let test_make_event_yearly_repeat _ =
     let events = Calendar.find_events calendar test_forward in
     assert_equal 1 (List.length events);
     let events = Calendar.find_events calendar test_backward in
-    assert (List.length events = 1)
+    assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_yearly_repeat passed!\n"
 
