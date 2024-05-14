@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-(test
- (name test_task)
-=======
 (tests
  (names test_date test_calendar)
->>>>>>> dd27d1241073f7ebbf50573a092f3f62492fa5f9
  (libraries frontend backend ounit2 qcheck))
