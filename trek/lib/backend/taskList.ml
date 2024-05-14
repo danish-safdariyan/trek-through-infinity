@@ -1,31 +1,35 @@
-(* taskList.ml  *)
-(*Implementation of the taskList module for managing tasks*)
-open Task
-module Map = CalDict.AssocListMap
+type t = {
+  title : string;
+  date : string;
+  display : display_option;
+}
 
-type t = (string, Task.t) Map.t
+and display_option =
+  | CalDisplay
+  | ListDisplay
+  | BothDisplay
 
-let empty = Map.empty
+let create ~title ~date ~display = { title; date; display }
+let get_title task = task.title
+let get_date task = task.date
+let get_display task = task.display
+let edit_task task ~title ~date ~display = { title; date; display }
 
-let add_task t_list task =
-  let title = Task.get_title task in
-  if Map.lookup title t_list <> task then Map.insert title task t_list
-  else t_list
+let to_string task =
+  Printf.sprintf "Title: %s, Date: %s, Display: %s" task.title task.date
+    (match task.display with
+    | CalDisplay -> "Display on Calendar Only"
+    | ListDisplay -> "Display on List Only"
+    | BothDisplay -> "Display on Calendar and List")
 
-let remove_task t_list title = Map.remove title t_list
-
-let edit_task t_list title updated_task =
-  add_task (remove_task t_list title) updated_task
-(*removes task with that title form the list and then adds the updated task*)
-
-(* let get_task t_list title = Map.lookup title t_list *)
-
-let rec list_helper bindings string_list =
-  match bindings with
-  | [] -> string_list
-  | (k, v) :: t -> list_helper t (string_list @ [ to_string v ])
-
-let list_tasks t_list = list_helper (Map.bindings t_list) []
-
-(* let compare_t_lists t_list1 t_list2 compare_tasks = Map.compare_lists t_list1
-   t_list2 compare_tasks *)
+let compare_tasks task1 task2 =
+  let title_compare = String.compare (get_title task1) (get_title task2) in
+  let date_compare = String.compare (get_date task1) (get_date task2) in
+  match (title_compare, date_compare) with
+  | 0, 0 -> (
+      match (get_display task1, get_display task2) with
+      | CalDisplay, CalDisplay -> 0
+      | ListDisplay, ListDisplay -> 0
+      | BothDisplay, BothDisplay -> 0
+      | _ -> 1 (* Different display options *))
+  | _ -> 1 (* Different titles or dates *)
