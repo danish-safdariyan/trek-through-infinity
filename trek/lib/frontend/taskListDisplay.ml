@@ -51,7 +51,8 @@ let taskListLayout tList add_task_popup =
   let task_list = List.map (fun task -> layout_of_task (W.label task)) tList in
   let add_tsk_btn = W.button "Add" in
   let header =
-    L.flat [ label; add_tsk_btn |> L.resident; W.button "Clear" |> L.resident ]
+    L.flat
+      [ label; add_tsk_btn |> L.resident (*W.button "Clear" |> L.resident*) ]
   in
   let room_list = header :: task_list in
   let taskLayout =

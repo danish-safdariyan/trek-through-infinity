@@ -10,6 +10,7 @@ let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
 let taskList = ref TaskList.empty
 
+
 (** The current month. *)
 let cur_month =
   ref
@@ -22,16 +23,16 @@ let get_month () = MonthDisplay.get_month_info !cur_month
 let month_layout = L.empty ~w:1000 ~h:1000 ()
 
 (** Updates the display based on [cur_month] and [cal]. *)
-let rec update_display () =
+let rec update_month_display () =
   let update_month (m, y) =
     cur_month := MonthDisplay.get_month m y;
-    update_display ()
+    update_month_display ()
   in
   let prev_btn = L.resident (ButtonDisplay.prev_btn get_month update_month) in
   let nxt_btn = L.resident (ButtonDisplay.next_btn get_month update_month) in
   let update_calendar new_cal =
     cal := new_cal !cal;
-    update_display ()
+    update_month_display ()
   in
   Sync.push (fun () ->
       let width = L.width month_layout in
@@ -44,21 +45,27 @@ let rec update_display () =
 
 let update_calendar new_cal =
   cal := new_cal !cal;
-  update_display ()
+  update_month_display ()
 
 let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
+
+let update_task_display =
+  Sync.push(fun _ -> 
+    let newLayout = TaskListDisplay.taskListLayout ((TaskList.list_tasks !taskList)
+  update_task_list))
 
 let update_task_list new_task =
   taskList :=
     TaskList.add_task !taskList
       (Task.create ~title:new_task ~date:"00/00/00" ~display:ListDisplay);
-  update_display ()
+  update_task_display ()
 
-let taskListLayout =
-  TaskListDisplay.taskListLayout
-    (TaskList.list_tasks !taskList)
-    update_task_list
+  let taskListLayout =
+    TaskListDisplay.taskListLayout
+      (TaskList.list_tasks !taskList)
+      update_task_list
+
 
 let rightScreenLayout eventLayout =
   let layout = L.tower [ eventLayout; taskListLayout ] in
