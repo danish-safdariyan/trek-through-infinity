@@ -57,7 +57,7 @@ let test () =
         Space.hfill ();
       ]
   in
-  let new_event = AddEvent.add_event_layout add_event in
+  let new_event = EventDisplay.add_event_layout add_event in
   let layout = L.tower [ menu; new_event; month_layout ] in
   L.on_resize (L.top_house layout) (fun () -> update_display ());
   layout |> of_layout |> run;
