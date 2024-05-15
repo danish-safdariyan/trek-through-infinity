@@ -14,21 +14,11 @@ let contains_substring str substring =
 
 let date = Date.create 2024 April 30
 
-(* let test_add_event _ = let event = make_event "Meeting" "Team meeting"
-   NoRepeat in let calendar = add_existing_event date event empty in (* Check if
-   the event is added to the calendar *) assert_equal [ event ] (find_events
-   calendar date) *)
-
 let test_add_event _ =
   let event = make_event "Meeting" "Team meeting" NoRepeat Violet in
   let calendar = add_existing_event date event empty in
   let events_on_date = find_events calendar date in
-
-  (* Ensure that exactly one event is returned *)
   assert_equal 1 (List.length events_on_date);
-
-  (* Compare the properties of the event in the calendar with the original
-     event *)
   match events_on_date with
   | [ event_in_calendar ] ->
       assert_equal (Event.get_title event) (Event.get_title event_in_calendar);
@@ -42,15 +32,7 @@ let test_remove_event _ =
   let calendar =
     add_existing_event date event empty |> remove_event date event
   in
-  (* Check if the event is removed from the calendar *)
   assert_equal [] (find_events calendar date)
-
-(* let test_edit_event _ = let event = make_event "Meeting" "Team meeting"
-   NoRepeat in let updated_event = Event.edit event ~title:"Updated Meeting"
-   ~description:"Updated Team meeting" in let calendar = add_existing_event date
-   event empty |> edit_event date event updated_event in (* Check if the event
-   is updated in the calendar *) assert_equal [ updated_event ] (find_events
-   calendar date) *)
 
 let test_edit_event _ =
   let event = make_event "Meeting" "Team meeting" NoRepeat Violet in
@@ -62,27 +44,14 @@ let test_edit_event _ =
     add_existing_event date event empty |> edit_event date event updated_event
   in
   let events_on_date = find_events calendar date in
-
-  (* Ensure there is exactly one event and it is the updated one *)
   assert_equal 1 (List.length events_on_date);
-
-  (* This checks that there is one event *)
-
-  (* Access the first event safely and check its properties *)
   match events_on_date with
   | [ updated_event_from_calendar ] ->
-      (* Using pattern matching to destructure the list *)
       assert_equal "Updated Meeting"
         (Event.get_title updated_event_from_calendar);
       assert_equal "Updated Team meeting"
         (Event.get_description updated_event_from_calendar)
   | _ -> assert_failure "Expected exactly one event on the specified date."
-
-(* let test_find_events _ = let event1 = make_event "Meeting" "Team meeting"
-   NoRepeat in let event2 = make_event "Presentation" "Project presentation"
-   NoRepeat in let calendar = add_existing_event date event1 empty |>
-   add_existing_event date event2 in let events_on_date = find_events calendar
-   date in assert_equal [ event2; event1 ] events_on_date *)
 
 let test_find_events _ =
   let event1 = make_event "Meeting" "Team meeting" NoRepeat Yellow in
@@ -93,21 +62,13 @@ let test_find_events _ =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
   let events_on_date = find_events calendar date in
-
-  (* Ensure we have the correct number of events *)
   assert_equal 2 (List.length events_on_date);
-
-  (* Check that both events are in the list by checking their titles and
-     descriptions *)
   let titles = List.map Event.get_title events_on_date in
   let descriptions = List.map Event.get_description events_on_date in
-
-  (* You might need to sort these lists if the order is not guaranteed *)
   let expected_titles = List.sort compare [ "Meeting"; "Presentation" ] in
   let expected_descriptions =
     List.sort compare [ "Team meeting"; "Project presentation" ]
   in
-
   assert_equal expected_titles (List.sort compare titles);
   assert_equal expected_descriptions (List.sort compare descriptions)
 
@@ -117,18 +78,9 @@ let test_list_all_events _ =
   let calendar =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
-  (* Check if all events are listed *)
   assert_equal
     [ Event.to_string event2; Event.to_string event1 ]
     (list_all_events calendar)
-
-(* let test_add_yearly_events _ = let event1 = make_event "New Year's Day"
-   "Celebration" Yearly in let event2 = make_event "Valentine's Day"
-   "Valentine's celebration" Yearly in let calendar = add_existing_event
-   (Date.create 2024 January 1) event1 empty |> add_existing_event (Date.create
-   2024 February 14) event2 in assert_equal [ event1 ] (find_events calendar
-   (Date.create 2024 January 1)); assert_equal [ event2 ] (find_events calendar
-   (Date.create 2024 February 14)) *)
 
 let test_add_yearly_events _ =
   let event1 = make_event "New Year's Day" "Celebration" Yearly Green in
@@ -141,14 +93,10 @@ let test_add_yearly_events _ =
   in
   let events_jan_1 = find_events calendar (Date.create 2024 January 1) in
   let events_feb_14 = find_events calendar (Date.create 2024 February 14) in
-
-  (* Assert the number of events and their properties *)
   assert_equal 1 (List.length events_jan_1);
   assert_equal 1 (List.length events_feb_14);
-
   assert_equal "New Year's Day" (Event.get_title (List.hd events_jan_1));
   assert_equal "Celebration" (Event.get_description (List.hd events_jan_1));
-
   assert_equal "Valentine's Day" (Event.get_title (List.hd events_feb_14));
   assert_equal "Valentine's celebration"
     (Event.get_description (List.hd events_feb_14))
@@ -271,6 +219,90 @@ let test_make_event_yearly_repeat _ =
     assert_equal 0 (List.length events)
   done
 
+(* Test adding and finding events in a leap year *)
+let test_leap_year_event _ =
+  let date = Date.create 2024 February 29 in
+  let event =
+    make_event "Leap Day Meeting" "Meeting on leap day" NoRepeat Blue
+  in
+  let calendar = add_existing_event date event empty in
+  let events = find_events calendar date in
+  assert_equal 1 (List.length events)
+
+(* Test adding multiple events on the same day and ensure all are found *)
+let test_multiple_events_same_day _ =
+  let date = Date.create 2024 March 1 in
+  let event1 =
+    make_event "Morning Meeting" "Team meeting in the morning" NoRepeat Red
+  in
+  let event2 =
+    make_event "Evening Gathering" "Casual team gathering in the evening"
+      NoRepeat Green
+  in
+  let calendar =
+    add_existing_event date event1 empty |> add_existing_event date event2
+  in
+  let events = find_events calendar date in
+  assert_equal 2 (List.length events)
+
+(* Helper function to add days to a date *)
+let add_days date days =
+  let rec aux d count =
+    if count > 0 then aux (Date.next_day d) (count - 1)
+    else if count < 0 then aux (Date.prev_day d) (count + 1)
+    else d
+  in
+  aux date days
+
+(* Test removal of a weekly recurring event *)
+let test_weekly_event_continuation _ =
+  let start_date = Date.create 2024 March 3 in
+  let event =
+    make_event "Weekly Meeting" "Discussion and updates" Weekly Green
+  in
+  let calendar = add_existing_event start_date event empty in
+  let next_week_date = add_days start_date 7 in
+  let two_weeks_date = add_days start_date 14 in
+  assert_equal true
+    (List.exists
+       (fun e -> Event.get_title e = "Weekly Meeting")
+       (find_events calendar next_week_date));
+  assert_equal true
+    (List.exists
+       (fun e -> Event.get_title e = "Weekly Meeting")
+       (find_events calendar two_weeks_date))
+
+(* Test editing a monthly recurring event *)
+let test_edit_monthly_event _ =
+  let date = Date.create 2024 April 1 in
+  let event =
+    make_event "Monthly Review" "Monthly project review" Monthly Blue
+  in
+  let updated_event =
+    Event.edit event ~title:"Updated Monthly Review"
+      ~description:"Updated monthly project review" ~color:Orange
+  in
+  let calendar =
+    add_existing_event date event empty |> edit_event date event updated_event
+  in
+  let next_month_date = Date.create 2024 May 1 in
+  let events = find_events calendar next_month_date in
+  assert_equal 1 (List.length events);
+  assert_equal "Updated Monthly Review" (Event.get_title (List.hd events))
+
+(* Test initialization of calendar with edge cases like December 31st *)
+let test_initialize_calendar_edge_cases _ =
+  let year = 2024 in
+  let new_years_eve = Date.create year December 31 in
+  let new_years_day = Date.create year January 1 in
+  let calendar = initialize_calendar empty in
+  let events_dec_31 = find_events calendar new_years_eve in
+  let events_jan_1 = find_events calendar new_years_day in
+  assert_bool "Missing New Year's Eve event"
+    (List.exists (fun e -> Event.get_title e = "New Year's Eve") events_dec_31);
+  assert_bool "Missing New Year's Day event"
+    (List.exists (fun e -> Event.get_title e = "New Year's Day") events_jan_1)
+
 let suite =
   "Calendar Tests"
   >::: [
@@ -287,6 +319,12 @@ let suite =
          "test_make_event_weekly_repeat" >:: test_make_event_weekly_repeat;
          "test_make_event_monthly_repeat" >:: test_make_event_monthly_repeat;
          "test_make_event_yearly_repeat" >:: test_make_event_yearly_repeat;
+         "test_leap_year_event" >:: test_leap_year_event;
+         "test_multiple_events_same_day" >:: test_multiple_events_same_day;
+         "test_weekly_event_continuation" >:: test_weekly_event_continuation;
+         "test_edit_monthly_event" >:: test_edit_monthly_event;
+         "test_initialize_calendar_edge_cases"
+         >:: test_initialize_calendar_edge_cases;
        ]
 
 let () =
