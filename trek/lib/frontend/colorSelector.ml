@@ -93,7 +93,9 @@ let make_selector () =
   let info = { Btn.cur_btn = Btn.empty; cur_color = Red } in
   let buttons = List.map (Btn.make_color_btn info) colors in
   let btn_layout = L.flat_of_w ~sep:10 (List.map Btn.get_btn buttons) in
-  let layout = L.flat [ Space.hfill (); btn_layout; Space.hfill () ] in
+  let layout =
+    L.flat ~scale_content:false [ Space.hfill (); btn_layout; Space.hfill () ]
+  in
   let _ = Space.full_width layout in
   { layout; info; buttons }
 

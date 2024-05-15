@@ -10,7 +10,6 @@ let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
 let taskList = ref TaskList.empty
 
-
 (** The current month. *)
 let cur_month =
   ref
@@ -21,6 +20,8 @@ let get_month () = MonthDisplay.get_month_info !cur_month
 
 (** The current month layout. *)
 let month_layout = L.empty ~w:1000 ~h:1000 ()
+
+let task_layout = L.empty ~w:100 ~h:100 ()
 
 (** Updates the display based on [cur_month] and [cal]. *)
 let rec update_month_display () =
@@ -50,10 +51,20 @@ let update_calendar new_cal =
 let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
 
-let update_task_display =
-  Sync.push(fun _ -> 
-    let newLayout = TaskListDisplay.taskListLayout ((TaskList.list_tasks !taskList)
-  update_task_list))
+let rec update_task_display () =
+  let update_task_list new_task =
+    taskList :=
+      TaskList.add_task !taskList
+        (Task.create ~title:new_task ~date:"00/00/00" ~display:ListDisplay);
+    update_task_display ()
+  in
+  Sync.push (fun _ ->
+      let new_layout =
+        TaskListDisplay.taskListLayout
+          (TaskList.list_tasks !taskList)
+          update_task_list
+      in
+      L.set_rooms task_layout [ new_layout ])
 
 let update_task_list new_task =
   taskList :=
@@ -61,19 +72,16 @@ let update_task_list new_task =
       (Task.create ~title:new_task ~date:"00/00/00" ~display:ListDisplay);
   update_task_display ()
 
-  let taskListLayout =
-    TaskListDisplay.taskListLayout
-      (TaskList.list_tasks !taskList)
-      update_task_list
-
-
 let rightScreenLayout eventLayout =
-  let layout = L.tower [ eventLayout; taskListLayout ] in
+  let layout = L.tower [ eventLayout; task_layout ] in
   let () = Space.full_height layout in
   L.superpose [ GenDisplay.surrounding_box layout; layout ]
 
 let test () =
-  let _ = update_display () in
+  let _ =
+    update_month_display ();
+    update_task_display ()
+  in
   let new_event = EventDisplay.add_event_layout add_event in
   let layout =
     L.flat
@@ -82,6 +90,6 @@ let test () =
         rightScreenLayout new_event;
       ]
   in
-  L.on_resize (L.top_house layout) (fun () -> update_display ());
+  L.on_resize (L.top_house layout) (fun () -> update_month_display ());
   layout |> of_layout |> run;
   quit ()
