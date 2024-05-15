@@ -81,7 +81,7 @@ let header w =
   in
   L.flat ~margins:0 headers
 
-let layout_of_month w cal month update_calendar =
+let layout_of_month w cal month update_calendar prev_btn nxt_btn =
   let background_layout = L.empty ~w:(w * 7) ~h:(min_h * 5) () in
   let days = get_month_tasks cal month.days in
   let week_layout days =
@@ -112,8 +112,13 @@ let layout_of_month w cal month update_calendar =
     | lst -> [ week_layout lst ]
   in
   let label =
-    W.label ~size:20 ~align:Draw.Center (string_of_month month)
-    |> L.resident ~name:"Month Label"
+    L.flat
+      [
+        prev_btn;
+        W.label ~size:20 ~align:Draw.Center (string_of_month month)
+        |> L.resident ~name:"Month Label";
+        nxt_btn;
+      ]
   in
   let month_layout =
     L.superpose [ background_layout; helper days |> L.tower ~margins:0 ]
