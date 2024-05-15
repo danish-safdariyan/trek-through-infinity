@@ -40,8 +40,18 @@ module AssocListMap : Map = struct
   let keys m = List.(m |> map fst |> sort_uniq Stdlib.compare)
   let bindings m = m |> keys |> List.map (fun k -> (k, lookup k m))
   let to_list m:(('a * 'b) list) = m
+  (* let rec compare_lists list1 list2 compare_ele =
+    match (list1, list2) with
+    | [], [] -> 0
+    | [], _ -> 1
+    | _, [] -> 1
+    | (k1,v1) :: rest1, (k2,v2) :: rest2 ->
+        let ele_comparison = compare_ele v1 v2 in
+        if ele_comparison = 0 then compare_lists rest1 rest2 compare_ele else ele_comparison *)
   let rec remove k m=
     match m with
     |[] -> m
     |(k1,v1)::t -> if k1 = k then t else (k1,v1)::(remove k t)
+
+
 end

@@ -27,9 +27,45 @@ let test_to_string _ =
     Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:BothDisplay
   in
   let expected_string =
-    "Title: Task 1, Date: 2024-05-13, Display:\n   Display on Calendar and List"
+    "Title: Task 1, Date: 2024-05-13, Display: Display on Calendar and List"
   in
   assert_equal expected_string (Task.to_string task)
+
+let test_compare_equal _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  let task2 =
+    Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  assert_equal 0 (Task.compare_tasks task1 task2)
+
+let test_compare_diff_title _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-14" ~display:CalDisplay
+  in
+  let task2 =
+    Task.create ~title:"Task 2" ~date:"2024-05-14" ~display:CalDisplay
+  in
+  assert_equal 1 (Task.compare_tasks task1 task2)
+
+let test_compare_diff_date _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  let task2 =
+    Task.create ~title:"Task 1" ~date:"2024-05-14" ~display:CalDisplay
+  in
+  assert_equal 1 (Task.compare_tasks task1 task2)
+
+let test_compare_diff_display _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-14" ~display:BothDisplay
+  in
+  let task2 =
+    Task.create ~title:"Task 1" ~date:"2024-05-14" ~display:CalDisplay
+  in
+  assert_equal 1 (Task.compare_tasks task1 task2)
 
 let suite =
   "Task Tests"
@@ -37,6 +73,10 @@ let suite =
          "test_create" >:: test_create;
          "test_edit_task" >:: test_edit_task;
          "test_to_string" >:: test_to_string;
+         "test_compare_equal" >:: test_compare_equal;
+         "test_compare_diff_title" >:: test_compare_diff_title;
+         "test_compare_diff_date" >:: test_compare_diff_date;
+         "test_compare_diff_display" >:: test_compare_diff_display;
        ]
 
 let () =
