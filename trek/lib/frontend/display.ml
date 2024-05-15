@@ -14,11 +14,19 @@ let cur_month =
     (let today = Date.current_date () in
      MonthDisplay.get_month today.month today.year)
 
+let get_month () = MonthDisplay.get_month_info !cur_month
+
 (** The current month layout. *)
 let month_layout = L.empty ~w:1000 ~h:1000 ()
 
 (** Updates the display based on [cur_month] and [cal]. *)
 let rec update_display () =
+  let update_month (m, y) =
+    cur_month := MonthDisplay.get_month m y;
+    update_display ()
+  in
+  let prev_btn = L.resident (ButtonDisplay.prev_btn get_month update_month) in
+  let nxt_btn = L.resident (ButtonDisplay.next_btn get_month update_month) in
   let update_calendar new_cal =
     cal := new_cal !cal;
     update_display ()
@@ -27,6 +35,7 @@ let rec update_display () =
       let width = L.width month_layout in
       let new_layout =
         MonthDisplay.layout_of_month (width / 7) !cal !cur_month update_calendar
+          prev_btn nxt_btn
       in
       L.set_rooms month_layout [ new_layout ])
 
@@ -34,31 +43,16 @@ let update_calendar new_cal =
   cal := new_cal !cal;
   update_display ()
 
-let update_month (m, y) =
-  cur_month := MonthDisplay.get_month m y;
-  update_display ()
-
 let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
 
-let get_month () = MonthDisplay.get_month_info !cur_month
-
 let test () =
-  let width = 1000 in
   let _ = update_display () in
-  let add_event_btn = ButtonDisplay.button (width / 10) in
-  let menu =
-    L.flat
-      [
-        L.resident (ButtonDisplay.prev_btn get_month update_month);
-        L.resident (ButtonDisplay.next_btn get_month update_month);
-        L.resident add_event_btn;
-        Space.vfill ();
-        Space.hfill ();
-      ]
-  in
   let new_event = EventDisplay.add_event_layout add_event in
-  let layout = L.tower [ menu; new_event; month_layout ] in
+  let layout =
+    L.flat
+      [ month_layout; L.tower [ new_event; Space.vfill ~bottom_margin:0 () ] ]
+  in
   L.on_resize (L.top_house layout) (fun () -> update_display ());
   layout |> of_layout |> run;
   quit ()
