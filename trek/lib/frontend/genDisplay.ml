@@ -4,10 +4,10 @@ open Bogue
 module L = Layout
 module W = Widget
 
-(** Creates a box that surounds the layout; Default background is white, default
-    border is dark_grey. *)
+(** Creates a box that surounds the layout; Default background is a shade of
+    turquoise "#00B9BC", default border is dark_turquoise "#003738". *)
 let surrounding_box ?(background = Draw.find_color "#00B9BC")
-    ?(border_color = Draw.dark_grey) layout =
+    ?(border_color = Draw.find_color "#006f71") layout =
   W.box ~w:(L.width layout) ~h:(L.height layout)
     ~style:
       (Style.create

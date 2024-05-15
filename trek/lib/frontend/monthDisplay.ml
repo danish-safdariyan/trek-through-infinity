@@ -37,7 +37,7 @@ open Bogue
 module W = Widget
 module L = Layout
 
-let border_color = Draw.opaque (Draw.find_color "#00B9BC")
+let border_color = Draw.opaque (Draw.find_color "#008284")
 let min_h = 100
 
 (** Returns layout of a day with the date and tasks specified. Does not include
