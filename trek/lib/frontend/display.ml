@@ -51,7 +51,15 @@ let test () =
   let new_event = EventDisplay.add_event_layout add_event in
   let layout =
     L.flat
-      [ month_layout; L.tower [ new_event; Space.vfill ~bottom_margin:0 () ] ]
+      [
+        L.superpose [ GenDisplay.surrounding_box month_layout; month_layout ];
+        L.superpose
+          [
+            GenDisplay.surrounding_box
+              (L.tower [ new_event; Space.vfill ~bottom_margin:0 () ]);
+            L.tower [ new_event; Space.vfill ~bottom_margin:0 () ];
+          ];
+      ]
   in
   L.on_resize (L.top_house layout) (fun () -> update_display ());
   layout |> of_layout |> run;
