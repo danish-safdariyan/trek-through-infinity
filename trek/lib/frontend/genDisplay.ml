@@ -18,3 +18,15 @@ let surrounding_box ?(background = Draw.find_color "#00B9BC")
          ())
     ()
   |> L.resident
+
+let theme_box w h =
+  W.box ~w ~h
+    ~style:
+      (Style.create
+         ~background:(Draw.opaque (Draw.find_color "#00B9BC") |> Style.color_bg)
+         ~border:
+           (Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 ()
+           |> Style.mk_border)
+         ())
+    ()
+  |> L.resident

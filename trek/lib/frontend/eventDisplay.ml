@@ -81,19 +81,20 @@ let edit_event_popup date event layout update_calendar on_update =
   let buttons = L.flat_of_w [ update_btn; cancel_btn ] in
   let room_list =
     [
-      W.label ~size:18 "New Event:" |> L.resident;
+      W.label ~size:18 "Edit Event:" |> L.resident;
       title_input |> L.resident;
       desc_input |> L.resident;
       buttons;
     ]
   in
-  let () =
+  let stuff = L.tower room_list in
+  let _ =
     List.iter
       (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
-      room_list
+      room_list;
+    Space.full_width stuff
   in
-  let stuff = L.tower room_list in
-  let popup = L.superpose [ surrounding_box stuff; stuff ] in
+  let popup = L.superpose [ theme_box 300 (L.height stuff); stuff ] in
   let out = P.attach_popup layout popup in
   let on_close () =
     P.hide out;
@@ -125,7 +126,7 @@ let task_info_popup date event layout update_calendar =
   let description = W.text_display (Event.get_description event) in
   let edit_btn = W.button "Edit" in
   let delete_btn = W.button "Delete" in
-  let exit_btn = W.button "Exit" in
+  let exit_btn = W.button "X" in
   let buttons =
     L.flat
       [
