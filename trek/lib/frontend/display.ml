@@ -8,6 +8,8 @@ module P = Popups
 (** The calendar we are displaying. *)
 let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
+let taskList = ref TaskList.empty
+
 (** The current month. *)
 let cur_month =
   ref
@@ -47,10 +49,16 @@ let update_calendar new_cal =
 let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
 
-let taskList = ref TaskList.empty
+let update_task_list new_task =
+  taskList :=
+    TaskList.add_task !taskList
+      (Task.create ~title:new_task ~date:"00/00/00" ~display:ListDisplay);
+  update_display ()
 
 let taskListLayout =
-  TaskListDisplay.taskListLayout (TaskList.list_tasks !taskList)
+  TaskListDisplay.taskListLayout
+    (TaskList.list_tasks !taskList)
+    update_task_list
 
 let rightScreenLayout eventLayout =
   let layout = L.tower [ eventLayout; taskListLayout ] in

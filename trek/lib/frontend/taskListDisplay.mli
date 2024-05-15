@@ -1,4 +1,5 @@
 open Bogue
 open Backend
 
-val taskListLayout : string list -> Layout.t
+val addTaskPopup : Layout.t -> (string -> unit) -> Popups.t
+val taskListLayout : string list -> (string -> unit) -> Layout.t
