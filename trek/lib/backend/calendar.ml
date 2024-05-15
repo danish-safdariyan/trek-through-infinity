@@ -32,10 +32,11 @@ let next_id () =
   !current_id
 
 (* Create an event *)
-let make_event title description repeats =
+let make_event title description repeats color =
   let id = next_id () in
-  Event.create ~id ~title ~description ~repeats
+  Event.create ~id ~title ~description ~repeats ~color
 
+(* Add an existing event to the calendar. *)
 let add_existing_event date event calendar =
   match Event.get_repeats event with
   | NoRepeat ->
@@ -72,11 +73,12 @@ let add_existing_event date event calendar =
         yearly = Map.insert (date.day, date.month) (e :: events) calendar.yearly;
       }
 
-let add_event date title description repeats calendar =
-  let event = make_event title description repeats in
+(* Create and add an event to the calendar. *)
+let add_event date title description repeats color calendar =
+  let event = make_event title description repeats color in
   add_existing_event date event calendar
 
-(* Easter calculation *)
+(* Calculate the date of Easter for a given year. *)
 let easter year =
   let a = year mod 19 in
   let b = year / 100 in
@@ -94,10 +96,12 @@ let easter year =
   let day = ((h + l - (7 * m) + 114) mod 31) + 1 in
   Date.create year (Date.int_to_month month) day
 
+(* Add condition to event for nth weekday of the month. *)
 let make_nth_weekday_of_month_event month weekday n =
   Event.add_condition (fun d ->
       Date.compare d (Date.nth_weekday_of_month month weekday n d.year) = 0)
 
+(* Recursively add recurring events to the calendar. *)
 let rec add_forever_events calendar = function
   | [] -> calendar
   | (date, event) :: t ->
@@ -130,63 +134,67 @@ let initialize_calendar cal =
   let fixed_dates =
     [
       ( Date.create year January 1,
-        make_event "New Year's Day" "Celebration of the new year" Yearly );
+        make_event "New Year's Day" "Celebration of the new year" Yearly Green
+      );
       ( Date.nth_weekday_of_month January Monday 3 year,
         make_event "Martin Luther King Jr. Day"
-          "Celebration of Martin\n         Luther King Jr." Yearly
+          "Celebration of Martin\n         Luther King Jr." Yearly Yellow
         |> make_nth_weekday_of_month_event January Monday 3 );
       ( Date.create year February 14,
-        make_event "Valentine's Day" "Day of love and affection" Yearly );
+        make_event "Valentine's Day" "Day of love and affection" Yearly Red );
       ( Date.nth_weekday_of_month February Monday 3 year,
-        make_event "Presidents' Day" "Celebration of US Presidents" Yearly
+        make_event "Presidents' Day" "Celebration of US Presidents" Yearly Blue
         |> make_nth_weekday_of_month_event February Monday 3 );
       ( Date.create year March 17,
-        make_event "St. Patrick's Day" "Celebration of Irish culture" Yearly );
+        make_event "St. Patrick's Day" "Celebration of Irish culture" Yearly
+          Violet );
       ( easter year,
         make_event "Easter Sunday"
           "Christian holiday celebrating the resurrection of Jesus" Weekly
+          Orange
         |> Event.add_condition (fun d -> Date.compare d (easter d.year) = 0) );
       ( Date.create year April 22,
-        make_event "Earth Day" "Promotion of environmental awareness" Yearly );
+        make_event "Earth Day" "Promotion of environmental awareness" Yearly
+          Green );
       ( Date.nth_weekday_of_month May Sunday 2 year,
-        make_event "Mother's Day" "Celebration of mothers" Weekly
+        make_event "Mother's Day" "Celebration of mothers" Weekly Red
         |> make_nth_weekday_of_month_event May Sunday 2 );
       ( Date.last_weekday_of_month May Monday year,
         make_event "Memorial Day" "Honoring military personnel who have died"
-          Weekly
+          Weekly Yellow
         |> Event.add_condition (fun d ->
                Date.compare d (Date.last_weekday_of_month May Monday d.year) = 0)
       );
       ( Date.nth_weekday_of_month June Sunday 3 year,
-        make_event "Father's Day" "Celebration of fathers" Weekly
+        make_event "Father's Day" "Celebration of fathers" Weekly Red
         |> make_nth_weekday_of_month_event June Sunday 3 );
       ( Date.create year July 4,
         make_event "Independence Day" "Celebration of American independence"
-          Yearly );
+          Yearly Violet );
       ( Date.nth_weekday_of_month September Monday 1 year,
-        make_event "Labor Day" "Honoring workers" Weekly
+        make_event "Labor Day" "Honoring workers" Weekly Indigo
         |> make_nth_weekday_of_month_event September Monday 1 );
       ( Date.nth_weekday_of_month October Monday 2 year,
         make_event "Columbus Day"
-          "Commemoration of Christopher Columbus's arrival" Weekly
+          "Commemoration of Christopher Columbus's arrival" Weekly Indigo
         |> make_nth_weekday_of_month_event October Monday 2 );
       ( Date.create year October 31,
         make_event "Halloween" "Celebration involving costumes and treats"
-          Yearly );
+          Yearly Orange );
       ( Date.create year November 11,
-        make_event "Veterans Day" "Honoring military veterans" Yearly );
+        make_event "Veterans Day" "Honoring military veterans" Yearly Yellow );
       ( Date.nth_weekday_of_month November Thursday 4 year,
         make_event "Thanksgiving Day"
-          "Day for giving thanks and family gatherings" Weekly
+          "Day for giving thanks and family gatherings" Weekly Green
         |> make_nth_weekday_of_month_event November Thursday 4 );
       ( Date.create year December 24,
-        make_event "Christmas Eve" "Day before Christmas" Yearly );
+        make_event "Christmas Eve" "Day before Christmas" Yearly Green );
       ( Date.create year December 25,
         make_event "Christmas Day" "Celebration of the birth of Jesus Christ"
-          Yearly );
+          Yearly Red );
       ( Date.create year December 31,
         make_event "New Year's Eve" "Celebration of the last day of the year"
-          Yearly );
+          Yearly Green );
     ]
   in
   add_forever_events cal fixed_dates
@@ -234,6 +242,7 @@ let remove_yearly_event date event calendar =
   in
   { calendar with yearly = Map.insert d filtered_events calendar.yearly }
 
+(** Remove an event from the calendar. *)
 let remove_event date event calendar =
   match Event.get_repeats event with
   | NoRepeat -> remove_once_event date event calendar
@@ -293,6 +302,7 @@ let edit_yearly_event date event updated_event calendar =
   in
   { calendar with yearly = Map.insert d updated_events calendar.yearly }
 
+(** Edit an event in the calendar. *)
 let edit_event date event updated_event calendar =
   match Event.get_repeats event with
   | NoRepeat -> edit_once_event date event updated_event calendar
@@ -320,6 +330,7 @@ let find_yearly_events date calendar =
   let d = get_day date in
   try Map.lookup d calendar.yearly with Not_found -> []
 
+(** Find all events on a given date. *)
 let find_events calendar date =
   find_once_events date calendar
   @ calendar.daily
@@ -355,6 +366,7 @@ let list_yearly_events calendar =
   |> List.map (fun (_, events) -> List.map Event.to_string events)
   |> List.flatten
 
+(** List all events in the calendar. *)
 let list_all_events calendar =
   list_once_events calendar @ list_daily_events calendar
   @ list_weekly_events calendar

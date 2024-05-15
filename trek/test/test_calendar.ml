@@ -1,3 +1,4 @@
+(* calendar test cases *)
 open Backend
 open Calendar
 open OUnit2
@@ -19,7 +20,7 @@ let date = Date.create 2024 April 30
    calendar date) *)
 
 let test_add_event _ =
-  let event = make_event "Meeting" "Team meeting" NoRepeat in
+  let event = make_event "Meeting" "Team meeting" NoRepeat Violet in
   let calendar = add_existing_event date event empty in
   let events_on_date = find_events calendar date in
 
@@ -37,7 +38,7 @@ let test_add_event _ =
   | _ -> assert_failure "Expected exactly one event on the specified date."
 
 let test_remove_event _ =
-  let event = make_event "Meeting" "Team meeting" NoRepeat in
+  let event = make_event "Meeting" "Team meeting" NoRepeat Violet in
   let calendar =
     add_existing_event date event empty |> remove_event date event
   in
@@ -52,10 +53,10 @@ let test_remove_event _ =
    calendar date) *)
 
 let test_edit_event _ =
-  let event = make_event "Meeting" "Team meeting" NoRepeat in
+  let event = make_event "Meeting" "Team meeting" NoRepeat Violet in
   let updated_event =
     Event.edit event ~title:"Updated Meeting"
-      ~description:"Updated Team meeting"
+      ~description:"Updated Team meeting" ~color:Yellow
   in
   let calendar =
     add_existing_event date event empty |> edit_event date event updated_event
@@ -84,8 +85,10 @@ let test_edit_event _ =
    date in assert_equal [ event2; event1 ] events_on_date *)
 
 let test_find_events _ =
-  let event1 = make_event "Meeting" "Team meeting" NoRepeat in
-  let event2 = make_event "Presentation" "Project presentation" NoRepeat in
+  let event1 = make_event "Meeting" "Team meeting" NoRepeat Yellow in
+  let event2 =
+    make_event "Presentation" "Project presentation" NoRepeat Green
+  in
   let calendar =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
@@ -109,8 +112,8 @@ let test_find_events _ =
   assert_equal expected_descriptions (List.sort compare descriptions)
 
 let test_list_all_events _ =
-  let event1 = make_event "Meeting" "Team meeting" NoRepeat in
-  let event2 = make_event "Presentation" "Project presentation" NoRepeat in
+  let event1 = make_event "Meeting" "Team meeting" NoRepeat Red in
+  let event2 = make_event "Presentation" "Project presentation" NoRepeat Blue in
   let calendar =
     add_existing_event date event1 empty |> add_existing_event date event2
   in
@@ -128,8 +131,10 @@ let test_list_all_events _ =
    (Date.create 2024 February 14)) *)
 
 let test_add_yearly_events _ =
-  let event1 = make_event "New Year's Day" "Celebration" Yearly in
-  let event2 = make_event "Valentine's Day" "Valentine's celebration" Yearly in
+  let event1 = make_event "New Year's Day" "Celebration" Yearly Green in
+  let event2 =
+    make_event "Valentine's Day" "Valentine's celebration" Yearly Red
+  in
   let calendar =
     add_existing_event (Date.create 2024 January 1) event1 empty
     |> add_existing_event (Date.create 2024 February 14) event2
@@ -200,25 +205,33 @@ let add_years (date : Date.t) years =
   Date.create (date.year + years) date.month date.day
 
 let test_make_event_no_repeat _ =
-  let calendar = add_event date "Meeting" "Team meeting" NoRepeat empty in
-  let events = Calendar.find_events calendar date in
+  let calendar = initialize_calendar empty in
+  let new_calendar =
+    add_event date "Meeting" "Team meeting" NoRepeat Red calendar
+  in
+  let events = Calendar.find_events new_calendar date in
   assert_equal 1 (List.length events)
 
 let test_make_event_daily_repeat _ =
-  let calendar = add_event date "Daily Standup" "Daily team sync" Daily empty in
+  let calendar = initialize_calendar empty in
+  let new_calendar =
+    add_event date "Daily Standup" "Daily team sync" Daily Violet calendar
+  in
   for i = 0 to 5 do
     let test_forward = add_days date i in
     let test_backward = add_days date (-i - 1) in
-    let events = Calendar.find_events calendar test_forward in
+    let events = Calendar.find_events new_calendar test_forward in
     assert_equal 1 (List.length events);
-    let events = Calendar.find_events calendar test_backward in
+    let events = Calendar.find_events new_calendar test_backward in
     assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_daily_repeat passed!\n"
 
 let test_make_event_weekly_repeat _ =
+  let calendar = initialize_calendar empty in
   let updated_calendar =
-    Calendar.add_event date "Weekly Meeting" "Weekly team meeting" Weekly empty
+    Calendar.add_event date "Weekly Meeting" "Weekly team meeting" Weekly Yellow
+      calendar
   in
   for i = 0 to 5 do
     let test_forward = add_weeks date i in
@@ -231,8 +244,10 @@ let test_make_event_weekly_repeat _ =
   Printf.printf "Test make_event_weekly_repeat passed!\n"
 
 let test_make_event_monthly_repeat _ =
+  let calendar = initialize_calendar empty in
   let updated_calendar =
-    add_event date "Monthly Review" "Monthly performance review" Monthly empty
+    add_event date "Monthly Review" "Monthly performance review" Monthly Blue
+      calendar
   in
   for i = 0 to 5 do
     let test_forward = add_months date i in
@@ -245,16 +260,17 @@ let test_make_event_monthly_repeat _ =
   Printf.printf "Test make_event_monthly_repeat passed!\n"
 
 let test_make_event_yearly_repeat _ =
-  let calendar =
+  let calendar = initialize_calendar empty in
+  let updated_calendar =
     Calendar.add_event date "Annual Conference" "Yearly strategy conference"
-      Yearly empty
+      Yearly Green calendar
   in
   for i = 0 to 5 do
     let test_forward = add_years date i in
     let test_backward = add_years date (-i - 1) in
-    let events = Calendar.find_events calendar test_forward in
+    let events = Calendar.find_events updated_calendar test_forward in
     assert_equal 1 (List.length events);
-    let events = Calendar.find_events calendar test_backward in
+    let events = Calendar.find_events updated_calendar test_backward in
     assert_equal 0 (List.length events)
   done;
   Printf.printf "Test make_event_yearly_repeat passed!\n"

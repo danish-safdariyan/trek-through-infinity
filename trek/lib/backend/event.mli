@@ -1,3 +1,4 @@
+(* event.mli *)
 type t
 (** The type representing an event. *)
 
@@ -8,10 +9,24 @@ type repeat_option =
   | Monthly
   | Yearly
 
+type color_choices =
+  | Red
+  | Orange
+  | Yellow
+  | Green
+  | Blue
+  | Indigo
+  | Violet
+
 (** Represents whether an event repeats and how. *)
 
 val create :
-  id:int -> title:string -> description:string -> repeats:repeat_option -> t
+  id:int ->
+  title:string ->
+  description:string ->
+  repeats:repeat_option ->
+  color:color_choices ->
+  t
 (** [create ~id ~title ~description] creates a new event with the specified
     attributes.
     - [id] : the unique identifier of the event.
@@ -26,11 +41,12 @@ val get_description : t -> string
 
 val get_repeats : t -> repeat_option
 (** [get_repeats event] retrieves whether [event] repeats. *)
+val get_color : t -> color_choices
 
 val event_on_day : Date.t -> t -> bool
 (** [event_on_day date event] is true if [event] can occur on [date]. *)
 
-val edit : t -> title:string -> description:string -> t
+val edit : t -> title:string -> description:string -> color:color_choices -> t
 (** [edit event ~title ~description ~date] returns a new event with the
     specified attributes updated.
     - [event] : the event to be edited.
@@ -49,3 +65,4 @@ val to_string : t -> string
 (** [to_string event] converts the event [event] into a string representation.
     The string includes the ID, title, description, date, and repeat option of
     the event. *)
+

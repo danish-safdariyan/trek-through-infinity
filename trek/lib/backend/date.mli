@@ -98,8 +98,37 @@ val compare : t -> t -> int
     and [d2] are the same. *)
 
 val int_of_day_of_week : day_of_week -> int
+(** [int_of_day_of_week day] converts a day of the week to its corresponding
+    integer representation. Sunday = 0, Monday = 1, ..., Saturday = 6. *)
+
 val nth_weekday_of_month : month -> day_of_week -> int -> int -> t
+(** [nth_weekday_of_month month weekday n year] returns the date of the nth
+    occurrence of a given weekday in a specific month and year.
+    @param month The month in which to find the nth occurrence.
+    @param weekday The target weekday.
+    @param n
+      The nth occurrence to find (e.g., 1 for the first occurrence, 2 for the
+      second).
+    @param year The year in which to find the nth occurrence.
+    @return The date of the nth occurrence of the specified weekday.
+    @raise Failure
+      if the nth occurrence exceeds the number of days in the month. *)
+
 val int_to_month : int -> month
+(** [int_to_month n] converts an integer (1-12) to its corresponding month.
+    @param n The integer representation of the month.
+    @return The month corresponding to the given integer.
+    @raise Failure if the integer is not between 1 and 12. *)
+
 val last_weekday_of_month : month -> day_of_week -> int -> t
-val to_string_iso8601 : t -> string
+(** [last_weekday_of_month month weekday year] returns the date of the last
+    occurrence of a given weekday in a specific month and year.
+    @param month The month in which to find the last occurrence.
+    @param weekday The target weekday.
+    @param year The year in which to find the last occurrence.
+    @return The date of the last occurrence of the specified weekday. *)
+
 val to_string : t -> string
+(** [to_string date] converts a date to a string representation (YYYY-MM-DD).
+    @param date The date to convert.
+    @return The string representation of the date. *)
