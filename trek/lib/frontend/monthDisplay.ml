@@ -51,7 +51,9 @@ let layout_of_day w m ((date : Date.t), tasks) layout update_calendar =
   in
   let date_marker =
     W.label
-      ~fg:(Draw.opaque (if date.month = m then Draw.black else Draw.pale_grey))
+      ~fg:
+        (Draw.opaque
+           (if date.month = m then Draw.black else Draw.find_color "#99e3e4"))
       (string_of_int date.day)
   in
   L.resident date_marker :: helper tasks
@@ -81,8 +83,9 @@ let header w =
   in
   L.flat ~margins:0 headers
 
-let layout_of_month w cal month update_calendar prev_btn nxt_btn =
-  let background_layout = L.empty ~w:(w * 7) ~h:(min_h * 5) () in
+let layout_of_month w h cal month update_calendar prev_btn nxt_btn =
+  let w = w / 7 in
+  let background_layout = L.empty ~w:(w * 7) ~h:(h - 130) () in
   let days = get_month_tasks cal month.days in
   let week_layout days =
     let rec helper = function
@@ -121,10 +124,8 @@ let layout_of_month w cal month update_calendar prev_btn nxt_btn =
       ]
   in
   let month_layout =
-    L.superpose [ background_layout; helper days |> L.tower ~margins:0 ]
+    L.make_clip ~h:(h - 130)
+      (L.superpose [ background_layout; helper days |> L.tower ~margins:0 ])
   in
-  let _ =
-    Space.full_width label;
-    L.set_height background_layout (L.height month_layout)
-  in
+  let _ = Space.full_width label in
   L.tower ~name:"Calendar" [ label; header w; month_layout ]

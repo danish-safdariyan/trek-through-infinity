@@ -19,7 +19,7 @@ let cur_month =
 let get_month () = MonthDisplay.get_month_info !cur_month
 
 (** The current month layout. *)
-let month_layout = L.empty ~w:1000 ~h:1000 ()
+let month_layout = L.empty ~w:1000 ~h:750 ()
 
 let task_layout = L.empty ~w:100 ~h:100 ()
 
@@ -37,10 +37,10 @@ let rec update_month_display () =
   in
   Sync.push (fun () ->
       let width = L.width month_layout in
+      let height = L.height (L.top_house month_layout) in
       let new_layout =
-        MonthDisplay.layout_of_month
-          ((width - 20) / 7)
-          !cal !cur_month update_calendar prev_btn nxt_btn
+        MonthDisplay.layout_of_month (width - 20) height !cal !cur_month
+          update_calendar prev_btn nxt_btn
       in
       L.set_rooms month_layout [ new_layout ])
 
@@ -73,9 +73,10 @@ let update_task_list new_task =
   update_task_display ()
 
 let rightScreenLayout eventLayout =
-  let layout = L.tower [ eventLayout; task_layout ] in
+  let layout = L.tower [ eventLayout ] in
   let () = Space.full_height layout in
-  L.superpose [ GenDisplay.surrounding_box layout; layout ]
+  L.superpose
+    [ GenDisplay.theme_box (L.width layout) (L.height month_layout); layout ]
 
 let test () =
   let _ =

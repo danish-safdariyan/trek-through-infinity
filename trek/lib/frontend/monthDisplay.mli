@@ -9,13 +9,14 @@ val get_month : Date.month -> int -> t
 
 val layout_of_month :
   int ->
+  int ->
   Calendar.t ->
   t ->
   ((Calendar.t -> Calendar.t) -> unit) ->
   Layout.t ->
   Layout.t ->
   Layout.t
-(** [layout_of_month w cal month update_calendar nxt_btn prev_btn] is a Bogue
+(** [layout_of_month w h cal month update_calendar nxt_btn prev_btn] is a Bogue
     layout with the days of the month and their tasks. [w] is the width of each
     day (may remove later), [cal] the calendar to be printed. *)
 
