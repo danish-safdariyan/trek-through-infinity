@@ -37,26 +37,17 @@ open Bogue
 module W = Widget
 module L = Layout
 
-(**[layout_of_task w task] returns a layout of a [task] which is a [string].
-   [task] is supposed to be inputted by the user and [w] is supposed to be
-   passed down and is a ratio of the current window size. Ultimately returns
-   layout of task. *)
-let layout_of_task w task =
-  let text =
-    Event.get_title task |> W.text_display |> L.resident ~x:10 ~y:5 ~w ~h:30
-  in
-  let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
-  let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
-  let border = Style.mk_border ~radius:10 line in
-  let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
-  L.superpose ~name:"Task" ~w ~h:30 [ L.resident box; text ]
+let border_color = Draw.opaque (Draw.find_color "#00B9BC")
+let min_h = 100
 
 (** Returns layout of a day with the date and tasks specified. Does not include
     the box. *)
-let layout_of_day w m (date : Date.t) tasks =
+let layout_of_day w m ((date : Date.t), tasks) layout update_calendar =
   let rec helper = function
     | [] -> []
-    | h :: t -> layout_of_task (w - 10) h :: helper t
+    | h :: t ->
+        EventDisplay.layout_of_event (w - 10) date h layout update_calendar
+        :: helper t
   in
   let date_marker =
     W.label
@@ -66,22 +57,46 @@ let layout_of_day w m (date : Date.t) tasks =
   L.resident date_marker :: helper tasks
   |> L.tower ~name:(Date.format_date date) ~hmargin:5 ~vmargin:5
 
-let min_h = 100
+let header w =
+  let header_lst = [ "SUN"; "MON"; "TUE"; "WED"; "THU"; "FRI"; "SAT" ] in
+  let headers =
+    List.map
+      (fun s ->
+        let label = W.label ~size:20 ~align:Draw.Center s |> L.resident in
+        let _ = Space.full_width label in
+        L.superpose
+          [
+            W.box ~w ~h:30
+              ~style:
+                (Style.create
+                   ~border:
+                     (Style.mk_line ~color:border_color ~width:2 ()
+                     |> Style.mk_border)
+                   ())
+              ()
+            |> L.resident;
+            label;
+          ])
+      header_lst
+  in
+  L.flat ~margins:0 headers
 
-let layout_of_month w cal month =
+let layout_of_month w cal month update_calendar =
+  let background_layout = L.empty ~w:(w * 7) ~h:(min_h * 5) () in
   let days = get_month_tasks cal month.days in
   let week_layout days =
     let rec helper = function
       | [] -> []
-      | h :: t -> layout_of_day w month.m (fst h) (snd h) :: helper t
+      | h :: t ->
+          layout_of_day w month.m h background_layout update_calendar
+          :: helper t
     in
     let day_infos = helper days in
     let h =
       List.fold_left (fun cur_h day -> max (L.height day) cur_h) min_h day_infos
     in
     let border =
-      Style.mk_line ~color:(Draw.opaque (Draw.find_color "#00B9BC")) ~width:1 ()
-      |> Style.mk_border
+      Style.mk_line ~color:border_color ~width:2 () |> Style.mk_border
     in
     List.map
       (fun day ->
@@ -100,5 +115,11 @@ let layout_of_month w cal month =
     W.label ~size:20 ~align:Draw.Center (string_of_month month)
     |> L.resident ~name:"Month Label"
   in
-  let _ = Space.full_width label in
-  label :: helper days |> L.tower ~name:"Calendar" ~margins:0
+  let month_layout =
+    L.superpose [ background_layout; helper days |> L.tower ~margins:0 ]
+  in
+  let _ =
+    Space.full_width label;
+    L.set_height background_layout (L.height month_layout)
+  in
+  L.tower ~name:"Calendar" [ label; header w; month_layout ]

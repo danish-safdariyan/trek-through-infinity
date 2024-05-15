@@ -1,8 +1,6 @@
 open Bogue
 open Main
 open Backend
-
-(* open GenDisplay *)
 module L = Layout
 module W = Widget
 module P = Popups
@@ -17,19 +15,23 @@ let cur_month =
      MonthDisplay.get_month today.month today.year)
 
 (** The current month layout. *)
-let month_layout = MonthDisplay.layout_of_month 100 !cal !cur_month
+let month_layout = L.empty ~w:1000 ~h:1000 ()
 
 (** Updates the display based on [cur_month] and [cal]. *)
-let update_display () =
+let rec update_display () =
+  let update_calendar new_cal =
+    cal := new_cal !cal;
+    update_display ()
+  in
   Sync.push (fun () ->
       let width = L.width month_layout in
       let new_layout =
-        MonthDisplay.layout_of_month (width / 7) !cal !cur_month
+        MonthDisplay.layout_of_month (width / 7) !cal !cur_month update_calendar
       in
       L.set_rooms month_layout [ new_layout ])
 
-let update_calendar c =
-  cal := c;
+let update_calendar new_cal =
+  cal := new_cal !cal;
   update_display ()
 
 let update_month (m, y) =
@@ -37,7 +39,7 @@ let update_month (m, y) =
   update_display ()
 
 let add_event date title description repeats =
-  update_calendar (Calendar.add_event date title description repeats !cal)
+  update_calendar (Calendar.add_event date title description repeats)
 
 let get_month () = MonthDisplay.get_month_info !cur_month
 
