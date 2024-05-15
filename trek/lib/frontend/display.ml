@@ -34,8 +34,9 @@ let rec update_display () =
   Sync.push (fun () ->
       let width = L.width month_layout in
       let new_layout =
-        MonthDisplay.layout_of_month (width / 7) !cal !cur_month update_calendar
-          prev_btn nxt_btn
+        MonthDisplay.layout_of_month
+          ((width - 20) / 7)
+          !cal !cur_month update_calendar prev_btn nxt_btn
       in
       L.set_rooms month_layout [ new_layout ])
 
@@ -45,6 +46,9 @@ let update_calendar new_cal =
 
 let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
+
+let taskList = ref TaskList.empty
+let taskListLayout = TaskListDisplay.taskListLayout !taskList
 
 let test () =
   let _ = update_display () in
@@ -56,8 +60,10 @@ let test () =
         L.superpose
           [
             GenDisplay.surrounding_box
-              (L.tower [ new_event; Space.vfill ~bottom_margin:0 () ]);
-            L.tower [ new_event; Space.vfill ~bottom_margin:0 () ];
+              (L.tower
+                 [ new_event; taskListLayout; Space.vfill ~bottom_margin:0 () ]);
+            L.tower
+              [ new_event; taskListLayout; Space.vfill ~bottom_margin:0 () ];
           ];
       ]
   in
