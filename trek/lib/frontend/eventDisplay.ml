@@ -5,6 +5,7 @@ module L = Layout
 module W = Widget
 module P = Popups
 
+(** Popup for deleting events *)
 let delete_event_popup date event layout update_calendar on_update =
   match Event.get_repeats event with
   | NoRepeat ->
@@ -73,6 +74,7 @@ let delete_event_popup date event layout update_calendar on_update =
       in
       out
 
+(** Popup for editing events *)
 let edit_event_popup date event layout update_calendar on_update =
   let title_input = W.text_input ~prompt:"Title" () in
   let desc_input = W.text_input ~prompt:"Description" () in
@@ -119,7 +121,8 @@ let edit_event_popup date event layout update_calendar on_update =
   in
   out
 
-let task_info_popup date event layout update_calendar =
+(** Popup with details about event *)
+let event_info_popup date event layout update_calendar =
   let title =
     W.label ~size:20 ~align:Draw.Center (Event.get_title event) |> L.resident
   in
@@ -154,7 +157,6 @@ let task_info_popup date event layout update_calendar =
     Space.full_width title;
     Space.full_width buttons
   in
-
   out
 
 let layout_of_event w date event layout update_calendar =
@@ -177,10 +179,85 @@ let layout_of_event w date event layout update_calendar =
   let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
   let border = Style.mk_border ~radius:10 line in
   let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
-  let out = L.superpose ~name:"Task" ~w ~h:30 [ L.resident box; label_l ] in
-  let popup = task_info_popup date event layout update_calendar in
+  let out = L.superpose ~name:"Event" ~w ~h:30 [ L.resident box; label_l ] in
+  let popup = event_info_popup date event layout update_calendar in
   let _ =
     W.on_release ~release:(fun _ -> P.show popup) label;
     W.on_release ~release:(fun _ -> P.show popup) box
+  in
+  out
+
+let add_event_layout add_event =
+  let title_input = W.text_input ~prompt:"Title" () in
+  let desc_input = W.text_input ~prompt:"Description" () in
+  let repeats = ref Event.NoRepeat in
+  let rep_input =
+    Select.create
+      ~action:(fun input ->
+        repeats :=
+          match input with
+          | 0 -> NoRepeat
+          | 1 -> Daily
+          | 2 -> Weekly
+          | 3 -> Monthly
+          | 4 -> Yearly
+          | _ -> failwith ("Should not reach " ^ string_of_int input))
+      [| "Once"; "Daily"; "Weekly"; "Monthly"; "Yearly" |]
+      0
+  in
+  let date_input = W.button (Date.current_date () |> Date.format_date) in
+  let create_btn = W.button "OK" in
+  let cancel_btn = W.button "Cancel" in
+  let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
+  let room_list =
+    [
+      W.label ~size:18 "New Event:" |> L.resident;
+      title_input |> L.resident;
+      date_input |> L.resident;
+      desc_input |> L.resident;
+      rep_input;
+      buttons;
+    ]
+  in
+  let () =
+    List.iter
+      (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
+      room_list
+  in
+  let stuff = L.tower room_list in
+  let out = L.superpose [ surrounding_box stuff; stuff ] in
+  let selector = DateSelector.make_selector () in
+  let date_selector_popup =
+    P.attach_popup out (DateSelector.get_layout selector)
+  in
+  let on_close () =
+    P.hide date_selector_popup;
+    W.set_text title_input "";
+    W.set_text desc_input "";
+    DateSelector.set_date selector (Date.current_date ())
+  in
+  let _ =
+    P.should_exit_on_press date_selector_popup true;
+    W.on_button_release ~release:(fun _ -> on_close ()) cancel_btn;
+    W.on_button_release
+      ~release:(fun _ ->
+        add_event
+          (DateSelector.get_date selector)
+          (W.get_text_input title_input |> Text_input.text)
+          (W.get_text_input desc_input |> Text_input.text)
+          !repeats;
+        on_close ())
+      create_btn;
+    DateSelector.on_update selector (fun _ ->
+        W.set_text date_input
+          (DateSelector.get_date selector |> Date.format_date);
+        P.hide date_selector_popup);
+    W.on_button_release
+      ~release:(fun _ ->
+        if P.get_state date_selector_popup then (
+          P.hide date_selector_popup;
+          DateSelector.get_date selector |> DateSelector.set_date selector)
+        else P.show date_selector_popup)
+      date_input
   in
   out
