@@ -1,3 +1,4 @@
+(* event.ml *)
 type repeat_option =
   | NoRepeat
   | Daily
@@ -5,21 +6,41 @@ type repeat_option =
   | Monthly
   | Yearly
 
+type color_choices =
+  | Red
+  | Orange
+  | Yellow
+  | Green
+  | Blue
+  | Indigo
+  | Violet
+
 type t = {
   id : int;
   title : string;
   description : string;
   repeats : repeat_option;
+  color : color_choices;
   special_condition : Date.t -> bool;
 }
 
-let create ~id ~title ~description ~repeats =
-  { id; title; description; repeats; special_condition = (fun _ -> true) }
+let create ~id ~title ~description ~repeats ~color =
+  {
+    id;
+    title;
+    description;
+    repeats;
+    color;
+    special_condition = (fun _ -> true);
+  }
 
 let get_title event = event.title
 let get_description event = event.description
 let get_repeats event = event.repeats
-let edit event ~title ~description = { event with title; description }
+let get_color event = event.color
+
+let edit event ~title ~description ~color =
+  { event with title; description; color }
 
 let to_string event =
   Printf.sprintf "ID: %d, Title: %s, Description: %s" event.id event.title

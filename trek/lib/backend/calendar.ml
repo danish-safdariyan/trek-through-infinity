@@ -32,9 +32,9 @@ let next_id () =
   !current_id
 
 (* Create an event *)
-let make_event title description repeats =
+let make_event title description repeats color =
   let id = next_id () in
-  Event.create ~id ~title ~description ~repeats
+  Event.create ~id ~title ~description ~repeats ~color
 
 let add_existing_event date event calendar =
   match Event.get_repeats event with
@@ -72,8 +72,8 @@ let add_existing_event date event calendar =
         yearly = Map.insert (date.day, date.month) (e :: events) calendar.yearly;
       }
 
-let add_event date title description repeats calendar =
-  let event = make_event title description repeats in
+let add_event date title description repeats color calendar =
+  let event = make_event title description repeats color in
   add_existing_event date event calendar
 
 (* Easter calculation *)
@@ -130,66 +130,69 @@ let initialize_calendar cal =
   let fixed_dates =
     [
       ( Date.create year January 1,
-        make_event "New Year's Day" "Celebration of the new year" Yearly );
+        make_event "New Year's Day" "Celebration of the new year" Yearly Green
+      );
       ( Date.nth_weekday_of_month January Monday 3 year,
         make_event "Martin Luther King Jr. Day"
-          "Celebration of Martin\n         Luther King Jr." Yearly
+          "Celebration of Martin\n         Luther King Jr." Yearly Yellow
         |> make_nth_weekday_of_month_event January Monday 3 );
       ( Date.create year February 14,
-        make_event "Valentine's Day" "Day of love and affection" Yearly );
+        make_event "Valentine's Day" "Day of love and affection" Yearly Red );
       ( Date.nth_weekday_of_month February Monday 3 year,
-        make_event "Presidents' Day" "Celebration of US Presidents" Yearly
+        make_event "Presidents' Day" "Celebration of US Presidents" Yearly Blue
         |> make_nth_weekday_of_month_event February Monday 3 );
       ( Date.create year March 17,
-        make_event "St. Patrick's Day" "Celebration of Irish culture" Yearly );
+        make_event "St. Patrick's Day" "Celebration of Irish culture" Yearly
+          Violet );
       ( easter year,
         make_event "Easter Sunday"
           "Christian holiday celebrating the resurrection of Jesus" Weekly
+          Orange
         |> Event.add_condition (fun d -> Date.compare d (easter d.year) = 0) );
       ( Date.create year April 22,
-        make_event "Earth Day" "Promotion of environmental awareness" Yearly );
+        make_event "Earth Day" "Promotion of environmental awareness" Yearly
+          Green );
       ( Date.nth_weekday_of_month May Sunday 2 year,
-        make_event "Mother's Day" "Celebration of mothers" Weekly
+        make_event "Mother's Day" "Celebration of mothers" Weekly Red
         |> make_nth_weekday_of_month_event May Sunday 2 );
       ( Date.last_weekday_of_month May Monday year,
         make_event "Memorial Day" "Honoring military personnel who have died"
-          Weekly
+          Weekly Yellow
         |> Event.add_condition (fun d ->
                Date.compare d (Date.last_weekday_of_month May Monday d.year) = 0)
       );
       ( Date.nth_weekday_of_month June Sunday 3 year,
-        make_event "Father's Day" "Celebration of fathers" Weekly
+        make_event "Father's Day" "Celebration of fathers" Weekly Red
         |> make_nth_weekday_of_month_event June Sunday 3 );
       ( Date.create year July 4,
         make_event "Independence Day" "Celebration of American independence"
-          Yearly );
+          Yearly Violet );
       ( Date.nth_weekday_of_month September Monday 1 year,
-        make_event "Labor Day" "Honoring workers" Weekly
+        make_event "Labor Day" "Honoring workers" Weekly Indigo
         |> make_nth_weekday_of_month_event September Monday 1 );
       ( Date.nth_weekday_of_month October Monday 2 year,
         make_event "Columbus Day"
-          "Commemoration of Christopher Columbus's arrival" Weekly
+          "Commemoration of Christopher Columbus's arrival" Weekly Indigo
         |> make_nth_weekday_of_month_event October Monday 2 );
       ( Date.create year October 31,
         make_event "Halloween" "Celebration involving costumes and treats"
-          Yearly );
+          Yearly Orange );
       ( Date.create year November 11,
-        make_event "Veterans Day" "Honoring military veterans" Yearly );
+        make_event "Veterans Day" "Honoring military veterans" Yearly Yellow );
       ( Date.nth_weekday_of_month November Thursday 4 year,
         make_event "Thanksgiving Day"
-          "Day for giving thanks and family gatherings" Weekly
+          "Day for giving thanks and family gatherings" Weekly Green
         |> make_nth_weekday_of_month_event November Thursday 4 );
       ( Date.create year December 24,
-        make_event "Christmas Eve" "Day before Christmas" Yearly );
+        make_event "Christmas Eve" "Day before Christmas" Yearly Green );
       ( Date.create year December 25,
         make_event "Christmas Day" "Celebration of the birth of Jesus Christ"
-          Yearly );
+          Yearly Red );
       ( Date.create year December 31,
         make_event "New Year's Eve" "Celebration of the last day of the year"
-          Yearly );
+          Yearly Green );
     ]
   in
-
   add_forever_events cal fixed_dates
 
 (** Removes event from one_time events (if it exists). *)

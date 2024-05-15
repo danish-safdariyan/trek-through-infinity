@@ -38,8 +38,8 @@ let update_month (m, y) =
   cur_month := MonthDisplay.get_month m y;
   update_display ()
 
-let add_event date title description repeats =
-  update_calendar (Calendar.add_event date title description repeats)
+let add_event date title description repeats color =
+  update_calendar (Calendar.add_event date title description repeats color)
 
 let get_month () = MonthDisplay.get_month_info !cur_month
 

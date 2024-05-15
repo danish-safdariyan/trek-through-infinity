@@ -1,4 +1,4 @@
-(** Implementation of the Calendar module for managing events *)
+(** Implementation of the Calendar module for managing events, calendar.mli*)
 
 type t
 (** Type representing a calendar *)
@@ -6,11 +6,19 @@ type t
 val empty : t
 (** [empty] is an empty calendar *)
 
-val make_event : string -> string -> Event.repeat_option -> Event.t
+val make_event :
+  string -> string -> Event.repeat_option -> Event.color_choices -> Event.t
 (** [make_event title description] creates an event with the provided
     information. Should use this function over [Event.create]. *)
 
-val add_event : Date.t -> string -> string -> Event.repeat_option -> t -> t
+val add_event :
+  Date.t ->
+  string ->
+  string ->
+  Event.repeat_option ->
+  Event.color_choices ->
+  t ->
+  t
 (** [add_event date title description repeats calendar] makes a new event with
     the given information and adds it to the calendar on the specified date. *)
 
