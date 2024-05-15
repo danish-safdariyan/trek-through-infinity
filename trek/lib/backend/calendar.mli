@@ -1,3 +1,5 @@
+(* calendar.mli *)
+
 module Map = CalDict.AssocListMap
 
 type day = int * Date.month

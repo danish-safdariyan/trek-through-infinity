@@ -31,8 +31,6 @@ module type Map = sig
      if found *)
 end
 
-(* type event = Day of int * int * int *)
-
 module AssocListMap : Map = struct
   type ('k, 'v) t = ('k * 'v) list
   (** The list [(k1, v1); ...; (kn, vn)] binds key [ki] to value [vi]. If a key
@@ -46,10 +44,6 @@ module AssocListMap : Map = struct
   let bindings m = m |> keys |> List.map (fun k -> (k, lookup k m))
   let to_list m : ('a * 'b) list = m
 
-  (* let rec compare_lists list1 list2 compare_ele = match (list1, list2) with |
-     [], [] -> 0 | [], _ -> 1 | _, [] -> 1 | (k1,v1) :: rest1, (k2,v2) :: rest2
-     -> let ele_comparison = compare_ele v1 v2 in if ele_comparison = 0 then
-     compare_lists rest1 rest2 compare_ele else ele_comparison *)
   let rec remove k m =
     match m with
     | [] -> m

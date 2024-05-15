@@ -1,3 +1,5 @@
+(* date.mli *)
+
 (** [month] Type representing months of the year. *)
 type month =
   | January
