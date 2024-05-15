@@ -189,6 +189,7 @@ let initialize_calendar cal =
           Yearly );
     ]
   in
+
   add_forever_events cal fixed_dates
 
 (** Removes event from one_time events (if it exists). *)
