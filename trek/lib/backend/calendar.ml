@@ -36,6 +36,7 @@ let make_event title description repeats color =
   let id = next_id () in
   Event.create ~id ~title ~description ~repeats ~color
 
+(* Add an existing event to the calendar. *)
 let add_existing_event date event calendar =
   match Event.get_repeats event with
   | NoRepeat ->
@@ -72,11 +73,12 @@ let add_existing_event date event calendar =
         yearly = Map.insert (date.day, date.month) (e :: events) calendar.yearly;
       }
 
+(* Create and add an event to the calendar. *)
 let add_event date title description repeats color calendar =
   let event = make_event title description repeats color in
   add_existing_event date event calendar
 
-(* Easter calculation *)
+(* Calculate the date of Easter for a given year. *)
 let easter year =
   let a = year mod 19 in
   let b = year / 100 in
@@ -94,10 +96,12 @@ let easter year =
   let day = ((h + l - (7 * m) + 114) mod 31) + 1 in
   Date.create year (Date.int_to_month month) day
 
+(* Add condition to event for nth weekday of the month. *)
 let make_nth_weekday_of_month_event month weekday n =
   Event.add_condition (fun d ->
       Date.compare d (Date.nth_weekday_of_month month weekday n d.year) = 0)
 
+(* Recursively add recurring events to the calendar. *)
 let rec add_forever_events calendar = function
   | [] -> calendar
   | (date, event) :: t ->
@@ -238,6 +242,7 @@ let remove_yearly_event date event calendar =
   in
   { calendar with yearly = Map.insert d filtered_events calendar.yearly }
 
+(** Remove an event from the calendar. *)
 let remove_event date event calendar =
   match Event.get_repeats event with
   | NoRepeat -> remove_once_event date event calendar
@@ -297,6 +302,7 @@ let edit_yearly_event date event updated_event calendar =
   in
   { calendar with yearly = Map.insert d updated_events calendar.yearly }
 
+(** Edit an event in the calendar. *)
 let edit_event date event updated_event calendar =
   match Event.get_repeats event with
   | NoRepeat -> edit_once_event date event updated_event calendar
@@ -324,6 +330,7 @@ let find_yearly_events date calendar =
   let d = get_day date in
   try Map.lookup d calendar.yearly with Not_found -> []
 
+(** Find all events on a given date. *)
 let find_events calendar date =
   find_once_events date calendar
   @ calendar.daily
@@ -359,6 +366,7 @@ let list_yearly_events calendar =
   |> List.map (fun (_, events) -> List.map Event.to_string events)
   |> List.flatten
 
+(** List all events in the calendar. *)
 let list_all_events calendar =
   list_once_events calendar @ list_daily_events calendar
   @ list_weekly_events calendar

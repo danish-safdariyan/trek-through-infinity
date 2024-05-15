@@ -289,9 +289,6 @@ let last_weekday_of_month month weekday year =
   let last_day = days_in_month year month in
   find_last_weekday last_day
 
-let to_string_iso8601 date =
-  Printf.sprintf "%04d-%02d-%02d" date.year (int_of_month date.month) date.day
-
 let to_string date =
   Printf.sprintf "%04d-%02d-%02d" date.year (int_of_month date.month) date.day
 
