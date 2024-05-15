@@ -243,7 +243,7 @@ let add_event_layout add_event =
       room_list
   in
   let stuff = L.tower room_list in
-  let out = L.superpose [ surrounding_box stuff; stuff ] in
+  let out = L.superpose [ surrounding_box stuff ~width:3; stuff ] in
   let selector = DateSelector.make_selector () in
   let date_selector_popup =
     P.attach_popup out (DateSelector.get_layout selector)
