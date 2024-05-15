@@ -78,6 +78,7 @@ let delete_event_popup date event layout update_calendar on_update =
 let edit_event_popup date event layout update_calendar on_update =
   let title_input = W.text_input ~prompt:"Title" () in
   let desc_input = W.text_input ~prompt:"Description" () in
+  let color_input = ColorSelector.make_selector () in
   let update_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
   let buttons = L.flat_of_w [ update_btn; cancel_btn ] in
@@ -86,6 +87,7 @@ let edit_event_popup date event layout update_calendar on_update =
       W.label ~size:18 "Edit Event:" |> L.resident;
       title_input |> L.resident;
       desc_input |> L.resident;
+      ColorSelector.get_layout color_input;
       buttons;
     ]
   in
@@ -94,14 +96,16 @@ let edit_event_popup date event layout update_calendar on_update =
     List.iter
       (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
       room_list;
-    Space.full_width stuff
+    Space.full_width stuff;
+    ColorSelector.set_color (Event.get_color event) color_input
   in
   let popup = L.superpose [ theme_box 300 (L.height stuff); stuff ] in
   let out = P.attach_popup layout popup in
   let on_close () =
     P.hide out;
     W.set_text title_input (Event.get_title event);
-    W.set_text desc_input (Event.get_description event)
+    W.set_text desc_input (Event.get_description event);
+    ColorSelector.set_color (Event.get_color event) color_input
   in
   let _ =
     W.set_text title_input (Event.get_title event);
@@ -114,7 +118,7 @@ let edit_event_popup date event layout update_calendar on_update =
              (Event.edit event
                 ~title:(W.get_text_input title_input |> Text_input.text)
                 ~description:(W.get_text_input desc_input |> Text_input.text)
-                ~color:Event.Blue));
+                ~color:(ColorSelector.get_color color_input)));
         on_update ();
         on_close ())
       update_btn;
@@ -160,9 +164,20 @@ let event_info_popup date event layout update_calendar =
   in
   out
 
+(** outline, background *)
+let get_color = function
+  | Event.Red -> (Draw.red, Draw.find_color "#ECAAAA")
+  | Orange -> (Draw.find_color "#C57106", Draw.find_color "#ECCB86")
+  | Yellow -> (Draw.find_color "#CFAF07", Draw.find_color "#F4F2C4")
+  | Green -> (Draw.find_color "#08542A", Draw.find_color "#C4F4C9")
+  | Blue -> (Draw.blue, Draw.find_color "#C4E9F4")
+  | Indigo -> (Draw.find_color "#00796E", Draw.find_color "#C0f2ee")
+  | Violet -> (Draw.find_color "#540853", Draw.find_color "#F4C4EE")
+
 let layout_of_event w date event layout update_calendar =
+  let color = Event.get_color event |> get_color in
   let text = Event.get_title event in
-  let label = W.label text in
+  let label = W.label ~fg:(fst color |> Draw.opaque) text in
   let _ =
     let temp = W.get_label label in
     if fst (Label.size temp) > w - 13 then (
@@ -176,8 +191,8 @@ let layout_of_event w date event layout update_calendar =
       done)
   in
   let label_l = L.resident ~x:5 ~y:5 label in
-  let background = Style.color_bg (Draw.opaque Draw.pale_grey) in
-  let line = Style.mk_line ~color:(Draw.opaque Draw.dark_grey) ~width:2 () in
+  let background = Style.color_bg (snd color |> Draw.opaque) in
+  let line = Style.mk_line ~color:(fst color |> Draw.opaque) ~width:2 () in
   let border = Style.mk_border ~radius:10 line in
   let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
   let out = L.superpose ~name:"Event" ~w ~h:30 [ L.resident box; label_l ] in
@@ -207,6 +222,7 @@ let add_event_layout add_event =
       0
   in
   let date_input = W.button (Date.current_date () |> Date.format_date) in
+  let color_input = ColorSelector.make_selector () in
   let create_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
   let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
@@ -217,6 +233,7 @@ let add_event_layout add_event =
       date_input |> L.resident;
       desc_input |> L.resident;
       rep_input;
+      ColorSelector.get_layout color_input;
       buttons;
     ]
   in
@@ -235,7 +252,8 @@ let add_event_layout add_event =
     P.hide date_selector_popup;
     W.set_text title_input "";
     W.set_text desc_input "";
-    DateSelector.set_date selector (Date.current_date ())
+    DateSelector.set_date selector (Date.current_date ());
+    ColorSelector.set_color Event.Red color_input
   in
   let _ =
     P.should_exit_on_press date_selector_popup true;
@@ -246,7 +264,8 @@ let add_event_layout add_event =
           (DateSelector.get_date selector)
           (W.get_text_input title_input |> Text_input.text)
           (W.get_text_input desc_input |> Text_input.text)
-          !repeats Event.Blue;
+          !repeats
+          (ColorSelector.get_color color_input);
         on_close ())
       create_btn;
     DateSelector.on_update selector (fun _ ->
