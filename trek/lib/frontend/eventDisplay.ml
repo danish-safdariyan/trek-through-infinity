@@ -113,7 +113,8 @@ let edit_event_popup date event layout update_calendar on_update =
           (Calendar.edit_event date event
              (Event.edit event
                 ~title:(W.get_text_input title_input |> Text_input.text)
-                ~description:(W.get_text_input desc_input |> Text_input.text)));
+                ~description:(W.get_text_input desc_input |> Text_input.text)
+                ~color:Event.Blue));
         on_update ();
         on_close ())
       update_btn;
@@ -245,7 +246,7 @@ let add_event_layout add_event =
           (DateSelector.get_date selector)
           (W.get_text_input title_input |> Text_input.text)
           (W.get_text_input desc_input |> Text_input.text)
-          !repeats;
+          !repeats Event.Blue;
         on_close ())
       create_btn;
     DateSelector.on_update selector (fun _ ->
