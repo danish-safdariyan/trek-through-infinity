@@ -20,13 +20,36 @@ let test_add_task_with_same_title _ =
   let list_with_task1 = TaskList.add_task TaskList.empty task1 in
   assert_equal list_with_task1 (TaskList.add_task list_with_task1 task1)
 
-let test_remove_task _ =
+let test_remove_task_one_ele _ =
   let task1 =
     Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
   in
   let list_with_task1 = TaskList.add_task TaskList.empty task1 in
   let list_without_task1 = TaskList.remove_task list_with_task1 "Task 1" in
   assert_equal TaskList.empty list_without_task1
+
+let test_remove_task_two_ele _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  let task2 =
+    Task.create ~title:"Task 2" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  let list_with_both =
+    TaskList.add_task (TaskList.add_task TaskList.empty task1) task2
+  in
+  let list_without_task1 = TaskList.remove_task list_with_both "Task 1" in
+  let list_with_task2 = TaskList.add_task TaskList.empty task2 in
+  assert_equal list_with_task2 list_without_task1
+
+let test_remove_task_absent _ =
+  let task1 =
+    Task.create ~title:"Task 1" ~date:"2024-05-13" ~display:CalDisplay
+  in
+  let list_with_task1 = TaskList.add_task TaskList.empty task1 in
+  let remove_attempt = TaskList.remove_task list_with_task1 "Task 2" in
+  let correct_list = TaskList.add_task TaskList.empty task1 in
+  assert_equal remove_attempt correct_list
 
 let test_edit_task _ =
   let task1 =
@@ -56,24 +79,15 @@ let test_list_tasks _ =
     ]
     (TaskList.list_tasks list_with_all_tasks)
 
-(* let test_list_tasks _ = let task1 = Task.create ~title:"Task 1"
-   ~date:"2024-05-13" ~display:CalDisplay in let task2 = Task.create
-   ~title:"Task 2" ~date:"2024-05-14" ~display:ListDisplay in let
-   list_with_tasks = TaskList.add_task TaskList.empty task1 in let
-   list_with_all_tasks = TaskList.add_task list_with_tasks task2 in let actual =
-   TaskList.list_tasks list_with_all_tasks in let expected = [ "Title: Task 1,
-   Date: 2024-05-13, Display:\n Display on Calendar Only"; "Title: Task 2, Date:
-   2024-05-14, Display:\n Display on List Only"; ] in List.iter2 (fun a e ->
-   Printf.printf "Expected: %s\nActual: %s\n" e a) actual expected; assert_equal
-   expected actual *)
-
 let suite =
   "TaskList Tests"
   >::: [
          "test_empty_task_list" >:: test_empty_task_list;
          "test_add_task_to_empty_list" >:: test_add_task_to_empty_list;
          "test_add_task_with_same_title" >:: test_add_task_with_same_title;
-         "test_remove_task" >:: test_remove_task;
+         "test_remove_task_one_ele" >:: test_remove_task_one_ele;
+         "test_remove_task_two_ele" >:: test_remove_task_two_ele;
+         "test_remove_task_absent" >:: test_remove_task_absent;
          "test_edit_task" >:: test_edit_task;
          "test_list_tasks" >:: test_list_tasks;
        ]
