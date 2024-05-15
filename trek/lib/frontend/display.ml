@@ -48,7 +48,14 @@ let add_event date title description repeats color =
   update_calendar (Calendar.add_event date title description repeats color)
 
 let taskList = ref TaskList.empty
-let taskListLayout = TaskListDisplay.taskListLayout !taskList
+
+let taskListLayout =
+  TaskListDisplay.taskListLayout (TaskList.list_tasks !taskList)
+
+let rightScreenLayout eventLayout =
+  let layout = L.tower [ eventLayout; taskListLayout ] in
+  let () = Space.full_height layout in
+  L.superpose [ GenDisplay.surrounding_box layout; layout ]
 
 let test () =
   let _ = update_display () in
@@ -57,14 +64,7 @@ let test () =
     L.flat
       [
         L.superpose [ GenDisplay.surrounding_box month_layout; month_layout ];
-        L.superpose
-          [
-            GenDisplay.surrounding_box
-              (L.tower
-                 [ new_event; taskListLayout; Space.vfill ~bottom_margin:0 () ]);
-            L.tower
-              [ new_event; taskListLayout; Space.vfill ~bottom_margin:0 () ];
-          ];
+        rightScreenLayout new_event;
       ]
   in
   L.on_resize (L.top_house layout) (fun () -> update_display ());
