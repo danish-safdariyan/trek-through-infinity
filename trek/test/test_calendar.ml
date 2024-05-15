@@ -224,8 +224,7 @@ let test_make_event_daily_repeat _ =
     assert_equal 1 (List.length events);
     let events = Calendar.find_events new_calendar test_backward in
     assert_equal 0 (List.length events)
-  done;
-  Printf.printf "Test make_event_daily_repeat passed!\n"
+  done
 
 let test_make_event_weekly_repeat _ =
   let calendar = initialize_calendar empty in
@@ -240,8 +239,7 @@ let test_make_event_weekly_repeat _ =
     assert_equal 1 (List.length events);
     let events = Calendar.find_events updated_calendar test_backward in
     assert_equal 0 (List.length events)
-  done;
-  Printf.printf "Test make_event_weekly_repeat passed!\n"
+  done
 
 let test_make_event_monthly_repeat _ =
   let calendar = initialize_calendar empty in
@@ -256,8 +254,7 @@ let test_make_event_monthly_repeat _ =
     assert_equal 1 (List.length events);
     let events = Calendar.find_events updated_calendar test_backward in
     assert_equal 0 (List.length events)
-  done;
-  Printf.printf "Test make_event_monthly_repeat passed!\n"
+  done
 
 let test_make_event_yearly_repeat _ =
   let calendar = initialize_calendar empty in
@@ -272,8 +269,7 @@ let test_make_event_yearly_repeat _ =
     assert_equal 1 (List.length events);
     let events = Calendar.find_events updated_calendar test_backward in
     assert_equal 0 (List.length events)
-  done;
-  Printf.printf "Test make_event_yearly_repeat passed!\n"
+  done
 
 let suite =
   "Calendar Tests"
@@ -293,4 +289,6 @@ let suite =
          "test_make_event_yearly_repeat" >:: test_make_event_yearly_repeat;
        ]
 
-let () = run_test_tt_main suite
+let () =
+  run_test_tt_main suite;
+  print_endline "test_calendar passed all tests"

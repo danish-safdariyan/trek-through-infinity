@@ -223,4 +223,6 @@ let suite =
          "test_is_leap_year" >:: test_is_leap_year;
        ]
 
-let () = run_test_tt_main suite
+let () =
+  run_test_tt_main suite;
+  print_endline "test_date passed all tests"
