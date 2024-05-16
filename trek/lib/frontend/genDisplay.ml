@@ -19,7 +19,7 @@ let surrounding_box ?(background = Draw.find_color "#00B9BC")
     ()
   |> L.resident
 
-let theme_box w h ?(width = 4) =
+let theme_box ?(width = 4) w h =
   W.box ~w ~h
     ~style:
       (Style.create
