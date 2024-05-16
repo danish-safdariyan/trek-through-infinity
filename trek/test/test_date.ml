@@ -33,14 +33,6 @@ let test_current_date _ =
   assert_equal (now.tm_mon + 1) current_month ~msg:"Test current_date: month";
   assert_equal now.tm_mday (get_day current) ~msg:"Test current_date: day"
 
-let test_parse_date _ =
-  let date = parse_date "2024-04-27" in
-  assert_equal 2024 (get_year date) ~msg:"Test parse_date: year";
-  (match get_month date with
-  | April -> ()
-  | _ -> assert_failure "Test parse_date: month");
-  assert_equal 27 (get_day date) ~msg:"Test parse_date: day"
-
 let test_days_in_month _ =
   assert_equal 31
     (days_in_month 2024 January)
@@ -210,7 +202,6 @@ let suite =
   >::: [
          "test_create" >:: test_create;
          "test_current_date" >:: test_current_date;
-         "test_parse_date" >:: test_parse_date;
          "test_days_in_month" >:: test_days_in_month;
          "test_day_of_week" >:: test_day_of_week;
          "test_last_day" >:: test_last_day;

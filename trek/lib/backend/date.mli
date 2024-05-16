@@ -47,10 +47,6 @@ val get_day : t -> int
 val current_date : unit -> t
 (** [current_date ()] Returns the current date. *)
 
-val parse_date : string -> t
-(** [parse_date str] Parses a date string in "YYYY-MM-DD" format into a date
-    type. *)
-
 val days_in_month : int -> month -> int
 (** [days_in_month year month] Returns the number of days in a given month and
     year. *)

@@ -63,28 +63,6 @@ let current_date () =
     day = now.tm_mday;
   }
 
-(* Parses a date string in YYYY-MM-DD format *)
-let parse_date str =
-  try
-    Scanf.sscanf str "%d-%d-%d" (fun year month day ->
-        create year
-          (match month with
-          | 1 -> January
-          | 2 -> February
-          | 3 -> March
-          | 4 -> April
-          | 5 -> May
-          | 6 -> June
-          | 7 -> July
-          | 8 -> August
-          | 9 -> September
-          | 10 -> October
-          | 11 -> November
-          | 12 -> December
-          | _ -> failwith "Invalid month value")
-          day)
-  with _ -> failwith "Invalid date format. Expected: YYYY-MM-DD"
-
 (* Returns the number of days in a given month and year *)
 let days_in_month year month =
   match month with
