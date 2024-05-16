@@ -203,7 +203,7 @@ let layout_of_event w date event layout update_calendar =
   in
   out
 
-let add_event_layout add_event =
+let add_event_layout update_calendar =
   let title_input = W.text_input ~prompt:"Title" () in
   let desc_input = W.text_input ~prompt:"Description" () in
   let repeats = ref Event.NoRepeat in
@@ -262,12 +262,13 @@ let add_event_layout add_event =
     W.on_button_release ~release:(fun _ -> on_close ()) cancel_btn;
     W.on_button_release
       ~release:(fun _ ->
-        add_event
-          (DateSelector.get_date selector)
-          (W.get_text_input title_input |> Text_input.text)
-          (W.get_text_input desc_input |> Text_input.text)
-          !repeats
-          (ColorSelector.get_color color_input);
+        update_calendar
+          (Calendar.add_event
+             (DateSelector.get_date selector)
+             (W.get_text_input title_input |> Text_input.text)
+             (W.get_text_input desc_input |> Text_input.text)
+             !repeats
+             (ColorSelector.get_color color_input));
         on_close ())
       create_btn;
     DateSelector.on_update selector (fun _ ->

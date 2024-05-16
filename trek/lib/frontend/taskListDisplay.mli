@@ -1,4 +1,4 @@
 open Bogue
 
-val addTaskPopup : Layout.t -> (string -> unit) -> Popups.t
-val taskListLayout : int -> int -> string list -> (string -> unit) -> Layout.t
+val left_side_layout :
+  int -> int -> Layout.t -> string list -> (string -> unit) -> Layout.t

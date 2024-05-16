@@ -3,8 +3,9 @@ module L = Layout
 module W = Widget
 module P = Popups
 
-let layout_of_task task =
-  let label = L.resident ~x:5 ~y:5 task in
+(** Returns the layout of a task *)
+let layout_of_task w task =
+  let label = L.resident ~x:5 ~y:5 (W.label task) in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
   let line =
     Style.mk_line ~color:(Draw.opaque (Draw.find_color "#008284")) ~width:2 ()
@@ -14,6 +15,7 @@ let layout_of_task task =
   let out = L.superpose ~w:80 ~h:30 [ L.resident box; label ] in
   out
 
+(** Popup for adding tasks *)
 let addTaskPopup layout update_task_list =
   let title_input = W.text_input ~prompt:"Task Title" () in
   let add_btn = W.button "Add Task" in
@@ -45,24 +47,21 @@ let addTaskPopup layout update_task_list =
   in
   out
 
-let taskListLayout w h tList update_task_list =
+let task_list_layout w h tList update_task_list =
   let label = W.label ~size:18 "Tasks" |> L.resident in
-  let task_list = List.map (fun task -> layout_of_task (W.label task)) tList in
+  let task_list = List.map (fun task -> layout_of_task w task) tList in
   let add_tsk_btn = W.button "+" in
   let header = L.flat [ label; add_tsk_btn |> L.resident ] in
   let room_list = header :: task_list in
   let taskLayout =
     L.superpose [ GenDisplay.theme_box w h; L.tower room_list ]
   in
-  (* let () = List.iter (fun ch -> Space.full_width ~right_margin:10
-     ~left_margin:10 ch) room_list in *)
   let add_task = addTaskPopup taskLayout update_task_list in
-  let _ =
-    W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn;
-    print_endline
-      (string_of_int (L.width taskLayout)
-      ^ " "
-      ^ string_of_int (L.height taskLayout))
-    (* Space.full_width taskLayout *)
-  in
+  let _ = W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn in
   taskLayout
+
+let left_side_layout w h new_event task_lst update_task_lst =
+  let task_layout = task_list_layout w (h - 305) task_lst update_task_lst in
+  let layout = L.tower [ new_event; task_layout ] in
+  let box = GenDisplay.theme_box (w + 20) h in
+  L.superpose ~scale_content:false [ box; layout ]

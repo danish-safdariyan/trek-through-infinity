@@ -1,4 +1,5 @@
 open Backend
+open GenDisplay
 
 type t = {
   days : Date.t list;
@@ -40,9 +41,9 @@ module L = Layout
 let border_color = Draw.opaque (Draw.find_color "#008284")
 let min_h = 100
 
-(** Returns layout of a day with the date and tasks specified. Does not include
+(** Returns layout of a day with the date and events specified. Does not include
     the box. *)
-let layout_of_day w m ((date : Date.t), tasks) layout update_calendar =
+let layout_of_day w m ((date : Date.t), events) layout update_calendar =
   let rec helper = function
     | [] -> []
     | h :: t ->
@@ -56,7 +57,7 @@ let layout_of_day w m ((date : Date.t), tasks) layout update_calendar =
            (if date.month = m then Draw.black else Draw.find_color "#99e3e4"))
       (string_of_int date.day)
   in
-  L.resident date_marker :: helper tasks
+  L.resident date_marker :: helper events
   |> L.tower ~name:(Date.format_date date) ~hmargin:5 ~vmargin:5
 
 let header w =
@@ -128,4 +129,5 @@ let layout_of_month w h cal month update_calendar prev_btn nxt_btn =
       (L.superpose [ background_layout; helper days |> L.tower ~margins:0 ])
   in
   let _ = Space.full_width label in
-  L.tower ~name:"Calendar" [ label; header w; month_layout ]
+  let stuff = L.tower [ label; header w; month_layout ] in
+  L.superpose ~name:"Calendar" [ surrounding_box stuff; stuff ]

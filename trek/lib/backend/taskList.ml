@@ -3,31 +3,31 @@
 open Task
 module Map = CalDict.AssocListMap
 
-type t = (string, Task.t) Map.t
+type t = (Date.t, Task.t list) Map.t
 
 let empty = Map.empty
 
-let add_task t_list task =
-  let title = Task.get_title task in
+let add_task task t_list =
+  let date = Task.get_date task in
   try
-    let existing_task = Map.lookup title t_list in
-    if existing_task <> task then Map.insert title task t_list else t_list
-  with Not_found -> Map.insert title task t_list
+    let existing_tasks = Map.lookup date t_list in
+    Map.insert date (task :: existing_tasks) t_list
+  with Not_found -> Map.insert date [ task ] t_list
 
-let remove_task t_list title = Map.remove title t_list
+let remove_task task t_list =
+  let tasks =
+    try Map.lookup (Task.get_date task) t_list with Not_found -> []
+  in
+  let filtered_tasks = List.filter (fun t -> Task.equals t task |> not) tasks in
+  Map.insert (Task.get_date task) filtered_tasks t_list
 
-let edit_task t_list title updated_task =
-  add_task (remove_task t_list title) updated_task
-(*removes task with that title form the list and then adds the updated task*)
-
-(* let get_task t_list title = Map.lookup title t_list *)
+let replace_task task new_task t_list =
+  remove_task task t_list |> add_task new_task
 
 let rec list_helper bindings string_list =
   match bindings with
   | [] -> string_list
-  | (k, v) :: t -> list_helper t (string_list @ [ to_string v ])
+  | (_, v) :: t -> list_helper t (string_list @ List.map to_string v)
 
+let get_tasks date t_list = try Map.lookup date t_list with Not_found -> []
 let list_tasks t_list = list_helper (Map.bindings t_list) []
-
-(* let compare_t_lists t_list1 t_list2 compare_tasks = Map.compare_lists t_list1
-   t_list2 compare_tasks *)
