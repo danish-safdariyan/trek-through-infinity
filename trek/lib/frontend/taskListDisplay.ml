@@ -45,7 +45,7 @@ let addTaskPopup layout update_task_list =
   in
   out
 
-let taskListLayout w h tList add_task_popup =
+let taskListLayout w h tList update_task_list =
   let label = W.label ~size:18 "Tasks" |> L.resident in
   let task_list = List.map (fun task -> layout_of_task (W.label task)) tList in
   let add_tsk_btn = W.button "+" in
@@ -56,9 +56,13 @@ let taskListLayout w h tList add_task_popup =
   in
   (* let () = List.iter (fun ch -> Space.full_width ~right_margin:10
      ~left_margin:10 ch) room_list in *)
-  let add_task = addTaskPopup taskLayout add_task_popup in
+  let add_task = addTaskPopup taskLayout update_task_list in
   let _ =
-    W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn
+    W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn;
+    print_endline
+      (string_of_int (L.width taskLayout)
+      ^ " "
+      ^ string_of_int (L.height taskLayout))
     (* Space.full_width taskLayout *)
   in
   taskLayout
