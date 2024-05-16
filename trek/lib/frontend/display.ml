@@ -21,7 +21,7 @@ let get_month () = MonthDisplay.get_month_info !cur_month
 (** The current month layout. *)
 let month_layout = L.empty ~w:1000 ~h:750 ()
 
-let task_layout = L.empty ~w:100 ~h:100 ()
+let task_layout = TaskListDisplay.emptyLayout
 
 (** Updates the display based on [cur_month] and [cal]. *)
 let rec update_month_display () =
@@ -72,8 +72,8 @@ let update_task_list new_task =
       (Task.create ~title:new_task ~date:"00/00/00" ~display:ListDisplay);
   update_task_display ()
 
-let rightScreenLayout eventLayout =
-  let layout = L.tower [ eventLayout ] in
+let rightScreenLayout eventLayout tskLstLayout =
+  let layout = L.tower [ eventLayout; tskLstLayout ] in
   let () = Space.full_height layout in
   L.superpose
     [ GenDisplay.theme_box (L.width layout) (L.height month_layout); layout ]
@@ -88,7 +88,7 @@ let test () =
     L.flat
       [
         L.superpose [ GenDisplay.surrounding_box month_layout; month_layout ];
-        rightScreenLayout new_event;
+        rightScreenLayout new_event task_layout;
       ]
   in
   L.on_resize (L.top_house layout) (fun () -> update_month_display ());

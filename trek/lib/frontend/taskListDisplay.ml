@@ -3,6 +3,23 @@ module L = Layout
 module W = Widget
 module P = Popups
 
+let emptyLayout =
+  let label = W.label ~size:18 "Tasks" |> L.resident in
+  let add_tsk_btn = W.button "Add" in
+  let header =
+    L.flat
+      [ label; add_tsk_btn |> L.resident (*W.button "Clear" |> L.resident*) ]
+  in
+  let room = header in
+  let () = Space.full_width room in
+  let () = Space.full_height room in
+  let taskLayout =
+    L.superpose [ GenDisplay.surrounding_box ~width:3 room; room ]
+  in
+  (* let () = List.iter (fun ch -> Space.full_width ~right_margin:10
+     ~left_margin:10 ch) room_list in *)
+  taskLayout
+
 let layout_of_task task =
   let label = L.resident ~x:5 ~y:5 task in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
