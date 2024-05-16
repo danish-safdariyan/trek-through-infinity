@@ -21,7 +21,7 @@ let get_month () = MonthDisplay.get_month_info !cur_month
 (** The current month layout. *)
 let month_layout = L.empty ~w:1000 ~h:750 ()
 
-let task_layout = TaskListDisplay.emptyLayout
+let task_layout = L.empty ~w:100 ~h:100 ()
 
 (** Updates the display based on [cur_month] and [cal]. *)
 let rec update_month_display () =
@@ -60,9 +60,11 @@ let rec update_task_display () =
   in
   Sync.push (fun _ ->
       let new_layout =
-        TaskListDisplay.taskListLayout
+        TaskListDisplay.taskListLayout 270
+          (L.height month_layout - 305)
           (TaskList.list_tasks !taskList)
           update_task_list
+        (* TaskListDisplay.emptyLayout 270 (L.height month_layout - 305) *)
       in
       L.set_rooms task_layout [ new_layout ])
 
@@ -74,16 +76,16 @@ let update_task_list new_task =
 
 let rightScreenLayout eventLayout tskLstLayout =
   let layout = L.tower [ eventLayout; tskLstLayout ] in
-  let () = Space.full_height layout in
+  (* let () = Space.full_height layout in *)
   L.superpose
     [ GenDisplay.theme_box (L.width layout) (L.height month_layout); layout ]
 
 let test () =
+  let new_event = EventDisplay.add_event_layout add_event in
   let _ =
     update_month_display ();
     update_task_display ()
   in
-  let new_event = EventDisplay.add_event_layout add_event in
   let layout =
     L.flat
       [

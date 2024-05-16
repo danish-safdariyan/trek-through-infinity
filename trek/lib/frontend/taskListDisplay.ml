@@ -3,23 +3,6 @@ module L = Layout
 module W = Widget
 module P = Popups
 
-let emptyLayout =
-  let label = W.label ~size:18 "Tasks" |> L.resident in
-  let add_tsk_btn = W.button "Add" in
-  let header =
-    L.flat
-      [ label; add_tsk_btn |> L.resident (*W.button "Clear" |> L.resident*) ]
-  in
-  let room = header in
-  let () = Space.full_width room in
-  let () = Space.full_height room in
-  let taskLayout =
-    L.superpose [ GenDisplay.surrounding_box ~width:3 room; room ]
-  in
-  (* let () = List.iter (fun ch -> Space.full_width ~right_margin:10
-     ~left_margin:10 ch) room_list in *)
-  taskLayout
-
 let layout_of_task task =
   let label = L.resident ~x:5 ~y:5 task in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
@@ -62,31 +45,20 @@ let addTaskPopup layout update_task_list =
   in
   out
 
-let taskListLayout tList add_task_popup =
+let taskListLayout w h tList add_task_popup =
   let label = W.label ~size:18 "Tasks" |> L.resident in
   let task_list = List.map (fun task -> layout_of_task (W.label task)) tList in
-  let add_tsk_btn = W.button "Add" in
-  let header =
-    L.flat
-      [ label; add_tsk_btn |> L.resident (*W.button "Clear" |> L.resident*) ]
-  in
+  let add_tsk_btn = W.button "+" in
+  let header = L.flat [ label; add_tsk_btn |> L.resident ] in
   let room_list = header :: task_list in
   let taskLayout =
-    L.superpose
-      [
-        GenDisplay.surrounding_box ~width:3 (L.tower room_list);
-        L.tower room_list;
-      ]
+    L.superpose [ GenDisplay.theme_box w h; L.tower room_list ]
   in
-  let () =
-    List.iter
-      (fun ch -> Space.full_width ~right_margin:10 ~left_margin:10 ch)
-      room_list
+  (* let () = List.iter (fun ch -> Space.full_width ~right_margin:10
+     ~left_margin:10 ch) room_list in *)
+  let add_task = addTaskPopup taskLayout add_task_popup in
+  let _ =
+    W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn
+    (* Space.full_width taskLayout *)
   in
-  let () =
-    W.on_button_release
-      ~release:(fun _ -> P.show (addTaskPopup taskLayout add_task_popup))
-      add_tsk_btn
-  in
-  let () = Space.full_width taskLayout in
   taskLayout
