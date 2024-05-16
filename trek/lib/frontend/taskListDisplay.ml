@@ -1,18 +1,19 @@
 open Bogue
+open Backend
 module L = Layout
 module W = Widget
 module P = Popups
 
 (** Returns the layout of a task *)
 let layout_of_task w task =
-  let label = L.resident ~x:5 ~y:5 (W.label task) in
+  let label = L.resident ~x:5 ~y:5 (Task.get_title task |> W.label) in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
   let line =
     Style.mk_line ~color:(Draw.opaque (Draw.find_color "#008284")) ~width:2 ()
   in
   let border = Style.mk_border ~radius:10 line in
-  let box = W.box ~w:80 ~h:30 ~style:(Style.create ~background ~border ()) () in
-  let out = L.superpose ~w:80 ~h:30 [ L.resident box; label ] in
+  let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
+  let out = L.superpose [ L.resident box; label ] in
   out
 
 (** Popup for adding tasks *)
@@ -48,8 +49,13 @@ let addTaskPopup layout update_task_list =
   out
 
 let task_list_layout w h tList update_task_list =
+  let today = Date.current_date () in
   let label = W.label ~size:18 "Tasks" |> L.resident in
-  let task_list = List.map (fun task -> layout_of_task w task) tList in
+  let task_list =
+    List.map
+      (fun task -> layout_of_task (w - 20) task)
+      (TaskList.get_tasks today tList)
+  in
   let add_tsk_btn = W.button "+" in
   let header = L.flat [ label; add_tsk_btn |> L.resident ] in
   let room_list = header :: task_list in

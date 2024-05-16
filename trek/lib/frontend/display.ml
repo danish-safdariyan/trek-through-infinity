@@ -61,14 +61,9 @@ let rec update_task_display () =
     update_task_display ()
   in
   Sync.push (fun _ ->
-      (* let new_layout = TaskListDisplay.taskListLayout side_width (L.height
-         month_layout - 305) (TaskList.list_tasks !taskList) update_task_list in
-         L.set_rooms task_layout [ new_layout ]) *)
-      (* let height = L.height (L.top_house left_layout) in *)
+      let height = L.height (L.top_house left_layout) - 20 in
       let new_layout =
-        TaskListDisplay.left_side_layout side_width (L.height month_layout)
-          new_event
-          (TaskList.list_tasks !taskList)
+        TaskListDisplay.left_side_layout side_width height new_event !taskList
           update_task_list
       in
       L.set_rooms left_layout [ new_layout ])
