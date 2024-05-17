@@ -5,10 +5,134 @@ module L = Layout
 module W = Widget
 module P = Popups
 
+(** Popup for deleting tasks *)
+let delete_task_popup task layout update_task_list on_update =
+  let yes = W.button "Yes" in
+  let no = W.button "No" in
+  let text =
+    W.text_display ~w:200 "Are you sure? This action cannot be undone."
+  in
+  let buttons = L.flat_of_w [ yes; no ] in
+  let info = L.tower [ L.resident text; buttons ] in
+  let box = surrounding_box info in
+  let popup = L.superpose [ box; info ] in
+  let out = P.attach_popup layout popup in
+  let _ =
+    W.on_button_release ~release:(fun _ -> P.hide out) no;
+    W.on_button_release
+      ~release:(fun _ ->
+        P.hide out;
+        on_update ();
+        update_task_list (TaskList.remove_task task))
+      yes;
+    P.should_exit_on_press out true
+  in
+  out
+
+(** Popup for editing tasks *)
+let edit_task_popup task layout update_task_list on_update =
+  let title_input = W.text_input ~prompt:"Task Title (Input Here)" () in
+  let selector = DateSelector.make_selector () in
+  let date_input = W.button (Date.current_date () |> Date.format_date) in
+  let confirm_btn = W.button "Confirm" in
+  let cancel_btn = W.button "Cancel" in
+  let buttons = L.flat_of_w [ confirm_btn; cancel_btn ] in
+  let content =
+    L.tower
+      [
+        W.label ~size:18 "Edit Task:" |> L.resident;
+        title_input |> L.resident;
+        date_input |> L.resident;
+        buttons;
+      ]
+  in
+  let popup = L.superpose [ GenDisplay.surrounding_box content; content ] in
+  let out = P.attach_popup layout popup in
+  let date_selector_popup =
+    P.attach_popup layout (DateSelector.get_layout selector)
+  in
+  let on_close () =
+    P.hide date_selector_popup;
+    P.hide out;
+    W.set_text title_input "";
+    on_update ();
+    DateSelector.set_date selector (Task.get_date task)
+  in
+  let _ =
+    DateSelector.set_date selector (Task.get_date task);
+    W.set_text title_input (Task.get_title task);
+    W.on_button_release ~release:(fun _ -> on_close ()) cancel_btn;
+    W.on_button_release
+      ~release:(fun _ ->
+        let task_title = W.get_text_input title_input |> Text_input.text in
+        let date = DateSelector.get_date selector in
+        if task_title <> "" then
+          update_task_list
+            (Task.create ~title:task_title ~date |> TaskList.replace_task task);
+        on_close ())
+      confirm_btn;
+    P.should_exit_on_press out true;
+    P.should_exit_on_press date_selector_popup true;
+    DateSelector.on_update selector (fun _ ->
+        W.set_text date_input
+          (DateSelector.get_date selector |> Date.format_date);
+        P.hide date_selector_popup);
+    W.on_button_release
+      ~release:(fun _ ->
+        if P.get_state date_selector_popup then (
+          P.hide date_selector_popup;
+          DateSelector.get_date selector |> DateSelector.set_date selector)
+        else P.show date_selector_popup)
+      date_input
+  in
+  out
+
+(** Popup with details about task *)
+let task_info_popup task layout update_task_list =
+  let title =
+    W.label ~size:15 ~align:Draw.Center (Task.get_title task) |> L.resident
+  in
+  let description =
+    W.label ~size:15 ~align:Draw.Center
+      ("Due: " ^ (Task.get_date task |> Date.format_date))
+    |> L.resident
+  in
+  let edit_btn = W.button "Edit" in
+  let delete_btn = W.button "Delete" in
+  let exit_btn = W.button "X" in
+  let buttons =
+    L.flat
+      [
+        L.resident edit_btn;
+        L.resident delete_btn;
+        Space.hfill ();
+        L.resident exit_btn;
+      ]
+  in
+  let info = L.tower [ title; description; buttons ] in
+  let box = surrounding_box info in
+  let popup = L.superpose [ box; info ] in
+  let out = P.attach_popup layout popup in
+  let delete_task =
+    delete_task_popup task layout update_task_list (fun () -> P.hide out)
+  in
+  let edit_task =
+    edit_task_popup task layout update_task_list (fun () -> P.hide out)
+  in
+  let _ =
+    P.should_exit_on_press out true;
+    W.on_button_release ~release:(fun _ -> P.show delete_task) delete_btn;
+    W.on_button_release ~release:(fun _ -> P.show edit_task) edit_btn;
+    W.on_button_release ~release:(fun _ -> P.hide out) exit_btn;
+    Space.full_width title;
+    Space.full_width description;
+    Space.full_width buttons
+  in
+  out
+
 (** Returns the layout of a task *)
-let layout_of_task w task =
+let layout_of_task w task layout update_task_list =
   let label = Task.get_title task |> W.label in
-  let _ = adjust_label_size (w - 13) label in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
   let line =
     Style.mk_line ~color:(Draw.opaque (Draw.find_color "#008284")) ~width:2 ()
@@ -16,10 +140,16 @@ let layout_of_task w task =
   let border = Style.mk_border ~radius:10 line in
   let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
   let out = L.superpose [ L.resident box; L.resident ~x:5 ~y:5 label ] in
+  let popup = task_info_popup task layout update_task_list in
+  let _ =
+    adjust_label_size (w - 13) label;
+    W.on_release ~release:(fun _ -> P.show popup) box;
+    W.on_release ~release:(fun _ -> P.show popup) label
+  in
   out
 
 (** Popup for adding tasks *)
-let addTaskPopup layout update_task_list =
+let add_task_popup layout update_task_list =
   let title_input = W.text_input ~prompt:"Task Title (Input Here)" () in
   let selector = DateSelector.make_selector () in
   let date_input = W.button (Date.current_date () |> Date.format_date) in
@@ -43,7 +173,8 @@ let addTaskPopup layout update_task_list =
   let on_close () =
     P.hide date_selector_popup;
     P.hide out;
-    W.set_text title_input ""
+    W.set_text title_input "";
+    DateSelector.set_date selector (Date.current_date ())
   in
   let _ =
     W.on_button_release ~release:(fun _ -> on_close ()) cancel_btn;
@@ -73,11 +204,12 @@ let addTaskPopup layout update_task_list =
   out
 
 let task_list_layout w h tList update_task_list =
+  let background = L.empty ~w ~h () in
   let today = Date.current_date () in
   let label = W.label ~size:18 "Tasks" |> L.resident in
   let task_list =
     List.map
-      (fun task -> layout_of_task (w - 20) task)
+      (fun task -> layout_of_task (w - 20) task background update_task_list)
       (TaskList.get_tasks today tList)
   in
   let add_tsk_btn = W.button "Add" in
@@ -87,9 +219,9 @@ let task_list_layout w h tList update_task_list =
     L.superpose [ L.empty ~w:(w - 20) ~h:30 (); header ] :: task_list
   in
   let taskLayout =
-    L.superpose [ GenDisplay.theme_box w h; L.tower room_list ]
+    L.superpose [ background; GenDisplay.theme_box w h; L.tower room_list ]
   in
-  let add_task = addTaskPopup taskLayout update_task_list in
+  let add_task = add_task_popup taskLayout update_task_list in
   let _ = W.on_button_release ~release:(fun _ -> P.show add_task) add_tsk_btn in
   taskLayout
 
