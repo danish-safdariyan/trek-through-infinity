@@ -1,3 +1,1031 @@
+commit 46574b7ec50bf8eeb4e34b59ae3ec9e25602a5a0
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 23:01:33 2024 -0400
+
+    Added all necessary documents for submission.
+
+commit 653d9701ca30609273c6ec759802b372b21bf491
+Merge: b836236 9cce399
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:53:12 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit b836236c9ba91017c397cc8fd5f5a707872492f2
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:53:00 2024 -0400
+
+    Removed the demo recording from the yaml file.
+
+commit 9cce399b3d7c840970c70ae4196d262ab9ef198e
+Merge: 54a55aa b807de4
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 22:52:38 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 54a55aa0e436a2b3db27431084b07cf4ade8dc0e
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 22:52:21 2024 -0400
+
+    Added genDisplay.mli
+
+commit b807de4720849b15fc45d22227ee83361681e172
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:50:42 2024 -0400
+
+    Added author statement.
+
+commit d7516117c3b794d541de866d7273806ac391908c
+Author: Andisha <as3254@cornell.edu>
+Date:   Thu May 16 22:38:06 2024 -0400
+
+    added more test cases for the test_date.ml
+
+commit ac82163b9211353ab75677217e98ee893cc020c8
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:32:44 2024 -0400
+
+    I LIED... THIS IS THE FINAL AESTHETIC CHANGE.
+
+commit 9a731df7da89b9a0c18a1b8c8ed1fa6b766936ab
+Merge: 5a2497c 0910d63
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:28:01 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 5a2497cf0c48773c138e6c92ea262fa80e209402
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:27:50 2024 -0400
+
+    FINAL AESTHETIC CHANGE.
+
+commit 0910d63184d214cd1827a4df58fe393339f17cce
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Thu May 16 22:22:22 2024 -0400
+
+    remove to_string date.ml
+
+commit fe7310a55b05300fe1c587242edb52ad978a75de
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 22:03:35 2024 -0400
+
+    Deleted save functionality for Calendar.
+
+commit 9b4a4998fa8f78e5081d8f5feda183fcc26cc8e6
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 21:56:14 2024 -0400
+
+    Added documentation
+
+commit 6e902eb0f327bd11125d018290a905d38a3e82fc
+Merge: 50b17d0 2065c03
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 21:46:45 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 50b17d0849302ac61562bb45b3d0fa0ea538f154
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 21:46:33 2024 -0400
+
+    Added documentation
+
+commit 2065c03c5f6f0f7c891447a52821566dbe005876
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 21:42:32 2024 -0400
+
+    Round buttons!
+
+commit 03a748fa2f205d9e4556df6df50450355badae6e
+Merge: 9e6a50a 94de8df
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 21:40:28 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 9e6a50a468521d6f17c74020564a50755c87ee45
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 21:40:20 2024 -0400
+
+    Aesthetic changes.
+
+commit 94de8dfee6744e542ee9eeb9414cbc9d2be7d95f
+Merge: 448a617 d1a6f54
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 21:38:19 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 448a617afff3f9865bc78e98bdcdc25af5596197
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 21:37:57 2024 -0400
+
+    Finished task list display
+
+commit d1a6f5469e91db16217ed5f6d7963cbad774edc3
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 21:11:17 2024 -0400
+
+    Making buttons round!
+
+commit 4d1cc327e68e7e816441f585b2a6b09a59634168
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 20:58:54 2024 -0400
+
+    Display more info about tasks
+
+commit 22370b8df57b8b7eb8103be224ffedfa6767f8a5
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 20:43:50 2024 -0400
+
+    task display things
+
+commit 62837d52be1757419985b278ed743d6664453185
+Merge: 2cad108 7ccbe77
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 20:31:20 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 2cad108dbe895a13bcf6d34b9c95f56b3ba9677f
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 20:31:09 2024 -0400
+
+    Added date selection for tasks.
+
+commit 7ccbe77fd48caee4028241e0550215a4624ec81d
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 20:15:22 2024 -0400
+
+    Added adjust_label_size
+
+commit 39c08b3f8b40b1bd978118b1a8a1a4e02837fd32
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 19:32:02 2024 -0400
+
+    Fixed task display, need to add functionality for selecting dates
+
+commit fc5fc7680aefde8afbae3f6c0091e5a9b0a5b3c6
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 19:23:00 2024 -0400
+
+    Cleaned up code, revamped task_list
+
+commit 93800b7513c54adc0c75ca43530877cd8d299045
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 16:57:17 2024 -0400
+
+    Demo ready
+
+commit 084487b8ec683dc2f8b34aa8f339f10dd72c3284
+Merge: f285c3d 05206e2
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 16:50:48 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit f285c3dd469688bb21db2f9237396de564b4d863
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 16:50:38 2024 -0400
+
+    Fixed TaskList display sizing
+
+commit 05206e23b2f96357af281957f5a4c42e6af852ce
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 16:48:42 2024 -0400
+
+    Fixed width argument for [theme_box].
+
+commit aa282577e04d9d025f5554a6bcac8b1d77dfd66c
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 16:38:03 2024 -0400
+
+    [theme_box] now takes in width for border line width.
+
+commit 4cfd3eceb5f9307ddbbdb5a2bd785ffc2af91b68
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 16:31:25 2024 -0400
+
+    Trying to fix task list.
+
+commit 2421bac7a696cc8c8c1eda07367e528199cdb8ff
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed May 15 20:28:22 2024 -0400
+
+    removed parse_date
+
+commit 893f4a1a8de171f2c0b0f979eaafd37460c702d7
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed May 15 16:55:27 2024 -0400
+
+    Code for demo
+
+commit a56d19bf6eb63637feb36b046cc26adc38d50305
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed May 15 16:40:23 2024 -0400
+
+    Update task list
+
+commit 0dc02c952f6d98f9daab5304e81bc79f5ba4f235
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 16:29:03 2024 -0400
+
+    Beginning to implement update_task_display.
+
+commit e0686957f1c486f03ea4ba3a91cf981a012de079
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 16:14:42 2024 -0400
+
+    Added functionality to add lists.
+
+commit 354ccca785d51854afa622545b4bfa006ab964e7
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 15:27:53 2024 -0400
+
+    Added basic task list implementation.
+
+commit 9226437c68725f343962b79538b8f5381f911a85
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 14:26:03 2024 -0400
+
+    Fixed width of calendar.
+
+commit 3a6e2485722bf2b30aaab494c45f556e2bfae300
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 13:46:05 2024 -0400
+
+    Aesthetic modifications: [surrounding_box] now takes a line width argument.
+
+commit 2047137d56c0b942460b5a59e88bbabd4e798c75
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 13:41:41 2024 -0400
+
+    Added surrounding boxes for each space.
+
+commit 804adbba18db14e595173c1a0a0f3396953a6b0a
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 13:41:25 2024 -0400
+
+    Aesthetic changes (colors changed).
+
+commit 7a7308894bce0d631dca64136c1ffee629a95469
+Author: Andisha <as3254@cornell.edu>
+Date:   Wed May 15 12:45:34 2024 -0400
+
+    added more test cases to the test_calendar.ml file
+
+commit 19f83eaa47b8212738038c85610e934cb53e1334
+Merge: 08e4100 87eb08c
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed May 15 12:38:58 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 08e41005735951ec26fddc9648f1ab385c344500
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed May 15 12:38:51 2024 -0400
+
+    removed repetition.ml, cleaned other files a bit
+
+commit 87eb08c947f5ca420dc27f6566534efdd3bf6ade
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 12:31:46 2024 -0400
+
+    Updated documentation for [monthDisplay.mli]
+
+commit 9901ea0151b00af412c93c640a4efe992da0001e
+Author: Gabriel <gm546@cornell.edu>
+Date:   Wed May 15 12:31:05 2024 -0400
+
+    Updated calendar display so that the layouts are rearranged. Also made slight aesthetic changes.
+
+commit eaa682ce4f8643eb92beba80fe1730605be046cf
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed May 15 11:46:32 2024 -0400
+
+    implemented save_function for calendar and cleaning tests files a bit
+
+commit 84a250886a062e4d7719cc2dd0bc3c19352a9136
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed May 15 11:12:56 2024 -0400
+
+    added tests for task and taskList
+
+commit e6902dfa8a1ebb0462aa6e2b58ead274664c5800
+Merge: e9cefa4 14579eb
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed May 15 10:15:50 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit e9cefa457654cc2cbb9e225209fbe8e097afee2b
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Wed May 15 10:15:09 2024 -0400
+
+    Merge with branch
+
+commit 14579eb89074960729586462c11fc8f53e8bf04c
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed May 15 03:42:26 2024 -0400
+
+    Added color functionality to GUI
+
+commit 402272bede32b243af6e7016baa7fab0970799bf
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed May 15 01:13:36 2024 -0400
+
+    cleaned up the calendar and date files
+
+commit 8c8609326a30d67bedd58c9194b52b1075c0c41a
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 23:52:57 2024 -0400
+
+    Fixed errors, should discard changes when merging.
+
+commit 56591295a2c21ecc8056dff31da8b16977dbb580
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 23:23:16 2024 -0400
+
+    added the color record
+
+commit d7047ec37ed95505c1ab6e9ac3be67339cb36852
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 23:15:45 2024 -0400
+
+    no specifc changes
+
+commit d859e10122a57b8be4f127ec186eb6a0636967ff
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 22:42:59 2024 -0400
+
+    Fixed error
+
+commit 7263e0a38d80b4e96e9a8ebce8b72d19bbf44786
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 22:11:00 2024 -0400
+
+    Consolidated code
+
+commit e32393aa71ecde78485925e66749ed581827f578
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 21:50:44 2024 -0400
+
+    Display things
+
+commit 77c8ad763d4eae7e3b5aae4c480c2f8f330ce4d5
+Merge: b7a87e8 b99f6ba
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 21:44:16 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit b7a87e8cceb4b11139648cb8a702ac2f76eda701
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 21:44:02 2024 -0400
+
+    Added header for month view; Added task detail view
+
+commit b99f6bae70f52a3c538a965127425ff8ad44ca5b
+Author: Gabriel <gm546@cornell.edu>
+Date:   Tue May 14 18:09:55 2024 -0400
+
+    Updating aesthetics
+
+commit b6009ad3ae731dde5b32901ffd2b3dd477455679
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 17:42:40 2024 -0400
+
+    deleted unnecessary files
+
+commit 4ea0b98a7409efcacb4b04b46587835747ed89a9
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 17:38:26 2024 -0400
+
+    made sure that all changes are correct
+
+commit 1b36b4e4cf993b6aa641363ede5a7fcb4423326e
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 17:19:00 2024 -0400
+
+    brought some changes
+
+commit 2fdcd0b2e35d54c39960cf3cdca12f28172789a0
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 16:34:59 2024 -0400
+
+    Tasklist tests completed
+
+commit 0716f8d1c99b27f0be911e0baf02adc2e10c0f47
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 16:31:21 2024 -0400
+
+    Commit all
+
+commit 05e3dcfa5f4de4fb3fb40f544547e760080300a0
+Merge: 9630025 c540502
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 16:24:48 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 96300258e9c1fbc21ec26a6f0c24dc7a499f9283
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 16:24:41 2024 -0400
+
+    Tasklist and Task Tests completed
+
+commit c54050201242e7624ad1bf5edb9aa88bea253158
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 15:51:02 2024 -0400
+
+    broguht changes in the dune
+
+commit 4a7a88a0e1ce0319b79eeb521275478f8b593ee9
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 15:48:01 2024 -0400
+
+    brought some changes
+
+commit 7f7ff1063537d447f61eaac406975c5e20093d9c
+Merge: eecba6a 62e7149
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 15:11:14 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit eecba6aa0af1eb5bc491cfb7a6ec9989e14f8488
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 15:09:34 2024 -0400
+
+    Still having trouble testing taskList. I've commented out compare functions in taskList, calDict that will be helpful for testing once calDict.ml matches calDict.mli, though I'm not sure what the problem is
+
+commit 62e71499df553c0787feee196d8909fb9e71336d
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 15:02:35 2024 -0400
+
+    debugged the test cases for the calender.ml
+
+commit 1539f381678d4b67aa9c734732bd6bfe4fd8c483
+Author: Andisha <as3254@cornell.edu>
+Date:   Tue May 14 14:41:37 2024 -0400
+
+    debug the calender test cases
+
+commit 7df6e408d76cc87744d7708e21e6f2d6a11343ff
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Tue May 14 13:07:39 2024 -0400
+
+    Updated taskList.ml to utilize better functions. Edited calDict to include remove. Currently struggling with tasklist test cases
+
+commit a8181a75fae690ed3e3e0b83946d82bff6965b84
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue May 14 00:11:58 2024 -0400
+
+    Fixed some tests
+
+commit 2eefb8ee6af6bc125c0158bad5e6c9e547fcd2e3
+Author: Andisha <as3254@cornell.edu>
+Date:   Mon May 13 23:58:43 2024 -0400
+
+    pulled and has to push
+
+commit acf38c707bff9c98e08a876ef82ec4fbc55ad673
+Merge: cf3c96f dd27d12
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Mon May 13 23:22:20 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit cf3c96f503dd4eba273b84378623909338b3602f
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Mon May 13 23:16:35 2024 -0400
+
+    Task.ml, mli completed. TaskList is in progress - ml file currently not matching with mli file so commented it out. Functions have not been tested but are supposed to be similar to calendar.ml
+
+commit dd27d1241073f7ebbf50573a092f3f62492fa5f9
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon May 13 21:09:21 2024 -0400
+
+    edited testing for calendar
+
+commit f8def1d18a33a03dcc7a5c3c7e74e9bf19cad4a2
+Merge: de5ddb0 2eebb0c
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon May 13 21:05:21 2024 -0400
+
+    changeed the testing to OUnit testing suite
+
+commit de5ddb07436dffc4382a10d56ecc4d3d29c8e7bd
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon May 13 21:00:06 2024 -0400
+
+    changeed the testing to OUnit testing suite
+
+commit 2eebb0cfa1e315d5c1c44d1b18e7045f16ff00fa
+Merge: 8f3b6e3 c7294e9
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 19:21:41 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 8f3b6e3f2f1102aebfc4f7a292818c41e115df9d
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 19:21:28 2024 -0400
+
+    Fixed tests, still fails.
+
+commit c7294e9fb65f5947be27b9aec8c6eac7e0bbc75d
+Author: Gabriel <gm546@cornell.edu>
+Date:   Mon May 13 19:06:25 2024 -0400
+
+    Just updating more aesthetics for later updates.
+
+commit 0021ac4e7f23c9c532efd6ea876148dfcaf788cb
+Author: Gabriel <gm546@cornell.edu>
+Date:   Mon May 13 19:03:45 2024 -0400
+
+    Updating some aesthetic choices, although currently unfinished.
+
+commit 66a96b102fa880f8347e7d30af4b471bf82ed53a
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 17:43:53 2024 -0400
+
+    Fixed the fixed events in calendar
+
+commit 23d00c4250fa21ad16b1c436ad4fce9f010bb670
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 05:11:36 2024 -0400
+
+    Fixed test errors
+
+commit 8af5469782b5e50a5ccd4bfe2e6e329384f4e653
+Merge: c08d3c5 731d6f7
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 04:48:23 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit c08d3c50c61e008bae13a630acdaefcec455acdc
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Mon May 13 04:44:20 2024 -0400
+
+    Reworked events
+
+commit 731d6f7215e5957c69573c5ded5a2442144043be
+Merge: ef3a399 eb7dfd6
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon May 13 01:45:20 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit ef3a3996812e315bd507e149e8e4cfccdaee0b81
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon May 13 01:45:10 2024 -0400
+
+    fixed repeat functionality
+
+commit eb7dfd648b64b7fdf15b3174395d32d27d27f478
+Merge: 3954601 6a00cce
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun May 12 19:36:28 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 3954601e59c30eadede0ddd856eb0813797dd1d4
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sun May 12 19:36:09 2024 -0400
+
+    Got dateSelector to work!
+
+commit 6a00ccec8a1a840bc1fc4a2a750348d591ff89ec
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun May 12 17:21:54 2024 -0400
+
+    Made minor button changes that don't affect anything.
+
+commit 91e404cbe55f7cb4d8ac647a3c547bfe8bfa158a
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun May 12 16:49:41 2024 -0400
+
+    Reworking themes.
+
+commit b227e940eb11b9ae8d68807ead11a959a450473f
+Author: Gabriel <gm546@cornell.edu>
+Date:   Sun May 12 16:10:35 2024 -0400
+
+    Adding a directory, [Bogue], for manipulation of themes.
+
+commit 115fbe9326a051e5bc4208a2da75f6d40b04601e
+Merge: fec8b01 ef6f813
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat May 11 02:16:09 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit fec8b010edccb456b12e0e9afcf4216fa5d503c6
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat May 11 02:15:39 2024 -0400
+
+    Seperated the addEvent stuff
+
+commit ef6f813efaa3f7e66129dc1a158fccb09a847bef
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat May 11 01:57:58 2024 -0400
+
+    implemented make_event in calendar
+
+commit 99d50cd20820e70ff3f049ea2ffd66cea8c8388f
+Author: Gabriel <gm546@cornell.edu>
+Date:   Fri May 10 19:24:32 2024 -0400
+
+    Created taskList compilation unit.
+
+commit fa4fe9d94da790d060f4f1399b3419f187f4cfa5
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 10 19:15:50 2024 -0400
+
+    Added file for general display functions
+
+commit 5f129e6cf72f256cd1c7f62f5e68ee773396553b
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 10 18:30:50 2024 -0400
+
+    Opened Backend in appropriate files and cleaned up code
+
+commit aa0a95a7d438bacfe0ef5bbe4ca3c68c5626c540
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 9 21:44:16 2024 -0400
+
+    Added resizing!
+
+commit 2183128ad6ee5c7a8b9d3ba693750fdc155a9505
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat May 4 16:43:11 2024 -0400
+
+    organized files into backend and frontend folders
+
+commit eb5891645f72a32a53809dc6b44b02352c15edf4
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 3 22:47:08 2024 -0400
+
+    Recovered code for day_of_week
+
+commit 9116110e09b6c6454c4a390e0a93c83ebcb3de9d
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 3 22:42:26 2024 -0400
+
+    Removed unessesary comment
+
+commit c94a1b941e2e5f96f2866d803d4d37e65f117546
+Merge: ef5237d 17f0686
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 3 22:41:47 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit ef5237db993e4aebe1cb9c4227c3136e23baafd0
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Fri May 3 22:37:59 2024 -0400
+
+    Worked on the add event button
+    
+    - Moved 'string_of_month' function to date.ml
+    - Added some functionality to popups
+    - Added code for add event button, creates a popup to take input
+    - Made a dateSelector layout, unfinished
+        - Buttons are different sizes
+        - Issues updating calendar month when used as a popup
+
+commit 17f0686095122245126555663c71ccf5fbd102db
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Fri May 3 22:10:05 2024 -0400
+
+    Skeleton of task object files commented out to
+    avoid unused variable error
+
+commit ee9bfd5e79953557cf7aaf75ef745077cc63ba9b
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Fri May 3 22:09:30 2024 -0400
+
+    Skeleton of task object with everything commented
+    out to avoid unused variable errors
+
+commit 6273cc02e47910d5ccba506f0702b4d1d3e837b1
+Merge: 8e6f02a ffbc715
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Fri May 3 22:05:10 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 8e6f02a7a5a13fed8ca5d3b8d5591ada82f30839
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Fri May 3 22:04:34 2024 -0400
+
+    Skeleton for task object
+
+commit ffbc7152048f2cdb5a6657387a02c699e5cc24fa
+Author: Andisha <as3254@cornell.edu>
+Date:   Fri May 3 21:54:16 2024 -0400
+
+    created new fucntion time_conflict for the event in the calender.ml but commented
+
+commit f03c2df8527eaeafcc71b3c3be5a1e7707c0aaec
+Author: Andisha <as3254@cornell.edu>
+Date:   Fri May 3 21:34:15 2024 -0400
+
+    brought changes in the time.ml
+
+commit 9a17262db736eda9941881a43bf03aaefd93e9c6
+Author: Andisha <as3254@cornell.edu>
+Date:   Fri May 3 21:32:30 2024 -0400
+
+    brought chnages in the event.ml
+
+commit f944eb19a5ec7eddc73317d82a4150a4118ba969
+Merge: 41cab72 c9c2d2b
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Fri May 3 21:22:53 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit c9c2d2bde2eece1cd7470dc10afd3f163f714d7b
+Author: Andisha <as3254@cornell.edu>
+Date:   Fri May 3 21:22:17 2024 -0400
+
+    created the time
+
+commit 41cab72ec198c7b5dedfe22fd71c672cdcef969c
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Fri May 3 21:21:35 2024 -0400
+
+    cleaning the calendar.ml and event.ml
+
+commit cac88caef7b753af362cd05c3aa42eab53f03389
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Fri May 3 17:53:17 2024 -0400
+
+    Added initialize_calendar function with annual event initialization and testing.
+
+commit 37768bb24c1c3eb6f0aec581bb482f7a450deb0a
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 2 18:21:52 2024 -0400
+
+    Added a module to handle popups
+
+commit ec137a093be86a16062df1cbe7c4d77f4eb6a049
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 2 00:55:05 2024 -0400
+
+    Added a popup that appears when pressing the "+" button; popup currently does nothing.
+
+commit 59d43c2fda09c170d95472743841a56cfb254e07
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue Apr 30 23:40:48 2024 -0400
+
+    Cleaned up code
+
+commit bd1ccab41fc3348249952859512b3b2bc8b1ba0d
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Tue Apr 30 22:48:29 2024 -0400
+
+    Added buttons to change the current month displayed
+
+commit 718951336b664941c551da60237552e1ac0531f0
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat Apr 27 19:06:51 2024 -0400
+
+    fixed test cases for event.ml
+
+commit eaed005d8ebe6e74269435b20a6afebdde7eb9c9
+Author: Andisha Safdariyan <as3254@cornell.edu>
+Date:   Sat Apr 27 18:00:00 2024 -0400
+
+    event_holder file changes
+
+commit 70409ec970ab7aed6d63d0dc40dd3b6201d9f58f
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat Apr 27 18:06:05 2024 -0400
+
+    Made off-month days have a grey text color
+
+commit 683f489ab3e4de38fb4179c23d53e47ca4fa8a35
+Merge: 03f254c 3e3d03f
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat Apr 27 17:46:33 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 03f254c74a5766e4df5f46232f15fefdee61fc18
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat Apr 27 17:46:02 2024 -0400
+
+    Debugging
+
+commit 3e3d03f1c7c852b6bf897d19896f710db8f86768
+Merge: 502ca10 8f2a8ff
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Sat Apr 27 16:57:20 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit 502ca1099b6b3beddea56e86605032bfcc423349
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Sat Apr 27 16:57:12 2024 -0400
+
+    added comments to calendar
+
+commit 8f2a8ff562f50ba389563a978ea3ce101eff95cb
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat Apr 27 16:55:50 2024 -0400
+
+    added test cases for calendar.ml
+
+commit 7fbf91fbc74adc2d272355bec142ba163939127b
+Merge: f948bff 9850678
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Sat Apr 27 16:25:20 2024 -0400
+
+    Merge branch 'main' of github.coecis.cornell.edu:gm546/trek-through-infinity
+
+commit f948bff50d52b8a862f35617956d9acb8bb8956b
+Author: Gabriella Best <gb486@cornell.edu>
+Date:   Sat Apr 27 16:25:09 2024 -0400
+
+    eventHolder code/mli
+
+commit 985067858e6136f54fcba51c1f9de6435144696e
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat Apr 27 16:19:25 2024 -0400
+
+    added more test cases to date.ml
+
+commit a6f941f43f9d01d3509b8a801ccf2fa4c6daf250
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat Apr 27 13:48:57 2024 -0400
+
+    added more useful function for future Implementation
+
+commit 6e7567d9d590eefd20c8c5105fe9d992702a134a
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Sat Apr 27 12:48:18 2024 -0400
+
+    tested date.ml functions
+
+commit 6562641de2fab3ebb050ddab70f2ca0422fe8058
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Fri Apr 26 13:41:41 2024 -0400
+
+    fixed Nov issue  on date.ml
+
+commit 2c65109a10d706ec5383b4872d357c1c3ce170af
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 22:31:17 2024 -0400
+
+    Changed display to use month and calendar
+
+commit acfd80abf40c9fcaf673c9e66fa16e0bf5d17098
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 21:50:05 2024 -0400
+
+    Implemented prev_month, next_month, prev_day, next_day
+
+commit 29feab4fec3847cd5c727eddabf862bd59559147
+Merge: 25299da 1c24165
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 21:38:09 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit 25299da28fafb58eacbc017223d040567276f3ec
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 21:37:23 2024 -0400
+
+    Changed calendar to use Date.t for dates.
+
+commit 1c24165140a8e9fc6ac31e42552d058bcadde317
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Apr 25 20:54:56 2024 -0400
+
+    Making button functionality for GUI in its own module.
+
+commit 7c0ff897748a26efa4555ccb50688314325371b8
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 19:06:21 2024 -0400
+
+    Added next_month and prev_month functions, to be implemented.
+
+commit 72b33884137fcf9123659ef04c50fcd202ff8940
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 18:28:08 2024 -0400
+
+    Added month representation
+
+commit 6b82c99cb0c9e1fdf994710fcfc30a849096a7b9
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 18:05:54 2024 -0400
+
+    Added next_day and prev_day functions, to be implemented
+
+commit 793fb010a227f5fd7a59010ef240c108ee803d10
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu Apr 25 17:42:09 2024 -0400
+
+    Removed all redundent modules
+
+commit 812c2714ea5631e08683711b6d3fac499e8d97a8
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Apr 25 00:22:54 2024 -0400
+
+    Beginning to work on button functionality.
+
+commit b1aaedbd96a47df06a43713bfe29d92c53953e7a
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Apr 25 00:22:36 2024 -0400
+
+    Updated documentation of [layout_of_task] in [monthDisplay].
+
+commit a34e032a431272fbdfadefd7246f1942eebce051
+Merge: e34aa5b a8e1c19
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Apr 24 00:06:54 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit e34aa5bba44e74946666c3012078673897227612
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Wed Apr 24 00:05:31 2024 -0400
+
+    Moved code for displaying a month into its own module
+
+commit a8e1c19b8a8bf6105dab347bab613ae5033f2362
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed Apr 24 00:01:32 2024 -0400
+
+    added specification for the event.mli
+
+commit a3934bc0bc2836fa71d26692b4e780de18cb9c38
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Wed Apr 24 00:01:10 2024 -0400
+
+    added the specification for event.mli
+
+commit fa737a90542a0c4fdbb6a5adebc31a778ea65f50
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Tue Apr 23 22:10:10 2024 -0400
+
+    created a new file date.ml and implementing some function on date.ml
+
+commit cdcecb2175faf4512b3bdf0b3961365dca858ff4
+Merge: 6aabc7e 5c2b6be
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon Apr 22 20:59:48 2024 -0400
+
+    implementing some event functions
+
+commit 6aabc7e92c90b46c5a079725d31610373fbe7e9c
+Author: Danish Safdariyan <ds968@cornell.edu>
+Date:   Mon Apr 22 20:55:51 2024 -0400
+
+    implementing some event functions
+
+commit 5c2b6bef166e39850cb040873d0966fdb1cadcc3
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Sat Apr 20 18:00:38 2024 -0400
+
+    Changed display to use widgits
+
+commit eca628eabeb702ecdfb800041cca9cad83852f87
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 22:09:59 2024 -0400
+
+    Fixed small typo in [INSTALL.txt] files.
+
+commit cf31cd203b1a52c6314b25188e034f654e0697c5
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 22:00:04 2024 -0400
+
+    Renamed [install.txt] to [INSTALL.txt]
+
+commit d294c7be44cfad782c75dc297dee3ed18334ef1c
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 21:52:41 2024 -0400
+
+    Moved Git log to route and not in [trek].
+
+commit 9c904781c4c5ce5477b85346d8194b60428216bc
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 21:47:32 2024 -0400
+
+    Added Git log files to both root and [documents].
+
+commit cb73c8d0e020642b7d8b4544f546dd5af5fb958a
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu Mar 28 21:47:06 2024 -0400
+
+    Fixed small error in the [install.txt] files.
+
 commit ba279b0aa3bbd11322597a57fa140cadbe9f7324
 Author: Gabriel <gm546@cornell.edu>
 Date:   Thu Mar 28 21:41:49 2024 -0400
