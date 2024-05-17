@@ -178,18 +178,7 @@ let layout_of_event w date event layout update_calendar =
   let color = Event.get_color event |> get_color in
   let text = Event.get_title event in
   let label = W.label ~fg:(fst color |> Draw.opaque) text in
-  let _ =
-    let temp = W.get_label label in
-    if fst (Label.size temp) > w - 13 then (
-      Label.set temp (text ^ "...");
-      while
-        fst (Label.size temp) > w - 13 && String.length (W.get_text label) > 1
-      do
-        let text = W.get_text label in
-        if String.length text < 4 then Label.set temp " "
-        else Label.set temp (String.sub text 0 (String.length text - 4) ^ "...")
-      done)
-  in
+  let _ = adjust_label_size (w - 13) label in
   let label_l = L.resident ~x:5 ~y:5 label in
   let background = Style.color_bg (snd color |> Draw.opaque) in
   let line = Style.mk_line ~color:(fst color |> Draw.opaque) ~width:2 () in
