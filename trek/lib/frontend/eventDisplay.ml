@@ -193,8 +193,8 @@ let layout_of_event w date event layout update_calendar =
   out
 
 let add_event_layout update_calendar =
-  let title_input = W.text_input ~prompt:"Title" () in
-  let desc_input = W.text_input ~prompt:"Description" () in
+  let title_input = W.text_input ~prompt:"Title (Input Here)" () in
+  let desc_input = W.text_input ~prompt:"Description (Input Here)" () in
   let repeats = ref Event.NoRepeat in
   let rep_input =
     Select.create

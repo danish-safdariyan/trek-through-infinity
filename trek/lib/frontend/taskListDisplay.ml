@@ -132,7 +132,9 @@ let task_info_popup task layout update_task_list =
 
 (** Returns the layout of a task *)
 let layout_of_task w task layout update_task_list =
-  let label = Task.get_title task |> W.label in
+  let label =
+    Task.get_title task |> W.label ~fg:(Draw.find_color "#003232" |> Draw.opaque)
+  in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
   let line =
     Style.mk_line ~color:(Draw.opaque (Draw.find_color "#008284")) ~width:2 ()
