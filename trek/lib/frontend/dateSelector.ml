@@ -10,7 +10,9 @@ type sel_info = {
   mutable cur_btn : Box.t;
   mutable on_update : Date.t -> unit;
 }
+(** Current information for the selector. *)
 
+(** Custom button module for buttons in selector *)
 module type BtnSig = sig
   type t
 
@@ -57,8 +59,13 @@ module Btn : BtnSig = struct
       ()
 
   let empty_box = Box.create ()
+
+  (** Toggles on button. *)
   let toggle_on box = Box.set_style box on_style
+
+  (** Toggles off button. *)
   let toggle_off box = Box.set_style box off_style
+
   let get_layout btn = btn.layout
 
   let make_btn (d : Date.t) m info =
@@ -180,6 +187,21 @@ let update_display sel =
   W.set_text sel.m_label
     (Date.string_of_month sel.cur_m ^ " " ^ string_of_int sel.cur_y)
 
+(** Gets the short string version of a month. *)
+let get_short_month = function
+  | Date.January -> "Jan"
+  | February -> "Feb"
+  | March -> "Mar"
+  | April -> "Apr"
+  | May -> "May"
+  | June -> "Jun"
+  | July -> "Jul"
+  | August -> "Aug"
+  | September -> "Sep"
+  | October -> "Oct"
+  | November -> "Nov"
+  | December -> "Dec"
+
 let make_selector () =
   let info =
     {
@@ -192,7 +214,7 @@ let make_selector () =
   let m_layout = layout_of_month m_lst in
   let m_label =
     W.label ~align:Draw.Center
-      (Date.string_of_month info.date.month ^ " " ^ string_of_int info.date.year)
+      (get_short_month info.date.month ^ " " ^ string_of_int info.date.year)
   in
   let prev_btn =
     W.button ~kind:Button.Trigger

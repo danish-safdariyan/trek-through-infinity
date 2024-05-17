@@ -2,6 +2,7 @@ open Backend
 open Bogue
 
 type t
+(** Representation type for a selector. *)
 
 val make_selector : unit -> t
 (** Creates a date selector *)
