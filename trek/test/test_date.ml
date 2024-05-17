@@ -197,6 +197,47 @@ let test_is_leap_year _ =
   assert_equal true (is_leap_year 2000)
     ~msg:"Test is_leap_year: 2000 (leap year)"
 
+let test_int_of_month _ =
+  assert_equal 1 (int_of_month January) ~msg:"Test int_of_month: January";
+  assert_equal 2 (int_of_month February) ~msg:"Test int_of_month: February";
+  assert_equal 12 (int_of_month December) ~msg:"Test int_of_month: December"
+
+let test_string_of_month _ =
+  assert_equal "January " (string_of_month January)
+    ~msg:"Test string_of_month: January";
+  assert_equal "February " (string_of_month February)
+    ~msg:"Test string_of_month: February";
+  assert_equal "December " (string_of_month December)
+    ~msg:"Test string_of_month: December"
+
+let test_nth_weekday_of_month _ =
+  let first_monday_feb_2024 = nth_weekday_of_month February Monday 1 2024 in
+  assert_equal 5
+    (get_day first_monday_feb_2024)
+    ~msg:"Test nth_weekday_of_month: 1st Monday of February 2024";
+  let third_friday_march_2024 = nth_weekday_of_month March Friday 3 2024 in
+  assert_equal 15
+    (get_day third_friday_march_2024)
+    ~msg:"Test nth_weekday_of_month: 3rd Friday of March 2024";
+  ()
+
+let test_last_weekday_of_month _ =
+  let last_monday_dec_2023 = last_weekday_of_month December Monday 2023 in
+  assert_equal 25
+    (get_day last_monday_dec_2023)
+    ~msg:"Test last_weekday_of_month: Last Monday of December 2023"
+
+let test_compare _ =
+  let date1 = create 2024 April 27 in
+  let date2 = create 2024 April 28 in
+  assert_bool "Test compare: April 27, 2024 is before April 28, 2024"
+    (compare date1 date2 < 0);
+  let date3 = create 2023 April 27 in
+  assert_bool "Test compare: April 27, 2023 is before April 27, 2024"
+    (compare date3 date1 < 0);
+  assert_bool "Test compare: same dates should be equal"
+    (compare date1 date1 = 0)
+
 let suite =
   "Date Tests"
   >::: [
@@ -212,6 +253,11 @@ let suite =
          "test_format_date" >:: test_format_date;
          "test_is_weekend" >:: test_is_weekend;
          "test_is_leap_year" >:: test_is_leap_year;
+         "test_int_of_month" >:: test_int_of_month;
+         "test_string_of_month" >:: test_string_of_month;
+         "test_nth_weekday_of_month" >:: test_nth_weekday_of_month;
+         "test_last_weekday_of_month" >:: test_last_weekday_of_month;
+         "test_compare" >:: test_compare;
        ]
 
 let () =
