@@ -1,8 +1,8 @@
 open Bogue
 
 val surrounding_box :
-  ?background:Draw.color ->
-  ?border_color:Draw.color ->
+  ?background:Draw.rgb ->
+  ?border_color:Draw.rgb ->
   ?width:int ->
   Layout.t ->
   Layout.t
