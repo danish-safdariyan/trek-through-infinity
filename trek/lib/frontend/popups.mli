@@ -1,6 +1,7 @@
 open Bogue
 
 type t
+(** Representation type of a popup. *)
 
 val attach_popup : ?bg:Draw.color -> Layout.t -> Layout.t -> t
 (** [attach_popup layout popup] attaches [popup] to [layout] and returns a value

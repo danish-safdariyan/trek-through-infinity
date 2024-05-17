@@ -8,6 +8,7 @@ module P = Popups
 (** The calendar we are displaying. *)
 let cal = ref (Calendar.initialize_calendar Calendar.empty)
 
+(** Current task list that is being displayed *)
 let taskList = ref TaskList.empty
 
 (** The current month. *)
@@ -16,7 +17,10 @@ let cur_month =
     (let today = Date.current_date () in
      MonthDisplay.get_month today.month today.year)
 
+(** Gets current month. *)
 let get_month () = MonthDisplay.get_month_info !cur_month
+
+(** Width of left side items. *)
 let side_width = 270
 
 (** The current month layout. *)
@@ -46,12 +50,15 @@ let rec update_month_display () =
       in
       L.set_rooms month_layout [ new_layout ])
 
+(** Updates calendar with the function provided. *)
 let update_calendar new_cal =
   cal := new_cal !cal;
   update_month_display ()
 
+(** Layout for adding new events *)
 let new_event = EventDisplay.add_event_layout update_calendar
 
+(** Updates the task display *)
 let rec update_task_display () =
   let update_task_list new_task_list =
     taskList := new_task_list !taskList;
@@ -65,7 +72,7 @@ let rec update_task_display () =
       in
       L.set_rooms left_layout [ new_layout ])
 
-let test () =
+let calendar_display () =
   let _ =
     update_month_display ();
     update_task_display ();

@@ -46,6 +46,7 @@ let attach_popup ?bg layout popup =
   let _ = hide out in
   out
 
+(** Applies a function to all widgets in a layout. *)
 let rec apply f = function
   | L.Rooms lst -> List.iter (fun c -> L.get_content c |> apply f) lst
   | Resident w -> f w

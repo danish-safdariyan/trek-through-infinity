@@ -28,6 +28,7 @@ let get_month m y =
   in
   { days = last_week lst |> List.rev |> add_month |> fst_week; m; y }
 
+(** Gets all the tasks of the month. *)
 let get_month_tasks cal =
   List.map (fun (d : Date.t) -> (d, Calendar.find_events cal d))
 
@@ -60,6 +61,7 @@ let layout_of_day w m ((date : Date.t), events) layout update_calendar =
   L.resident date_marker :: helper events
   |> L.tower ~name:(Date.format_date date) ~hmargin:5 ~vmargin:5
 
+(** Header with the days of the week. *)
 let header w =
   let header_lst = [ "SUN"; "MON"; "TUE"; "WED"; "THU"; "FRI"; "SAT" ] in
   let headers =

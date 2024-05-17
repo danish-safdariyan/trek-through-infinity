@@ -3,6 +3,7 @@ open Bogue
 module W = Widget
 module L = Layout
 
+(** Custom color buttons. *)
 module type BtnSig = sig
   type t
 
@@ -10,12 +11,22 @@ module type BtnSig = sig
     mutable cur_btn : t;
     mutable cur_color : Event.color_choices;
   }
+  (** Info for color selector *)
 
   val empty : t
+  (** Empty button. *)
+
   val get_btn : t -> W.t
+  (** Gets widget button. *)
+
   val toggle_off : t -> unit
+  (** Toggles off button. *)
+
   val toggle_on : t -> unit
+  (** Toggles on button. *)
+
   val make_color_btn : info -> Event.color_choices -> t
+  (** Creates a color button with the given info and color. *)
 end
 
 module Btn : BtnSig = struct

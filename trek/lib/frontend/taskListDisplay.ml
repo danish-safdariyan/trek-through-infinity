@@ -219,6 +219,7 @@ let task_layout_of_day w date t_list background update_task_list =
       in
       L.tower ~hmargin:0 (header :: task_list)
 
+(** Layout for task list *)
 let task_list_layout w h t_list update_task_list =
   let background = L.empty ~w ~h () in
   let today = Date.current_date () in
