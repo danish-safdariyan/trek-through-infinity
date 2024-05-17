@@ -125,8 +125,3 @@ val last_weekday_of_month : month -> day_of_week -> int -> t
     @param weekday The target weekday.
     @param year The year in which to find the last occurrence.
     @return The date of the last occurrence of the specified weekday. *)
-
-val to_string : t -> string
-(** [to_string date] converts a date to a string representation (YYYY-MM-DD).
-    @param date The date to convert.
-    @return The string representation of the date. *)
