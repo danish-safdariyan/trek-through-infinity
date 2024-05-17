@@ -1,19 +1,21 @@
 open Bogue
 open Backend
+open GenDisplay
 module L = Layout
 module W = Widget
 module P = Popups
 
 (** Returns the layout of a task *)
 let layout_of_task w task =
-  let label = L.resident ~x:5 ~y:5 (Task.get_title task |> W.label) in
+  let label = Task.get_title task |> W.label in
+  let _ = adjust_label_size (w - 13) label in
   let background = Style.color_bg (Draw.opaque (Draw.find_color "#99e3e4")) in
   let line =
     Style.mk_line ~color:(Draw.opaque (Draw.find_color "#008284")) ~width:2 ()
   in
   let border = Style.mk_border ~radius:10 line in
   let box = W.box ~w ~h:30 ~style:(Style.create ~background ~border ()) () in
-  let out = L.superpose [ L.resident box; label ] in
+  let out = L.superpose [ L.resident box; L.resident ~x:5 ~y:5 label ] in
   out
 
 (** Popup for adding tasks *)
@@ -48,12 +50,10 @@ let addTaskPopup layout update_task_list =
     W.on_button_release
       ~release:(fun _ ->
         let task_title = W.get_text_input title_input |> Text_input.text in
-        let date = W.get_text_input date_input |> Text_input.text in
-        (try
-           if task_title <> "" && date <> "" then
-             update_task_list task_title date
-         with _ -> ());
-        (*CIRCLE BACK TO DATE ERROR HANDLING LATER*)
+        let date = DateSelector.get_date selector in
+        if task_title <> "" then
+          update_task_list
+            (Task.create ~title:task_title ~date |> TaskList.add_task);
         on_close ())
       add_btn;
     P.should_exit_on_press out true;
@@ -81,9 +81,11 @@ let task_list_layout w h tList update_task_list =
       (TaskList.get_tasks today tList)
   in
   let add_tsk_btn = W.button "Add" in
-  let header = L.flat [ label; add_tsk_btn |> L.resident ] in
-  let () = Space.full_width header in
-  let room_list = header :: task_list in
+  let header = L.flat [ label; Space.hfill (); add_tsk_btn |> L.resident ] in
+  let _ = Space.full_width header in
+  let room_list =
+    L.superpose [ L.empty ~w:(w - 20) ~h:30 (); header ] :: task_list
+  in
   let taskLayout =
     L.superpose [ GenDisplay.theme_box w h; L.tower room_list ]
   in

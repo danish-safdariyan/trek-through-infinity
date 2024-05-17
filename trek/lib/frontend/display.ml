@@ -53,12 +53,8 @@ let update_calendar new_cal =
 let new_event = EventDisplay.add_event_layout update_calendar
 
 let rec update_task_display () =
-  let update_task_list new_task new_date =
-    taskList :=
-      TaskList.add_task
-        (Task.create ~title:new_task
-           ~date:(Date.create 0 (Date.int_to_month 0) 0))
-        !taskList;
+  let update_task_list new_task_list =
+    taskList := new_task_list !taskList;
     update_task_display ()
   in
   Sync.push (fun _ ->
