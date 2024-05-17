@@ -1,3 +1,9 @@
+commit 46574b7ec50bf8eeb4e34b59ae3ec9e25602a5a0
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 23:01:33 2024 -0400
+
+    Added all necessary documents for submission.
+
 commit 653d9701ca30609273c6ec759802b372b21bf491
 Merge: b836236 9cce399
 Author: Gabriel <gm546@cornell.edu>
