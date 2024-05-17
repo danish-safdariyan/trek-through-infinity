@@ -36,3 +36,17 @@ let theme_box ?(width = 4) w h =
          ())
     ()
   |> L.resident
+
+(** Cuts off [label] if it is over [max_size] *)
+let adjust_label_size max_size label =
+  let temp = W.get_label label in
+  let text = W.get_text label in
+  if fst (Label.size temp) > max_size then (
+    Label.set temp (text ^ "...");
+    while
+      fst (Label.size temp) > max_size && String.length (W.get_text label) > 1
+    do
+      let text = W.get_text label in
+      if String.length text < 4 then Label.set temp " "
+      else Label.set temp (String.sub text 0 (String.length text - 4) ^ "...")
+    done)
