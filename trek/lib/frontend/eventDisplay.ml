@@ -76,8 +76,8 @@ let delete_event_popup date event layout update_calendar on_update =
 
 (** Popup for editing events *)
 let edit_event_popup date event layout update_calendar on_update =
-  let title_input = W.text_input ~prompt:"Title" () in
-  let desc_input = W.text_input ~prompt:"Description" () in
+  let title_input = W.text_input ~prompt:"Title (Input Here)" () in
+  let desc_input = W.text_input ~prompt:"Description (Input Here)" () in
   let color_input = ColorSelector.make_selector () in
   let update_btn = W.button "OK" in
   let cancel_btn = W.button "Cancel" in
@@ -210,10 +210,12 @@ let add_event_layout update_calendar =
       [| "Once"; "Daily"; "Weekly"; "Monthly"; "Yearly" |]
       0
   in
-  let date_input = W.button (Date.current_date () |> Date.format_date) in
+  let date_input =
+    W.button ~border_radius:10 (Date.current_date () |> Date.format_date)
+  in
   let color_input = ColorSelector.make_selector () in
-  let create_btn = W.button "OK" in
-  let cancel_btn = W.button "Cancel" in
+  let create_btn = W.button ~border_radius:10 "OK" in
+  let cancel_btn = W.button ~border_radius:10 "Cancel" in
   let buttons = L.flat_of_w [ create_btn; cancel_btn ] in
   let room_list =
     [

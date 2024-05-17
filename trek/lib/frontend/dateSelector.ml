@@ -197,12 +197,12 @@ let make_selector () =
   let prev_btn =
     W.button ~kind:Button.Trigger
       ~label:(Label.create ~align:Draw.Center "<")
-      "Prev btn"
+      ~border_radius:10 "Prev btn"
   in
   let next_btn =
     W.button ~kind:Button.Trigger
       ~label:(Label.create ~align:Draw.Center ">")
-      "Next\n     btn"
+      ~border_radius:10 "Next\n     btn"
   in
   let top = L.flat_of_w [ prev_btn; m_label; next_btn ] in
   let stuff = L.tower [ top; m_layout ] in
