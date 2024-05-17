@@ -373,15 +373,3 @@ let list_all_events calendar =
   @ list_weekly_events calendar
   @ list_monthly_events calendar
   @ list_yearly_events calendar
-
-let save_calendar calendar filename =
-  let oc = open_out filename in
-  Marshal.to_channel oc calendar [];
-  close_out oc
-
-(* Load the calendar from a file. *)
-let load_calendar filename =
-  let ic = open_in filename in
-  let cal : t = Marshal.from_channel ic in
-  close_in ic;
-  cal

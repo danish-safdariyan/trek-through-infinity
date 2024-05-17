@@ -59,9 +59,3 @@ val find_events : t -> Date.t -> Event.t list
 
 val list_all_events : t -> string list
 (** [list_all_events calendar] lists all events in the calendar. *)
-
-val save_calendar : t -> string -> unit
-(** [save_calendar calendar filename] saves the calendar to a file. *)
-
-val load_calendar : string -> t
-(** [load_calendar filename] loads the calendar from a file. *)
