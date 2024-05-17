@@ -203,20 +203,40 @@ let add_task_popup layout update_task_list =
   in
   out
 
-let task_list_layout w h tList update_task_list =
+(** Layout for tasks for given date *)
+let task_layout_of_day w date t_list background update_task_list =
+  let tasks = TaskList.get_tasks date t_list in
+  match tasks with
+  | [] -> L.empty ~w:0 ~h:0 ()
+  | lst ->
+      let header = W.label (Date.format_date date ^ ":") |> L.resident in
+      let task_list =
+        List.map
+          (fun task -> layout_of_task (w - 20) task background update_task_list)
+          lst
+      in
+      L.tower ~hmargin:0 (header :: task_list)
+
+let task_list_layout w h t_list update_task_list =
   let background = L.empty ~w ~h () in
   let today = Date.current_date () in
   let label = W.label ~size:18 "Tasks" |> L.resident in
-  let task_list =
-    List.map
-      (fun task -> layout_of_task (w - 20) task background update_task_list)
-      (TaskList.get_tasks today tList)
+  let rec helper day count =
+    if count > 0 then
+      task_layout_of_day (w - 20) day t_list background update_task_list
+      :: helper (Date.next_day day) (count - 1)
+    else []
   in
   let add_tsk_btn = W.button "Add" in
   let header = L.flat [ label; Space.hfill (); add_tsk_btn |> L.resident ] in
+  let tasks =
+    L.superpose
+      [ L.empty ~w:(w - 20) ~h:(h - 100) (); helper today 10 |> L.tower ]
+  in
+  let tasks = L.make_clip ~scrollbar:false ~h:(h - 100) tasks in
   let _ = Space.full_width header in
   let room_list =
-    L.superpose [ L.empty ~w:(w - 20) ~h:30 (); header ] :: task_list
+    [ L.superpose [ L.empty ~w:(w - 20) ~h:30 (); header ]; tasks ]
   in
   let taskLayout =
     L.superpose [ background; GenDisplay.theme_box w h; L.tower room_list ]
