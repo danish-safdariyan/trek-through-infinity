@@ -97,9 +97,9 @@ let task_info_popup task layout update_task_list =
       ("Due: " ^ (Task.get_date task |> Date.format_date))
     |> L.resident
   in
-  let edit_btn = W.button "Edit" in
-  let delete_btn = W.button "Delete" in
-  let exit_btn = W.button "X" in
+  let edit_btn = W.button ~border_radius:10 "Edit" in
+  let delete_btn = W.button ~border_radius:10 "Delete" in
+  let exit_btn = W.button ~border_radius:10 "X" in
   let buttons =
     L.flat
       [
@@ -152,9 +152,11 @@ let layout_of_task w task layout update_task_list =
 let add_task_popup layout update_task_list =
   let title_input = W.text_input ~prompt:"Task Title (Input Here)" () in
   let selector = DateSelector.make_selector () in
-  let date_input = W.button (Date.current_date () |> Date.format_date) in
-  let add_btn = W.button "Add Task" in
-  let cancel_btn = W.button "Cancel" in
+  let date_input =
+    W.button ~border_radius:10 (Date.current_date () |> Date.format_date)
+  in
+  let add_btn = W.button ~border_radius:10 "Add Task" in
+  let cancel_btn = W.button ~border_radius:10 "Cancel" in
   let buttons = L.flat_of_w [ add_btn; cancel_btn ] in
   let content =
     L.tower
@@ -227,7 +229,7 @@ let task_list_layout w h t_list update_task_list =
       :: helper (Date.next_day day) (count - 1)
     else []
   in
-  let add_tsk_btn = W.button "Add" in
+  let add_tsk_btn = W.button ~border_radius:10 "Add" in
   let header = L.flat [ label; Space.hfill (); add_tsk_btn |> L.resident ] in
   let tasks =
     L.superpose
