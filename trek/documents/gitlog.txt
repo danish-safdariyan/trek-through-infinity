@@ -1,3 +1,22 @@
+commit 26a14dbd0bfd1ff4bea633ba8eceea743e9b96c8
+Merge: b3f8052 9a99f0b
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 23:03:55 2024 -0400
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+commit b3f80528879e0fb3ea8867d8d1587169dd7c5f13
+Author: Kaz Tam <kt557@cornell.edu>
+Date:   Thu May 16 23:03:43 2024 -0400
+
+    Fixed signature
+
+commit 9a99f0b0dcbe2776f8c38e5d6c08a7fb227053de
+Author: Gabriel <gm546@cornell.edu>
+Date:   Thu May 16 23:01:59 2024 -0400
+
+    Last commit.
+
 commit 46574b7ec50bf8eeb4e34b59ae3ec9e25602a5a0
 Author: Gabriel <gm546@cornell.edu>
 Date:   Thu May 16 23:01:33 2024 -0400
